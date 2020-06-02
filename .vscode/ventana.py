@@ -5,29 +5,21 @@ ventana = Tk()
 #Opciones de raiz o contenedor
 ventana.title("Augus")
 ventana.geometry("900x700")
-#raiz.resizable(False,False)
-ventana.config(bg="blue")
 
 #Opciones de Frame
 miFrame=Frame()
-
-miFrame.config(width="800", height="600")
-miFrame.config(bg="yellow")
-
 miFrame.pack()
-miFrame.pack(side="left", anchor="n")
-#miFrame.pack(fill="both", expand="true")
 
 #Crear barra de menu
 barraMenu=Menu(miFrame)
 #Crear los menus
-menuArchivo=Menu(barraMenu)
-menuEditar=Menu(barraMenu)
-menuEjecutar=Menu(barraMenu)
-menuAscendente=Menu(barraMenu)
-menuErrores=Menu(barraMenu)
-menuOpciones=Menu(barraMenu)
-menuAyuda=Menu(barraMenu)
+menuArchivo=Menu(barraMenu, tearoff=0)
+menuEditar=Menu(barraMenu, tearoff=0)
+menuEjecutar=Menu(barraMenu, tearoff=0)
+menuAscendente=Menu(barraMenu, tearoff=0)
+menuErrores=Menu(barraMenu, tearoff=0)
+menuOpciones=Menu(barraMenu, tearoff=0)
+menuAyuda=Menu(barraMenu, tearoff=0)
 #Crear opciones de menu
 menuArchivo.add_command(label="Abrir")
 menuArchivo.add_command(label="Nuevo")
@@ -73,6 +65,8 @@ barraMenu.add_cascade(label="Opciones",menu=menuOpciones)
 barraMenu.add_cascade(label="Ayuda",menu=menuAyuda)
 #Agregamos la barra de menu a la ventana
 ventana.config(menu=barraMenu)
+
+#def abrirArchivo
 
 
 ventana.mainloop()
