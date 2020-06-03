@@ -1,4 +1,6 @@
 import sys
+import gramatica
+from PyQt5           import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore    import Qt, QRect
 from PyQt5.QtGui     import QColor, QPainter
 from PyQt5.QtWidgets import (QApplication, QWidget, QMainWindow, QAction, 
@@ -89,13 +91,11 @@ class NumberBar(QWidget):
 class Content(QWidget):
     def __init__(self, text):
         super(Content, self).__init__()
-        #self.runAsce = QPushButton('Ascendente', self)
-        #self.runAsce.
         
         self.editor = QPlainTextEdit()
         self.editor.setPlainText(text)#Setear el archivo al nuevo text edit
         self.consola = QPlainTextEdit()
-        self.consola.setPlainText()
+        #self.consola.setPlainText()
         
         # Create a layout for the line numbers
         self.hbox    = QHBoxLayout(self)
@@ -140,6 +140,7 @@ class Main(QMainWindow):
         self.nuevo()
         self.save()
         self.saveAs()
+        self.ascendente()
         self.tabs = MyTableWidget()
         self.setCentralWidget(self.tabs)
         self.initUI()
@@ -157,6 +158,8 @@ class Main(QMainWindow):
         editMenu = menu.addMenu('Editar')
 
         ejecutarMenu = menu.addMenu('Ejecutar')
+        ejecutarMenu.addAction(self.asceAct)
+
         reportesMenu = menu.addMenu('Reportes')
         apoyoMenu = menu.addMenu('Apoyo')
         ayudaMenu = menu.addMenu('Ayuda')
@@ -202,6 +205,13 @@ class Main(QMainWindow):
         self.saveasAct.setStatusTip('Guardar archivo como')
         #self.is_opened = False
         #self.saveasAct.triggered.connect(self.openFile)
+
+    #Ejecutar analizador ascendente
+    def ascendente(self):
+        self.asceAct = QAction('Ascendente', self)
+        self.asceAct.setStatusTip('Ejecutando ascendente')
+        self.is_opened = False
+        self.asceAct.triggered.connect(self.runAsce)
         
     #BOTON ABRIR ARCHIVO
     def openFile(self):                                   
@@ -225,6 +235,17 @@ class Main(QMainWindow):
         options = QFileDialog.Options()
         text=""
         self.tabs.addtab(text, "file")
+
+    #Funcion que se ejecuta tras presionar el boton de ascendente
+    def runAsce(self):
+        print("corrio run1")
+        #text = self.tabs.addTab(Content.consola.toPlainText())
+        #text = self.tabs.focusWidget(Content.editor.toPlainText)
+        self.focusNextPrevChild(True)
+        widget = QtWidgets.QApplication.focusWidget().children()
+        codigo = widget[0].toPlainText()
+        #text = QPlainTextEdit(widget)
+        print(codigo)
 
 
 if __name__ == '__main__':
