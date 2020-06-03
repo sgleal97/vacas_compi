@@ -95,21 +95,14 @@ class Content(QWidget):
         self.editor = QPlainTextEdit()
         self.editor.setPlainText(text)#Setear el archivo al nuevo text edit
         self.consola = QPlainTextEdit()
-        self.consola.setPlainText("CONSOLA:")
+        self.consola.setPlainText()
         
         # Create a layout for the line numbers
-        self.vbox   = QVBoxLayout(self)
-        self.hbox    = QHBoxLayout()
+        self.hbox    = QHBoxLayout(self)
         self.numbers = NumberBar(self.editor)
         self.hbox.addWidget(self.numbers)
         self.hbox.addWidget(self.editor)
-
-        self.hbox2  = QHBoxLayout()
-        self.hbox2.addWidget(self.consola)
-
-        self.vbox.addStretch()
-        self.vbox.addLayout(hbox)
-        self.vbox.addLayout(hbox2)
+        self.hbox.addWidget(self.consola)
 
 
 
