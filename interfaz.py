@@ -6,9 +6,13 @@
 #
 # WARNING! All changes made in this file will be lost!
 
+import sys
+
+from gramatica import *
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+contador = 1
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -18,41 +22,38 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
         self.tabWidget.setGeometry(QtCore.QRect(10, 20, 1131, 781))
+        self.tabWidget.setAcceptDrops(False)
+        self.tabWidget.setTabsClosable(True)
+        self.tabWidget.setMovable(False)
+        self.tabWidget.setTabBarAutoHide(False)
         self.tabWidget.setObjectName("tabWidget")
         self.tab = QtWidgets.QWidget()
         self.tab.setObjectName("tab")
-        self.scrollArea = QtWidgets.QScrollArea(self.tab)
-        self.scrollArea.setGeometry(QtCore.QRect(10, 60, 1111, 521))
-        self.scrollArea.setWidgetResizable(True)
-        self.scrollArea.setObjectName("scrollArea")
-        self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1109, 519))
-        self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
-        self.textEditor = QtWidgets.QTextEdit(self.scrollAreaWidgetContents)
-        self.textEditor.setGeometry(QtCore.QRect(0, 0, 1111, 521))
-        self.textEditor.setObjectName("textEditor")
-        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
-        self.scrollArea_2 = QtWidgets.QScrollArea(self.tab)
-        self.scrollArea_2.setGeometry(QtCore.QRect(10, 590, 1111, 161))
-        self.scrollArea_2.setWidgetResizable(True)
-        self.scrollArea_2.setObjectName("scrollArea_2")
-        self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 1109, 159))
-        self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
-        self.textConsola = QtWidgets.QTextEdit(self.scrollAreaWidgetContents_2)
-        self.textConsola.setGeometry(QtCore.QRect(0, 0, 1111, 161))
-        self.textConsola.setObjectName("textConsola")
-        self.scrollArea_2.setWidget(self.scrollAreaWidgetContents_2)
-        self.btn_run = QtWidgets.QPushButton(self.tab)
-        self.btn_run.setGeometry(QtCore.QRect(30, 20, 61, 23))
-        self.btn_run.setObjectName("btn_run")
-        self.btn_stop = QtWidgets.QPushButton(self.tab)
-        self.btn_stop.setGeometry(QtCore.QRect(90, 20, 75, 23))
-        self.btn_stop.setObjectName("btn_stop")
+
+        self.btn_asce = QtWidgets.QPushButton(self.tab)
+        self.btn_asce.setGeometry(QtCore.QRect(30, 20, 61, 23))
+        self.btn_asce.setObjectName("btn_asce")
+        self.btn_asce.clicked.connect(self.analisisAscendente)
+
+        self.btn_desc = QtWidgets.QPushButton(self.tab)
+        self.btn_desc.setGeometry(QtCore.QRect(100, 20, 75, 23))
+        self.btn_desc.setObjectName("btn_desc")
+        self.btn_debu = QtWidgets.QPushButton(self.tab)
+        self.btn_debu.setGeometry(QtCore.QRect(180, 20, 75, 23))
+        self.btn_debu.setObjectName("btn_debu")
+        self.textEdit = QtWidgets.QTextEdit(self.tab)
+        self.textEdit.setGeometry(QtCore.QRect(30, 70, 1081, 451))
+        self.textEdit.setObjectName("textEdit")
+        self.textEdit_2 = QtWidgets.QTextEdit(self.tab)
+        self.textEdit_2.setGeometry(QtCore.QRect(30, 540, 1081, 191))
+        self.textEdit_2.setObjectName("textEdit_2")
         self.tabWidget.addTab(self.tab, "")
+
         self.btn_mas = QtWidgets.QPushButton(self.centralwidget)
         self.btn_mas.setGeometry(QtCore.QRect(1070, 10, 21, 21))
         self.btn_mas.setObjectName("btn_mas")
+        self.btn_mas.clicked.connect(self.newTab)
+        
         self.btn_menos = QtWidgets.QPushButton(self.centralwidget)
         self.btn_menos.setGeometry(QtCore.QRect(1100, 10, 21, 21))
         self.btn_menos.setObjectName("btn_menos")
@@ -159,16 +160,62 @@ class Ui_MainWindow(object):
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+    def newTab(self):
+        global contador
+        contador  = contador + 1
+
+
+        tab = QtWidgets.QWidget()
+        tab.setObjectName("tab")
+        
+        btn_asce = QtWidgets.QPushButton(tab)
+        btn_asce.setGeometry(QtCore.QRect(30, 20, 61, 23))
+        btn_asce.setObjectName("btn_asce")
+        btn_asce.setText("Ascendente")
+        btn_asce.clicked.connect(self.analisisAscendente)
+
+        btn_desc = QtWidgets.QPushButton(tab)
+        btn_desc.setGeometry(QtCore.QRect(100, 20, 75, 23))
+        btn_desc.setObjectName("btn_desc")
+        btn_desc.setText("Descendente")
+
+        btn_debu = QtWidgets.QPushButton(tab)
+        btn_debu.setGeometry(QtCore.QRect(180, 20, 75, 23))
+        btn_debu.setObjectName("btn_debu")
+        btn_debu.setText("Debugger")
+
+        textEdit = QtWidgets.QTextEdit(tab)
+        textEdit.setGeometry(QtCore.QRect(30, 70, 1081, 451))
+        textEdit.setObjectName("textEdit")
+
+        textEdit_2 = QtWidgets.QTextEdit(tab)
+        textEdit_2.setGeometry(QtCore.QRect(30, 540, 1081, 191))
+        textEdit_2.setObjectName("textEdit_2")
+
+        self.tabWidget.addTab(tab, "New"+str(contador))
+
+    def closeTab(self, index):
+        global contador
+        contador = contador - 1
+        tab = self.tabWidget.widget(index)
+        tab.deleteLater()
+        self.tabWidget.removeTab(index)
+
+    def analisisAscendente(self):
+        tab = self.tabWidget.widget(self.tabWidget.currentIndex())
+        items = tab.children()
+        texto = items[3].toPlainText()
+        print(texto)
+        correr(texto)
+    
+    
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.textConsola.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
-        self.btn_run.setText(_translate("MainWindow", "Run"))
-        self.btn_stop.setText(_translate("MainWindow", "Stop"))
+        self.btn_asce.setText(_translate("MainWindow", "Ascendente"))
+        self.btn_desc.setText(_translate("MainWindow", "Descendente"))
+        self.btn_debu.setText(_translate("MainWindow", "Debugger"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Page"))
         self.btn_mas.setText(_translate("MainWindow", "+"))
         self.btn_menos.setText(_translate("MainWindow", "-"))
@@ -212,4 +259,3 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
-

@@ -109,7 +109,7 @@ parser = yacc.yacc()
 def correr(input):
     #f = open("./entrada.txt", "r")
     #input = f.read()
-    prueba.Content.consola.setPlainText(input)
+    #prueba.Content.consola.setPlainText(input)
     #prueba.Content.consola.add()
     print(input)
     parser.parse(input)
