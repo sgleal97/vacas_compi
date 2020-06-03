@@ -11,6 +11,7 @@ import sys
 from gramatica import *
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.Qt import QDir, QFileDialog
 
 contador = 1
 
@@ -23,7 +24,10 @@ class Ui_MainWindow(object):
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
         self.tabWidget.setGeometry(QtCore.QRect(10, 20, 1131, 781))
         self.tabWidget.setAcceptDrops(False)
+
         self.tabWidget.setTabsClosable(True)
+        self.tabWidget.tabCloseRequested.connect(self.closeTab)
+        
         self.tabWidget.setMovable(False)
         self.tabWidget.setTabBarAutoHide(False)
         self.tabWidget.setObjectName("tabWidget")
@@ -81,10 +85,15 @@ class Ui_MainWindow(object):
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
+
         self.actionNuevo = QtWidgets.QAction(MainWindow)
         self.actionNuevo.setObjectName("actionNuevo")
+        self.actionNuevo.triggered.connect(self.newTab)
+        
         self.actionAbrir = QtWidgets.QAction(MainWindow)
         self.actionAbrir.setObjectName("actionAbrir")
+        self.actionAbrir.triggered.connect(self.openFile)
+
         self.actionGuardar = QtWidgets.QAction(MainWindow)
         self.actionGuardar.setObjectName("actionGuardar")
         self.actionGuardar_como = QtWidgets.QAction(MainWindow)
@@ -208,7 +217,29 @@ class Ui_MainWindow(object):
         print(texto)
         correr(texto)
     
-    
+    def openFile(self):                        
+        dialog = QFileDialog()
+        dialog.setFileMode(QFileDialog.AnyFile)
+        dialog.setFilter(QDir.Files)
+        tab = self.tabWidget.widget(self.tabWidget.currentIndex())
+        items = tab.children()
+
+        if dialog.exec_():
+            file_name=dialog.selectedFiles()
+
+            if file_name[0].endswith('.py'):
+                with open(file_name[0], 'r+') as f:
+                    data=f.read()
+                    items[3].setPlainText(data)
+                    f.close
+            elif file_name[0].endswith('.txt'):
+                with open(file_name[0], 'r+') as f:
+                    data=f.read()
+                    items[3].setPlainText(data)
+                    f.close
+            else:
+                pass
+        
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
