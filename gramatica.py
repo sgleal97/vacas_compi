@@ -1,3 +1,13 @@
+reservadas = {
+    'main'  : 'MAIN',
+    'goto'  : 'GOTO',
+    'unset' : 'UNSET',
+    'print' : 'PRINT',
+    'read'  : 'READ',
+    'abs'   : 'ABS',
+    'exit'  : 'EXIT'
+}
+
 tokens  = (
     'REVALUAR',
     'PARIZQ',
@@ -8,9 +18,30 @@ tokens  = (
     'MENOS',
     'POR',
     'DIVIDIDO',
+    'RESIDUO',
     'DECIMAL',
     'ENTERO',
-    'PTCOMA'
+    'PTCOMA',
+    'DOLLAR',
+    'NOT',
+    'AND',
+    'OR',
+    'XOR',
+    'BNOT',
+    'BAND',
+    'BOR',
+    'BXOR',
+    'SHIFTD',
+    'SHIFTI',
+    'IGUAL',
+    'MENORQ',
+    'MAYORQ',
+    'IGUALQ',
+    'NIGUALQ',
+    'MAYORIGUALQ',
+    'MENORIGUALQ',
+    'DOSPUNTOS'
+
 )
 
 # Tokens
@@ -23,7 +54,27 @@ t_MAS       = r'\+'
 t_MENOS     = r'-'
 t_POR       = r'\*'
 t_DIVIDIDO  = r'/'
+t_RESIDUO   = r'%'
 t_PTCOMA    = r';'
+t_DOLLAR    = r'\$'
+t_NOT       = r'!'
+t_BNOT      = r'~'
+t_BAND      = r'&'
+t_BOR       = r'\|'
+t_BXOR      = r'\^'
+t_AND       = r'&&'
+t_OR        = r'\|\|'
+t_XOR       = r'xor'
+t_MENORQ    = r'<'
+t_MAYORQ    = r'>'
+t_SHIFTD    = r'>>'
+t_SHIFTI    = r'<<'
+t_IGUAL     = r'='
+t_IGUALQ    = r'=='
+t_NIGUALQ   = r'!='
+t_MENORIGUALQ = r'<='
+t_MAYORIGUALQ = r'>='
+t_DOSPUNTOS   = r':'
 
 def t_DECIMAL(t):
     r'\d+\.\d+'
@@ -43,6 +94,12 @@ def t_ENTERO(t):
         t.value = 0
     return t
 
+def t_ID(t):
+     r'[a-zA-Z_][a-zA-Z_0-9]*'
+    #r'[$][a-zA-Z_0-9]*
+     t.type = reservadas.get(t.value.lower(),'ID')    # Check for reserved words
+     return t
+
 # Caracteres ignorados
 t_ignore = " \t"
 
@@ -50,6 +107,13 @@ t_ignore = " \t"
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += t.value.count("\n")
+
+# Compute column.
+#     input is the input text string
+#     token is a token instance
+def find_column(input, token):
+     line_start = input.rfind('\n', 0, token.lexpos) + 1
+     return (token.lexpos - line_start) + 1
     
 def t_error(t):
     print("Illegal character '%s'" % t.value[0])
@@ -59,7 +123,6 @@ def t_error(t):
 import prueba
 import ply.lex as lex
 lexer = lex.lex()
-
 
 # Asociación de operadores y precedencia
 precedence = (
@@ -111,5 +174,4 @@ def correr(input):
     #input = f.read()
     #prueba.Content.consola.setPlainText(input)
     #prueba.Content.consola.add()
-    print(input)
     parser.parse(input)

@@ -1,179 +1,303 @@
-import sys
-from PyQt5.QtCore    import Qt, QRect
-from PyQt5.QtGui     import QColor, QPainter
-from PyQt5.QtWidgets import (QApplication, QWidget, QMainWindow, QAction, 
-                             QVBoxLayout, QTabWidget, QFileDialog, QPlainTextEdit, QHBoxLayout)
+#!/usr/bin/env python2
+# -*- coding: utf-8 -*-
+'''
+Licensed under the terms of the MIT License 
+https://github.com/luchko/QCodeEditor
+@author: Ivan Luchko (luchko.ivan@gmail.com)
 
-lineBarColor       = QColor(53, 53, 53)       
-lineHighlightColor = QColor('#00FF04')        
+This module contains the light QPlainTextEdit based QCodeEditor widget which 
+provides the line numbers bar and the syntax and the current line highlighting.
 
+    class XMLHighlighter(QSyntaxHighlighter):
+    class QCodeEditor(QPlainTextEdit):
+                
+testing and examples:
 
-class TabWidget(QTabWidget):
+    def run_test():
 
+Module is compatible with both pyQt4 and pyQt5
+
+'''
+try:
+    import PyQt4 as PyQt
+    pyQtVersion = "PyQt4"
+
+except ImportError:
+    try:
+        import PyQt5 as PyQt
+        pyQtVersion = "PyQt5"
+    except ImportError:
+        raise ImportError("neither PyQt4 or PyQt5 is found")
+
+# imports requied PyQt modules
+if pyQtVersion == "PyQt4":
+    from PyQt4.QtCore import Qt, QRect, QRegExp
+    from PyQt4.QtGui import (QWidget, QTextEdit, QPlainTextEdit, QColor, 
+                             QPainter, QFont, QSyntaxHighlighter,
+                             QTextFormat, QTextCharFormat)
+else:
+    from PyQt5.QtCore import Qt, QRect, QRegExp
+    from PyQt5.QtWidgets import QWidget, QTextEdit, QPlainTextEdit
+    from PyQt5.QtGui import (QColor, QPainter, QFont, QSyntaxHighlighter,
+                             QTextFormat, QTextCharFormat) 
+# classes definition
+
+class XMLHighlighter(QSyntaxHighlighter):
+    '''
+    Class for highlighting xml text inherited from QSyntaxHighlighter
+
+    reference:
+        http://www.yasinuludag.com/blog/?p=49    
+    
+    '''
     def __init__(self, parent=None):
-        super(TabWidget, self).__init__(parent)
+        
+        super(XMLHighlighter, self).__init__(parent)
+        
+        self.highlightingRules = []
 
-    # This virtual handler is called after a tab was removed from position index.   
-    def tabRemoved(self, index):
-        print("\n tab was removed from position index -> {}".format(index))
+        xmlElementFormat = QTextCharFormat()
+        xmlElementFormat.setForeground(QColor("#000070")) #blue
+        self.highlightingRules.append((QRegExp("\\b[A-Za-z0-9_]+(?=[\s/>])"), xmlElementFormat))
+ 
+        xmlAttributeFormat = QTextCharFormat()
+        xmlAttributeFormat.setFontItalic(True)
+        xmlAttributeFormat.setForeground(QColor("#177317")) #green
+        self.highlightingRules.append((QRegExp("\\b[A-Za-z0-9_]+(?=\\=)"), xmlAttributeFormat))
+        self.highlightingRules.append((QRegExp("="), xmlAttributeFormat))
+    
+        self.valueFormat = QTextCharFormat()
+        self.valueFormat.setForeground(QColor("#e35e00")) #orange 
+        self.valueStartExpression = QRegExp("\"")
+        self.valueEndExpression = QRegExp("\"(?=[\s></])")
+ 
+        singleLineCommentFormat = QTextCharFormat()
+        singleLineCommentFormat.setForeground(QColor("#a0a0a4")) #grey
+        self.highlightingRules.append((QRegExp("<!--[^\n]*-->"), singleLineCommentFormat))
+ 
+        textFormat = QTextCharFormat()
+        textFormat.setForeground(QColor("#000000")) #black
+        # (?<=...)  - lookbehind is not supported
+        self.highlightingRules.append((QRegExp(">(.+)(?=</)"), textFormat))
+        
+        keywordFormat = QTextCharFormat()
+        keywordFormat.setForeground(QColor("#000070")) #blue
+        keywordFormat.setFontWeight(QFont.Bold) 
+        keywordPatterns = ["\\b?xml\\b", "/>", ">", "<", "</"] 
+        self.highlightingRules += [(QRegExp(pattern), keywordFormat)
+                for pattern in keywordPatterns]
+                
+    #VIRTUAL FUNCTION WE OVERRIDE THAT DOES ALL THE COLLORING
+    def highlightBlock(self, text):
+        #for every pattern
+        for pattern, format in self.highlightingRules: 
+            #Create a regular expression from the retrieved pattern
+            expression = QRegExp(pattern) 
+            #Check what index that expression occurs at with the ENTIRE text
+            index = expression.indexIn(text) 
+            #While the index is greater than 0
+            while index >= 0: 
+                #Get the length of how long the expression is true, set the format from the start to the length with the text format
+                length = expression.matchedLength()
+                self.setFormat(index, length, format) 
+                #Set index to where the expression ends in the text
+                index = expression.indexIn(text, index + length) 
 
-    # This virtual handler is called after a new tab was added or inserted at position index.        
-    def tabInserted(self, index):
-        print("\n New tab was added or inserted at position index -> {}".format(index))
+        #HANDLE QUOTATION MARKS NOW.. WE WANT TO START WITH " AND END WITH ".. A THIRD " SHOULD NOT CAUSE THE WORDS INBETWEEN SECOND AND THIRD TO BE COLORED
+        self.setCurrentBlockState(0) 
+        startIndex = 0
+        if self.previousBlockState() != 1:
+            startIndex = self.valueStartExpression.indexIn(text) 
+        while startIndex >= 0:
+            endIndex = self.valueEndExpression.indexIn(text, startIndex) 
+            if endIndex == -1:
+                self.setCurrentBlockState(1)
+                commentLength = len(text) - startIndex
+            else:
+                commentLength = endIndex - startIndex + self.valueEndExpression.matchedLength() 
+            self.setFormat(startIndex, commentLength, self.valueFormat) 
+            startIndex = self.valueStartExpression.indexIn(text, startIndex + commentLength);
 
+ 
+class QCodeEditor(QPlainTextEdit):
+    '''
+    QCodeEditor inherited from QPlainTextEdit providing:
+        
+        numberBar - set by DISPLAY_LINE_NUMBERS flag equals True
+        curent line highligthing - set by HIGHLIGHT_CURRENT_LINE flag equals True
+        setting up QSyntaxHighlighter
 
-#Clase para agregar los numeros
-class NumberBar(QWidget):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.editor = parent
-        layout      = QVBoxLayout(self)
-        self.editor.blockCountChanged.connect(self.update_width)
-        self.editor.updateRequest.connect(self.update_on_scroll)
-        self.update_width('001')   
+    references:
+        https://john.nachtimwald.com/2009/08/19/better-qplaintextedit-with-line-numbers/    
+        http://doc.qt.io/qt-5/qtwidgets-widgets-codeeditor-example.html
+    
+    '''
+    class NumberBar(QWidget):
+        '''class that deifnes textEditor numberBar'''
 
-    def mousePressEvent(self, QMouseEvent):
-        print("\n - class NumberBar(QWidget): \n\tdef mousePressEvent(self, QMouseEvent):")
-
-    def update_on_scroll(self, rect, scroll):
-        if self.isVisible():
+        def __init__(self, editor):
+            QWidget.__init__(self, editor)
+            
+            self.editor = editor
+            self.editor.blockCountChanged.connect(self.updateWidth)
+            self.editor.updateRequest.connect(self.updateContents)
+            self.font = QFont()
+            self.numberBarColor = QColor("#e8e8e8")
+                     
+        def paintEvent(self, event):
+            
+            painter = QPainter(self)
+            painter.fillRect(event.rect(), self.numberBarColor)
+             
+            block = self.editor.firstVisibleBlock()
+ 
+            # Iterate over all visible text blocks in the document.
+            while block.isValid():
+                blockNumber = block.blockNumber()
+                block_top = self.editor.blockBoundingGeometry(block).translated(self.editor.contentOffset()).top()
+ 
+                # Check if the position of the block is out side of the visible area.
+                if not block.isVisible() or block_top >= event.rect().bottom():
+                    break
+ 
+                # We want the line number for the selected line to be bold.
+                if blockNumber == self.editor.textCursor().blockNumber():
+                    self.font.setBold(True)
+                    painter.setPen(QColor("#000000"))
+                else:
+                    self.font.setBold(False)
+                    painter.setPen(QColor("#717171"))
+                painter.setFont(self.font)
+                
+                # Draw the line number right justified at the position of the line.
+                paint_rect = QRect(0, block_top, self.width(), self.editor.fontMetrics().height())
+                painter.drawText(paint_rect, Qt.AlignRight, str(blockNumber+1))
+ 
+                block = block.next()
+ 
+            painter.end()
+            
+            QWidget.paintEvent(self, event)
+ 
+        def getWidth(self):
+            count = self.editor.blockCount()
+            width = self.fontMetrics().width(str(count)) + 10
+            return width      
+        
+        def updateWidth(self):
+            width = self.getWidth()
+            if self.width() != width:
+                self.setFixedWidth(width)
+                self.editor.setViewportMargins(width, 0, 0, 0);
+ 
+        def updateContents(self, rect, scroll):
             if scroll:
                 self.scroll(0, scroll)
             else:
-                self.update()
-
-    def update_width(self, string):
-        width = self.fontMetrics().width(str(string)) + 10
-        if self.width() != width:
-            self.setFixedWidth(width)
-
-    def paintEvent(self, event):
-        if self.isVisible():
-            block   = self.editor.firstVisibleBlock()
-            height  = self.fontMetrics().height()
-            number  = block.blockNumber()
-            painter = QPainter(self)
-            painter.fillRect(event.rect(), lineBarColor)
-            painter.setPen(Qt.white)                       
-            painter.drawRect(0, 0, event.rect().width() - 1, event.rect().height() - 1)
-            font = painter.font()
-
-            current_block = self.editor.textCursor().block().blockNumber() + 1
-
-            while block.isValid():
-                block_geometry = self.editor.blockBoundingGeometry(block)
-                offset = self.editor.contentOffset()
-                block_top = block_geometry.translated(offset).top()
-                number += 1
-
-                rect = QRect(0, block_top, self.width() - 5, height)
-
-                if number == current_block:
-                    font.setBold(True)
-                else:
-                    font.setBold(False)
-
-                painter.setFont(font)
-                painter.drawText(rect, Qt.AlignRight, '%i' % number)
-
-                if block_top > event.rect().bottom():
-                    break
-
-                block = block.next()
-
-            painter.end()
-
-
-class Content(QWidget):
-    def __init__(self, text):
-        super(Content, self).__init__()
-        self.editor = QPlainTextEdit()
-        self.editor.setPlainText(text)#Setear el archivo al nuevo text edit
-        # Create a layout for the line numbers
-        self.hbox    = QHBoxLayout(self)
-        self.numbers = NumberBar(self.editor)
-        self.hbox.addWidget(self.numbers)
-        self.hbox.addWidget(self.editor)
-
-
-class MyTableWidget(QWidget):
-
-    def __init__(self, parent=None):
-        super(QWidget, self).__init__(parent)
-
-        self.layout = QVBoxLayout(self)
-        # Initialize tab screen
-        self.tabs = TabWidget()     #QTabWidget()
-        self.tabs.resize(300, 200)
-
-        # Add tabs
-        self.tabs.setTabsClosable(True)
-        self.tabs.tabCloseRequested.connect(self.closeTab)
-
-        # Add tabs to widget
-        self.layout.addWidget(self.tabs)
-        self.setLayout(self.layout)
-
-    def closeTab(self, index):
-        tab = self.tabs.widget(index)
-        tab.deleteLater()
-        self.tabs.removeTab(index)
-
-    def addtab(self, content, fileName):
-        self.tabs.addTab(Content(str(content)), str(fileName))
-
-
-class Main(QMainWindow):
-    def __init__(self, parent=None):
-        super(Main, self).__init__(parent)
-        self.open()
-        self.tabs = MyTableWidget()
-        self.setCentralWidget(self.tabs)
-        self.initUI()
-        self.show()
-
-    def initUI(self):
-        self.statusBar()
-        menu = self.menuBar()
-        fileMenu = menu.addMenu('File')
-        fileMenu.addAction(self.openAct)
-        self.resize(800, 600)
-
-    def closeTab(self, index):
-        tab = self.tabs.widget(index)
-        tab.deleteLater()
-        self.tabs.removeTab(index)
-
-    def buttonClicked(self):
-        self.tabs.addTab(Content("smalltext2"), "sadsad")
-
-    def open(self):
-        self.openAct = QAction('Open...', self)
-        self.openAct.setShortcut('Ctrl+O')
-        self.openAct.setStatusTip('Open a file')
-        self.is_opened = False
-        self.openAct.triggered.connect(self.openFile)
-
-    def openFile(self):                                   
-        options = QFileDialog.Options()
-        filenames, _ = QFileDialog.getOpenFileNames(
-            self, 'Open a file', '',
-            'Python Files (*.py);;Text Files (*.txt)',
-            options=options
-        )
-        text=""
-        if filenames:
-            for filename in filenames:
-                with open(filename, 'r+') as file_o:
-                    try: 
-                        text = file_o.read()
-                        self.tabs.addtab(text, filename)      
-                    except Exception as e:
-                        print("Error: filename=`{}`, `{}` ".format( filename, str(e)))
+                self.update(0, rect.y(), self.width(), rect.height())
+            
+            if rect.contains(self.editor.viewport().rect()):   
+                fontSize = self.editor.currentCharFormat().font().pointSize()
+                self.font.setPointSize(fontSize)
+                self.font.setStyle(QFont.StyleNormal)
+                self.updateWidth()
+                
         
+    def __init__(self, DISPLAY_LINE_NUMBERS=True, HIGHLIGHT_CURRENT_LINE=True,
+                 SyntaxHighlighter=None, *args):        
+        '''
+        Parameters
+        ----------
+        DISPLAY_LINE_NUMBERS : bool 
+            switch on/off the presence of the lines number bar
+        HIGHLIGHT_CURRENT_LINE : bool
+            switch on/off the current line highliting
+        SyntaxHighlighter : QSyntaxHighlighter
+            should be inherited from QSyntaxHighlighter
+        
+        '''                  
+        super(QCodeEditor, self).__init__()
+        
+        self.setFont(QFont("Ubuntu Mono", 11))
+        self.setLineWrapMode(QPlainTextEdit.NoWrap)
+                               
+        self.DISPLAY_LINE_NUMBERS = DISPLAY_LINE_NUMBERS
 
+        if DISPLAY_LINE_NUMBERS:
+            self.number_bar = self.NumberBar(self)
+            
+        if HIGHLIGHT_CURRENT_LINE:
+            self.currentLineNumber = None
+            self.currentLineColor = self.palette().alternateBase()
+            # self.currentLineColor = QColor("#e8e8e8")
+            self.cursorPositionChanged.connect(self.highligtCurrentLine)
+        
+        if SyntaxHighlighter is not None: # add highlighter to textdocument
+           self.highlighter = SyntaxHighlighter(self.document())         
+                 
+    def resizeEvent(self, *e):
+        '''overload resizeEvent handler'''
+                
+        if self.DISPLAY_LINE_NUMBERS:   # resize number_bar widget
+            cr = self.contentsRect()
+            rec = QRect(cr.left(), cr.top(), self.number_bar.getWidth(), cr.height())
+            self.number_bar.setGeometry(rec)
+        
+        QPlainTextEdit.resizeEvent(self, *e)
 
+    def highligtCurrentLine(self):
+        newCurrentLineNumber = self.textCursor().blockNumber()
+        if newCurrentLineNumber != self.currentLineNumber:                
+            self.currentLineNumber = newCurrentLineNumber
+            hi_selection = QTextEdit.ExtraSelection() 
+            hi_selection.format.setBackground(self.currentLineColor)
+            hi_selection.format.setProperty(QTextFormat.FullWidthSelection, True)
+            hi_selection.cursor = self.textCursor()
+            hi_selection.cursor.clearSelection() 
+            self.setExtraSelections([hi_selection])           
+
+##############################################################################
+         
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    ex = Main()
-    sys.exit(app.exec_())
+
+    # TESTING        
+    
+    def run_test():
+    
+        print("\n {} is imported".format(pyQtVersion))
+        # imports requied PyQt modules
+        if pyQtVersion == "PyQt4":
+            from PyQt4.QtGui import QApplication
+        else:
+            from PyQt5.QtWidgets import QApplication
+        
+        import sys
+       
+        app = QApplication([])
+        
+        editor = QCodeEditor(DISPLAY_LINE_NUMBERS=True, 
+                             HIGHLIGHT_CURRENT_LINE=True,
+                             SyntaxHighlighter=XMLHighlighter)
+        
+        text = '''<FINITELATTICE>
+  <LATTICE name="myLattice">
+    <BASIS>
+      <VECTOR>1.0 0.0 0.0</VECTOR>
+      <VECTOR>0.0 1.0 0.0</VECTOR>
+    </BASIS>
+  </LATTICE>
+  <PARAMETER name="L" />
+  <PARAMETER default="L" name="W" />
+  <EXTENT dimension="1" size="L" />
+  <EXTENT dimension="2" size="W" />
+  <BOUNDARY type="periodic" />
+</FINITELATTICE>
+'''
+        editor.setPlainText(text)
+        editor.resize(400,250)
+        editor.show()
+    
+        sys.exit(app.exec_())
+
+    
+    run_test()
