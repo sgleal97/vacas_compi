@@ -1,14 +1,17 @@
-reservadas = {
-    'main'  : 'MAIN',
-    'goto'  : 'GOTO',
+reserved = {
+    'main' : 'MAIN',
+    'goto' : 'GOTO',
     'unset' : 'UNSET',
     'print' : 'PRINT',
-    'read'  : 'READ',
-    'abs'   : 'ABS',
-    'exit'  : 'EXIT'
+    'read' : 'READ',
+    'abs' : 'ABS',
+    'exit' : 'EXIT',
+    'int' : 'INT',
+    'float' : 'FLOAT',
+    'char' : 'CHAR'
 }
 
-tokens  = (
+tokens  = [
     'REVALUAR',
     'PARIZQ',
     'PARDER',
@@ -22,7 +25,7 @@ tokens  = (
     'DECIMAL',
     'ENTERO',
     'PTCOMA',
-    'DOLLAR',
+    #'DOLLAR',
     'NOT',
     'AND',
     'OR',
@@ -40,9 +43,11 @@ tokens  = (
     'NIGUALQ',
     'MAYORIGUALQ',
     'MENORIGUALQ',
-    'DOSPUNTOS'
-
-)
+    'DOSPUNTOS',
+    'ID',
+    'VAR',
+    'CADENA'
+] + list(reserved.values())
 
 # Tokens
 t_REVALUAR  = r'Evaluar'
@@ -56,7 +61,7 @@ t_POR       = r'\*'
 t_DIVIDIDO  = r'/'
 t_RESIDUO   = r'%'
 t_PTCOMA    = r';'
-t_DOLLAR    = r'\$'
+#t_DOLLAR    = r'\$'
 t_NOT       = r'!'
 t_BNOT      = r'~'
 t_BAND      = r'&'
@@ -97,8 +102,23 @@ def t_ENTERO(t):
 def t_ID(t):
      r'[a-zA-Z_][a-zA-Z_0-9]*'
     #r'[$][a-zA-Z_0-9]*
-     t.type = reservadas.get(t.value.lower(),'ID')    # Check for reserved words
+     t.type = reserved.get(t.value.lower(),'ID')    # Check for reserved words
      return t
+    
+def t_VAR(t):
+    r'[$][a-zA-Z][a-zA-Z_0-9]*'
+    t.type = reserved.get(t.value.lower(), 'VAR')     #Check for reserved words
+    return t
+
+def t_CADENA(t):
+    r'\".*?\"'
+    t.value = t.value[1:-1] # remuevo las comillas
+    return t 
+
+# Comentario simple // ...
+def t_COMENTARIO_SIMPLE(t):
+    r'\#.*\n'
+    t.lexer.lineno += 1
 
 # Caracteres ignorados
 t_ignore = " \t"
@@ -120,7 +140,7 @@ def t_error(t):
     t.lexer.skip(1)
     
 # Construyendo el analizador léxico
-import prueba
+
 import ply.lex as lex
 lexer = lex.lex()
 
@@ -128,40 +148,40 @@ lexer = lex.lex()
 precedence = (
     ('left','MAS','MENOS'),
     ('left','POR','DIVIDIDO'),
-    ('right','UMENOS'),
+    #('right','UMENOS'),
     )
 
 # Definición de la gramática
-def p_instrucciones_lista(t):
-    '''instrucciones    : instruccion instrucciones
-                        | instruccion '''
 
-def p_instrucciones_evaluar(t):
-    'instruccion : REVALUAR CORIZQ expresion CORDER PTCOMA'
-    print('El valor de la expresión es: ' + str(t[3]))
+from prueba import *
 
-def p_expresion_binaria(t):
-    '''expresion : expresion MAS expresion
-                  | expresion MENOS expresion
-                  | expresion POR expresion
-                  | expresion DIVIDIDO expresion'''
-    if t[2] == '+'  : t[0] = t[1] + t[3]
-    elif t[2] == '-': t[0] = t[1] - t[3]
-    elif t[2] == '*': t[0] = t[1] * t[3]
-    elif t[2] == '/': t[0] = t[1] / t[3]
+def p_init(t):
+    'init                   : MAIN DOSPUNTOS cuerpo'
 
-def p_expresion_unaria(t):
-    'expresion : MENOS expresion %prec UMENOS'
-    t[0] = -t[2]
+def p_cuerpo(t):
+    '''cuerpo               : instrucciones labels
+                            | labels'''
 
-def p_expresion_agrupacion(t):
-    'expresion : PARIZQ expresion PARDER'
-    t[0] = t[2]
+def p_lista_label(t):
+    '''labels               : labels label
+                            | label'''
 
-def p_expresion_number(t):
-    '''expresion    : ENTERO
-                    | DECIMAL'''
-    t[0] = t[1]
+def p_label(t):
+    'label                  : ID DOSPUNTOS instrucciones'
+
+def p_lista_instrucciones(t):
+    'instrucciones          : instrucciones instruccion'
+
+def p_instrucciones_instruccion(t):
+    'instrucciones          : instruccion'
+
+def p_instruccion(t):
+    '''instruccion          : asignacion
+                            '''
+
+def p_asignacion(t):
+    'asignacion             : VAR IGUAL ENTERO'
+    print(t[1])
 
 def p_error(t):
     print("Error sintáctico en '%s'" % t.value)
@@ -169,9 +189,11 @@ def p_error(t):
 import ply.yacc as yacc
 parser = yacc.yacc()
 
-def correr(input):
+def parse(input):
     #f = open("./entrada.txt", "r")
     #input = f.read()
     #prueba.Content.consola.setPlainText(input)
     #prueba.Content.consola.add()
-    parser.parse(input)
+    print("############")
+    #print(input)
+    return parser.parse(input)

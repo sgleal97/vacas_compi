@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'leftMASMENOSleftPORDIVIDIDOrightUMENOSAND BAND BNOT BOR BXOR CORDER CORIZQ DECIMAL DIVIDIDO DOLLAR DOSPUNTOS ENTERO IGUAL IGUALQ MAS MAYORIGUALQ MAYORQ MENORIGUALQ MENORQ MENOS NIGUALQ NOT OR PARDER PARIZQ POR PTCOMA RESIDUO REVALUAR SHIFTD SHIFTI XORinstrucciones    : instruccion instrucciones\n                        | instruccion instruccion : REVALUAR CORIZQ expresion CORDER PTCOMAexpresion : expresion MAS expresion\n                  | expresion MENOS expresion\n                  | expresion POR expresion\n                  | expresion DIVIDIDO expresionexpresion : MENOS expresion %prec UMENOSexpresion : PARIZQ expresion PARDERexpresion    : ENTERO\n                    | DECIMAL'
+_lr_signature = 'leftMASMENOSleftPORDIVIDIDOABS AND BAND BNOT BOR BXOR CADENA CHAR CORDER CORIZQ DECIMAL DIVIDIDO DOSPUNTOS ENTERO EXIT FLOAT GOTO ID IGUAL IGUALQ INT MAIN MAS MAYORIGUALQ MAYORQ MENORIGUALQ MENORQ MENOS NIGUALQ NOT OR PARDER PARIZQ POR PRINT PTCOMA READ RESIDUO REVALUAR SHIFTD SHIFTI UNSET VAR XORinit                   : MAIN DOSPUNTOS cuerpocuerpo               : instrucciones labels\n                            | labelslabels               : labels label\n                            | labellabel                  : ID DOSPUNTOS instruccionesinstrucciones          : instrucciones instruccioninstrucciones          : instruccioninstruccion          : asignacion\n                            asignacion             : VAR IGUAL ENTERO'
     
-_lr_action_items = {'REVALUAR':([0,2,18,],[3,3,-3,]),'$end':([1,2,4,18,],[0,-2,-1,-3,]),'CORIZQ':([3,],[5,]),'MENOS':([5,6,7,8,9,10,12,13,14,15,16,17,19,20,21,22,23,],[7,13,7,7,-10,-11,7,7,7,7,-8,13,-4,-5,-6,-7,-9,]),'PARIZQ':([5,7,8,12,13,14,15,],[8,8,8,8,8,8,8,]),'ENTERO':([5,7,8,12,13,14,15,],[9,9,9,9,9,9,9,]),'DECIMAL':([5,7,8,12,13,14,15,],[10,10,10,10,10,10,10,]),'CORDER':([6,9,10,16,19,20,21,22,23,],[11,-10,-11,-8,-4,-5,-6,-7,-9,]),'MAS':([6,9,10,16,17,19,20,21,22,23,],[12,-10,-11,-8,12,-4,-5,-6,-7,-9,]),'POR':([6,9,10,16,17,19,20,21,22,23,],[14,-10,-11,-8,14,14,14,-6,-7,-9,]),'DIVIDIDO':([6,9,10,16,17,19,20,21,22,23,],[15,-10,-11,-8,15,15,15,-6,-7,-9,]),'PARDER':([9,10,16,17,19,20,21,22,23,],[-10,-11,-8,23,-4,-5,-6,-7,-9,]),'PTCOMA':([11,],[18,]),}
+_lr_action_items = {'MAIN':([0,],[2,]),'$end':([1,4,6,7,8,9,12,13,14,17,18,],[0,-1,-3,-8,-5,-9,-2,-7,-4,-6,-10,]),'DOSPUNTOS':([2,10,],[3,15,]),'ID':([3,5,6,7,8,9,12,13,14,17,18,],[10,10,10,-8,-5,-9,10,-7,-4,-6,-10,]),'VAR':([3,5,7,9,13,15,17,18,],[11,11,-8,-9,-7,11,11,-10,]),'IGUAL':([11,],[16,]),'ENTERO':([16,],[18,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'instrucciones':([0,2,],[1,4,]),'instruccion':([0,2,],[2,2,]),'expresion':([5,7,8,12,13,14,15,],[6,16,17,19,20,21,22,]),}
+_lr_goto_items = {'init':([0,],[1,]),'cuerpo':([3,],[4,]),'instrucciones':([3,15,],[5,17,]),'labels':([3,5,],[6,12,]),'instruccion':([3,5,15,17,],[7,13,7,13,]),'label':([3,5,6,12,],[8,8,14,14,]),'asignacion':([3,5,15,17,],[9,9,9,9,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,16 +26,15 @@ for _k, _v in _lr_goto_items.items():
        _lr_goto[_x][_k] = _y
 del _lr_goto_items
 _lr_productions = [
-  ("S' -> instrucciones","S'",1,None,None,None),
-  ('instrucciones -> instruccion instrucciones','instrucciones',2,'p_instrucciones_lista','gramatica.py',130),
-  ('instrucciones -> instruccion','instrucciones',1,'p_instrucciones_lista','gramatica.py',131),
-  ('instruccion -> REVALUAR CORIZQ expresion CORDER PTCOMA','instruccion',5,'p_instrucciones_evaluar','gramatica.py',134),
-  ('expresion -> expresion MAS expresion','expresion',3,'p_expresion_binaria','gramatica.py',138),
-  ('expresion -> expresion MENOS expresion','expresion',3,'p_expresion_binaria','gramatica.py',139),
-  ('expresion -> expresion POR expresion','expresion',3,'p_expresion_binaria','gramatica.py',140),
-  ('expresion -> expresion DIVIDIDO expresion','expresion',3,'p_expresion_binaria','gramatica.py',141),
-  ('expresion -> MENOS expresion','expresion',2,'p_expresion_unaria','gramatica.py',148),
-  ('expresion -> PARIZQ expresion PARDER','expresion',3,'p_expresion_agrupacion','gramatica.py',152),
-  ('expresion -> ENTERO','expresion',1,'p_expresion_number','gramatica.py',156),
-  ('expresion -> DECIMAL','expresion',1,'p_expresion_number','gramatica.py',157),
+  ("S' -> init","S'",1,None,None,None),
+  ('init -> MAIN DOSPUNTOS cuerpo','init',3,'p_init','gramatica.py',159),
+  ('cuerpo -> instrucciones labels','cuerpo',2,'p_cuerpo','gramatica.py',162),
+  ('cuerpo -> labels','cuerpo',1,'p_cuerpo','gramatica.py',163),
+  ('labels -> labels label','labels',2,'p_lista_label','gramatica.py',166),
+  ('labels -> label','labels',1,'p_lista_label','gramatica.py',167),
+  ('label -> ID DOSPUNTOS instrucciones','label',3,'p_label','gramatica.py',170),
+  ('instrucciones -> instrucciones instruccion','instrucciones',2,'p_lista_instrucciones','gramatica.py',173),
+  ('instrucciones -> instruccion','instrucciones',1,'p_instrucciones_instruccion','gramatica.py',176),
+  ('instruccion -> asignacion','instruccion',1,'p_instruccion','gramatica.py',179),
+  ('asignacion -> VAR IGUAL ENTERO','asignacion',3,'p_asignacion','gramatica.py',183),
 ]

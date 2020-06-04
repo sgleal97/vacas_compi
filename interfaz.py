@@ -215,7 +215,7 @@ class Ui_MainWindow(object):
         items = tab.children()
         texto = items[3].toPlainText()
         print(texto)
-        correr(texto)
+        parse(texto)
     
     def openFile(self):                        
         dialog = QFileDialog()

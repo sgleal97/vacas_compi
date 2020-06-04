@@ -1,5 +1,5 @@
 import sys
-import gramatica
+#import gramatica
 from PyQt5           import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore    import Qt, QRect
 from PyQt5.QtGui     import QColor, QPainter
