@@ -8,7 +8,8 @@ reserved = {
     'exit' : 'EXIT',
     'int' : 'INT',
     'float' : 'FLOAT',
-    'char' : 'CHAR'
+    'char' : 'CHAR',
+    'if' : 'IF'
 }
 
 tokens  = [
@@ -148,40 +149,99 @@ lexer = lex.lex()
 precedence = (
     ('left','MAS','MENOS'),
     ('left','POR','DIVIDIDO'),
-    #('right','UMENOS'),
+    ('right','UMENOS'),
     )
 
 # Definición de la gramática
 
-from prueba import *
+#from prueba import *
+from expresiones import *
+from instrucciones import *
+
+
 
 def p_init(t):
     'init                   : MAIN DOSPUNTOS cuerpo'
+    t[0] = t[3]
+
+def p_lista_cuerpo(t):
+    'cuerpo                 : instrucciones labels'
+    t[1]+=t[2]
+    t[0]=t[1]
 
 def p_cuerpo(t):
-    '''cuerpo               : instrucciones labels
-                            | labels'''
+    'cuerpo                 : labels'
+    t[0]=t[1]
 
 def p_lista_label(t):
-    '''labels               : labels label
-                            | label'''
+    'labels                 : labels label'
+    t[1]+=t[2]
+    t[0]=t[1]
+
+def p_label_instrucion(t):
+    'labels                 : label'
+    t[0]=t[1]
 
 def p_label(t):
     'label                  : ID DOSPUNTOS instrucciones'
+    t[0]=t[3]
 
 def p_lista_instrucciones(t):
     'instrucciones          : instrucciones instruccion'
+    t[1].append(t[2])
+    t[0] = t[1]
 
 def p_instrucciones_instruccion(t):
     'instrucciones          : instruccion'
+    t[0] = [t[1]]
 
 def p_instruccion(t):
     '''instruccion          : asignacion
+                            | if_instr
                             '''
+    t[0] = t[1]
 
 def p_asignacion(t):
-    'asignacion             : VAR IGUAL ENTERO'
-    print(t[1])
+    'asignacion             : VAR IGUAL exp_numerica PTCOMA'
+    t[0] = Asignacion(t[1], t[3])
+
+def p_exp_numerica_binaria(t):
+    '''exp_numerica         : exp_numerica MAS exp_numerica
+                            | exp_numerica MENOS exp_numerica
+                            | exp_numerica POR exp_numerica
+                            | exp_numerica DIVIDIDO exp_numerica'''
+    if t[2] == '+'  : t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MAS)
+    elif t[2] == '-': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MENOS)
+    elif t[2] == '*': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.POR)
+    elif t[2] == '/': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.DIVIDIDO)
+
+def p_exp_numerica_unaria(t):
+    'exp_numerica         : MENOS exp_numerica %prec UMENOS'
+    t[0] = ExpresionNegativo(t[2])
+
+def p_exp_numerica_valores(t):
+    '''exp_numerica         : ENTERO
+                            | DECIMAL'''
+    t[0] = ExpresionNumero(t[1])
+
+def p_exp_id(t):
+    'exp_numerica           : VAR'
+    t[0] = ExpresionIdentificador(t[1])
+
+def p_exp_cadena(t):
+    'exp_numerica           : CADENA'
+    t[0] = ExpresionDobleComilla(t[1])
+
+def p_etiqueta(t):
+    'etiqueta_instr         : ID DOSPUNTOS'
+    t[0] = t[1]
+
+def p_if(t):
+    'if_instr               : IF goto_instr'
+
+def p_etiqueta(t):
+    'goto_instr             : GOTO ID PTCOMA'
+    t[0] = t[1]
 
 def p_error(t):
     print("Error sintáctico en '%s'" % t.value)
@@ -195,5 +255,6 @@ def parse(input):
     #prueba.Content.consola.setPlainText(input)
     #prueba.Content.consola.add()
     print("############")
-    #print(input)
+    print(input)
+    print("############")
     return parser.parse(input)

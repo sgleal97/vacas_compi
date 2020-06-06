@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'leftMASMENOSleftPORDIVIDIDOABS AND BAND BNOT BOR BXOR CADENA CHAR CORDER CORIZQ DECIMAL DIVIDIDO DOSPUNTOS ENTERO EXIT FLOAT GOTO ID IGUAL IGUALQ INT MAIN MAS MAYORIGUALQ MAYORQ MENORIGUALQ MENORQ MENOS NIGUALQ NOT OR PARDER PARIZQ POR PRINT PTCOMA READ RESIDUO REVALUAR SHIFTD SHIFTI UNSET VAR XORinit                   : MAIN DOSPUNTOS cuerpocuerpo               : instrucciones labels\n                            | labelslabels               : labels label\n                            | labellabel                  : ID DOSPUNTOS instruccionesinstrucciones          : instrucciones instruccioninstrucciones          : instruccioninstruccion          : asignacion\n                            asignacion             : VAR IGUAL ENTERO'
+_lr_signature = 'leftMASMENOSleftPORDIVIDIDOrightUMENOSABS AND BAND BNOT BOR BXOR CADENA CHAR CORDER CORIZQ DECIMAL DIVIDIDO DOSPUNTOS ENTERO EXIT FLOAT GOTO ID IF IGUAL IGUALQ INT MAIN MAS MAYORIGUALQ MAYORQ MENORIGUALQ MENORQ MENOS NIGUALQ NOT OR PARDER PARIZQ POR PRINT PTCOMA READ RESIDUO REVALUAR SHIFTD SHIFTI UNSET VAR XORinit                   : MAIN DOSPUNTOS cuerpocuerpo                 : instrucciones labelscuerpo                 : labelslabels                 : labels labellabels                 : labellabel                  : ID DOSPUNTOS instruccionesinstrucciones          : instrucciones instruccioninstrucciones          : instruccioninstruccion          : asignacion\n                            | if_instr\n                            asignacion             : VAR IGUAL exp_numerica PTCOMAexp_numerica         : exp_numerica MAS exp_numerica\n                            | exp_numerica MENOS exp_numerica\n                            | exp_numerica POR exp_numerica\n                            | exp_numerica DIVIDIDO exp_numericaexp_numerica         : MENOS exp_numerica %prec UMENOSexp_numerica         : ENTERO\n                            | DECIMALexp_numerica           : VARexp_numerica           : CADENAif_instr               : IF goto_instrgoto_instr             : GOTO ID PTCOMA'
     
-_lr_action_items = {'MAIN':([0,],[2,]),'$end':([1,4,6,7,8,9,12,13,14,17,18,],[0,-1,-3,-8,-5,-9,-2,-7,-4,-6,-10,]),'DOSPUNTOS':([2,10,],[3,15,]),'ID':([3,5,6,7,8,9,12,13,14,17,18,],[10,10,10,-8,-5,-9,10,-7,-4,-6,-10,]),'VAR':([3,5,7,9,13,15,17,18,],[11,11,-8,-9,-7,11,11,-10,]),'IGUAL':([11,],[16,]),'ENTERO':([16,],[18,]),}
+_lr_action_items = {'MAIN':([0,],[2,]),'$end':([1,4,6,7,8,9,10,14,15,16,19,21,29,35,],[0,-1,-3,-8,-5,-9,-10,-2,-7,-4,-21,-6,-11,-22,]),'DOSPUNTOS':([2,11,],[3,17,]),'ID':([3,5,6,7,8,9,10,14,15,16,19,20,21,29,35,],[11,11,11,-8,-5,-9,-10,11,-7,-4,-21,28,-6,-11,-22,]),'VAR':([3,5,7,9,10,15,17,18,19,21,24,29,30,31,32,33,35,],[12,12,-8,-9,-10,-7,12,22,-21,12,22,-11,22,22,22,22,-22,]),'IF':([3,5,7,9,10,15,17,19,21,29,35,],[13,13,-8,-9,-10,-7,13,-21,13,-11,-22,]),'IGUAL':([12,],[18,]),'GOTO':([13,],[20,]),'MENOS':([18,22,23,24,25,26,27,30,31,32,33,34,36,37,38,39,],[24,-19,31,24,-17,-18,-20,24,24,24,24,-16,-12,-13,-14,-15,]),'ENTERO':([18,24,30,31,32,33,],[25,25,25,25,25,25,]),'DECIMAL':([18,24,30,31,32,33,],[26,26,26,26,26,26,]),'CADENA':([18,24,30,31,32,33,],[27,27,27,27,27,27,]),'PTCOMA':([22,23,25,26,27,28,34,36,37,38,39,],[-19,29,-17,-18,-20,35,-16,-12,-13,-14,-15,]),'MAS':([22,23,25,26,27,34,36,37,38,39,],[-19,30,-17,-18,-20,-16,-12,-13,-14,-15,]),'POR':([22,23,25,26,27,34,36,37,38,39,],[-19,32,-17,-18,-20,-16,32,32,-14,-15,]),'DIVIDIDO':([22,23,25,26,27,34,36,37,38,39,],[-19,33,-17,-18,-20,-16,33,33,-14,-15,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'init':([0,],[1,]),'cuerpo':([3,],[4,]),'instrucciones':([3,15,],[5,17,]),'labels':([3,5,],[6,12,]),'instruccion':([3,5,15,17,],[7,13,7,13,]),'label':([3,5,6,12,],[8,8,14,14,]),'asignacion':([3,5,15,17,],[9,9,9,9,]),}
+_lr_goto_items = {'init':([0,],[1,]),'cuerpo':([3,],[4,]),'instrucciones':([3,17,],[5,21,]),'labels':([3,5,],[6,14,]),'instruccion':([3,5,17,21,],[7,15,7,15,]),'label':([3,5,6,14,],[8,8,16,16,]),'asignacion':([3,5,17,21,],[9,9,9,9,]),'if_instr':([3,5,17,21,],[10,10,10,10,]),'goto_instr':([13,],[19,]),'exp_numerica':([18,24,30,31,32,33,],[23,34,36,37,38,39,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,14 +27,26 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> init","S'",1,None,None,None),
-  ('init -> MAIN DOSPUNTOS cuerpo','init',3,'p_init','gramatica.py',159),
-  ('cuerpo -> instrucciones labels','cuerpo',2,'p_cuerpo','gramatica.py',162),
-  ('cuerpo -> labels','cuerpo',1,'p_cuerpo','gramatica.py',163),
-  ('labels -> labels label','labels',2,'p_lista_label','gramatica.py',166),
-  ('labels -> label','labels',1,'p_lista_label','gramatica.py',167),
-  ('label -> ID DOSPUNTOS instrucciones','label',3,'p_label','gramatica.py',170),
-  ('instrucciones -> instrucciones instruccion','instrucciones',2,'p_lista_instrucciones','gramatica.py',173),
-  ('instrucciones -> instruccion','instrucciones',1,'p_instrucciones_instruccion','gramatica.py',176),
-  ('instruccion -> asignacion','instruccion',1,'p_instruccion','gramatica.py',179),
-  ('asignacion -> VAR IGUAL ENTERO','asignacion',3,'p_asignacion','gramatica.py',183),
+  ('init -> MAIN DOSPUNTOS cuerpo','init',3,'p_init','gramatica.py',164),
+  ('cuerpo -> instrucciones labels','cuerpo',2,'p_lista_cuerpo','gramatica.py',168),
+  ('cuerpo -> labels','cuerpo',1,'p_cuerpo','gramatica.py',173),
+  ('labels -> labels label','labels',2,'p_lista_label','gramatica.py',177),
+  ('labels -> label','labels',1,'p_label_instrucion','gramatica.py',182),
+  ('label -> ID DOSPUNTOS instrucciones','label',3,'p_label','gramatica.py',186),
+  ('instrucciones -> instrucciones instruccion','instrucciones',2,'p_lista_instrucciones','gramatica.py',190),
+  ('instrucciones -> instruccion','instrucciones',1,'p_instrucciones_instruccion','gramatica.py',195),
+  ('instruccion -> asignacion','instruccion',1,'p_instruccion','gramatica.py',199),
+  ('instruccion -> if_instr','instruccion',1,'p_instruccion','gramatica.py',200),
+  ('asignacion -> VAR IGUAL exp_numerica PTCOMA','asignacion',4,'p_asignacion','gramatica.py',205),
+  ('exp_numerica -> exp_numerica MAS exp_numerica','exp_numerica',3,'p_exp_numerica_binaria','gramatica.py',209),
+  ('exp_numerica -> exp_numerica MENOS exp_numerica','exp_numerica',3,'p_exp_numerica_binaria','gramatica.py',210),
+  ('exp_numerica -> exp_numerica POR exp_numerica','exp_numerica',3,'p_exp_numerica_binaria','gramatica.py',211),
+  ('exp_numerica -> exp_numerica DIVIDIDO exp_numerica','exp_numerica',3,'p_exp_numerica_binaria','gramatica.py',212),
+  ('exp_numerica -> MENOS exp_numerica','exp_numerica',2,'p_exp_numerica_unaria','gramatica.py',219),
+  ('exp_numerica -> ENTERO','exp_numerica',1,'p_exp_numerica_valores','gramatica.py',223),
+  ('exp_numerica -> DECIMAL','exp_numerica',1,'p_exp_numerica_valores','gramatica.py',224),
+  ('exp_numerica -> VAR','exp_numerica',1,'p_exp_id','gramatica.py',228),
+  ('exp_numerica -> CADENA','exp_numerica',1,'p_exp_cadena','gramatica.py',232),
+  ('if_instr -> IF goto_instr','if_instr',2,'p_if','gramatica.py',240),
+  ('goto_instr -> GOTO ID PTCOMA','goto_instr',3,'p_etiqueta','gramatica.py',243),
 ]

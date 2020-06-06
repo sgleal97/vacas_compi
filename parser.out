@@ -8,31 +8,23 @@ Unused terminals:
     BNOT
     BOR
     BXOR
-    CADENA
     CHAR
     CORDER
     CORIZQ
-    DECIMAL
-    DIVIDIDO
     EXIT
     FLOAT
-    GOTO
     IGUALQ
     INT
-    MAS
     MAYORIGUALQ
     MAYORQ
     MENORIGUALQ
     MENORQ
-    MENOS
     NIGUALQ
     NOT
     OR
     PARDER
     PARIZQ
-    POR
     PRINT
-    PTCOMA
     READ
     RESIDUO
     REVALUAR
@@ -53,7 +45,19 @@ Rule 6     label -> ID DOSPUNTOS instrucciones
 Rule 7     instrucciones -> instrucciones instruccion
 Rule 8     instrucciones -> instruccion
 Rule 9     instruccion -> asignacion
-Rule 10    asignacion -> VAR IGUAL ENTERO
+Rule 10    instruccion -> if_instr
+Rule 11    asignacion -> VAR IGUAL exp_numerica PTCOMA
+Rule 12    exp_numerica -> exp_numerica MAS exp_numerica
+Rule 13    exp_numerica -> exp_numerica MENOS exp_numerica
+Rule 14    exp_numerica -> exp_numerica POR exp_numerica
+Rule 15    exp_numerica -> exp_numerica DIVIDIDO exp_numerica
+Rule 16    exp_numerica -> MENOS exp_numerica
+Rule 17    exp_numerica -> ENTERO
+Rule 18    exp_numerica -> DECIMAL
+Rule 19    exp_numerica -> VAR
+Rule 20    exp_numerica -> CADENA
+Rule 21    if_instr -> IF goto_instr
+Rule 22    goto_instr -> GOTO ID PTCOMA
 
 Terminals, with rules where they appear
 
@@ -63,43 +67,44 @@ BAND                 :
 BNOT                 : 
 BOR                  : 
 BXOR                 : 
-CADENA               : 
+CADENA               : 20
 CHAR                 : 
 CORDER               : 
 CORIZQ               : 
-DECIMAL              : 
-DIVIDIDO             : 
+DECIMAL              : 18
+DIVIDIDO             : 15
 DOSPUNTOS            : 1 6
-ENTERO               : 10
+ENTERO               : 17
 EXIT                 : 
 FLOAT                : 
-GOTO                 : 
-ID                   : 6
-IGUAL                : 10
+GOTO                 : 22
+ID                   : 6 22
+IF                   : 21
+IGUAL                : 11
 IGUALQ               : 
 INT                  : 
 MAIN                 : 1
-MAS                  : 
+MAS                  : 12
 MAYORIGUALQ          : 
 MAYORQ               : 
 MENORIGUALQ          : 
 MENORQ               : 
-MENOS                : 
+MENOS                : 13 16
 NIGUALQ              : 
 NOT                  : 
 OR                   : 
 PARDER               : 
 PARIZQ               : 
-POR                  : 
+POR                  : 14
 PRINT                : 
-PTCOMA               : 
+PTCOMA               : 11 22
 READ                 : 
 RESIDUO              : 
 REVALUAR             : 
 SHIFTD               : 
 SHIFTI               : 
 UNSET                : 
-VAR                  : 10
+VAR                  : 11 19
 XOR                  : 
 error                : 
 
@@ -107,6 +112,9 @@ Nonterminals, with rules where they appear
 
 asignacion           : 9
 cuerpo               : 1
+exp_numerica         : 11 12 12 13 13 14 14 15 15 16
+goto_instr           : 21
+if_instr             : 10
 init                 : 0
 instruccion          : 7 8
 instrucciones        : 2 6 7
@@ -147,11 +155,14 @@ state 3
     (4) labels -> . labels label
     (5) labels -> . label
     (9) instruccion -> . asignacion
+    (10) instruccion -> . if_instr
     (6) label -> . ID DOSPUNTOS instrucciones
-    (10) asignacion -> . VAR IGUAL ENTERO
+    (11) asignacion -> . VAR IGUAL exp_numerica PTCOMA
+    (21) if_instr -> . IF goto_instr
 
-    ID              shift and go to state 10
-    VAR             shift and go to state 11
+    ID              shift and go to state 11
+    VAR             shift and go to state 12
+    IF              shift and go to state 13
 
     cuerpo                         shift and go to state 4
     instrucciones                  shift and go to state 5
@@ -159,6 +170,7 @@ state 3
     instruccion                    shift and go to state 7
     label                          shift and go to state 8
     asignacion                     shift and go to state 9
+    if_instr                       shift and go to state 10
 
 state 4
 
@@ -174,16 +186,20 @@ state 5
     (4) labels -> . labels label
     (5) labels -> . label
     (9) instruccion -> . asignacion
+    (10) instruccion -> . if_instr
     (6) label -> . ID DOSPUNTOS instrucciones
-    (10) asignacion -> . VAR IGUAL ENTERO
+    (11) asignacion -> . VAR IGUAL exp_numerica PTCOMA
+    (21) if_instr -> . IF goto_instr
 
-    ID              shift and go to state 10
-    VAR             shift and go to state 11
+    ID              shift and go to state 11
+    VAR             shift and go to state 12
+    IF              shift and go to state 13
 
-    labels                         shift and go to state 12
-    instruccion                    shift and go to state 13
+    labels                         shift and go to state 14
+    instruccion                    shift and go to state 15
     label                          shift and go to state 8
     asignacion                     shift and go to state 9
+    if_instr                       shift and go to state 10
 
 state 6
 
@@ -192,9 +208,9 @@ state 6
     (6) label -> . ID DOSPUNTOS instrucciones
 
     $end            reduce using rule 3 (cuerpo -> labels .)
-    ID              shift and go to state 10
+    ID              shift and go to state 11
 
-    label                          shift and go to state 14
+    label                          shift and go to state 16
 
 state 7
 
@@ -202,6 +218,7 @@ state 7
 
     ID              reduce using rule 8 (instrucciones -> instruccion .)
     VAR             reduce using rule 8 (instrucciones -> instruccion .)
+    IF              reduce using rule 8 (instrucciones -> instruccion .)
     $end            reduce using rule 8 (instrucciones -> instruccion .)
 
 
@@ -219,44 +236,65 @@ state 9
 
     ID              reduce using rule 9 (instruccion -> asignacion .)
     VAR             reduce using rule 9 (instruccion -> asignacion .)
+    IF              reduce using rule 9 (instruccion -> asignacion .)
     $end            reduce using rule 9 (instruccion -> asignacion .)
 
 
 state 10
 
-    (6) label -> ID . DOSPUNTOS instrucciones
+    (10) instruccion -> if_instr .
 
-    DOSPUNTOS       shift and go to state 15
+    ID              reduce using rule 10 (instruccion -> if_instr .)
+    VAR             reduce using rule 10 (instruccion -> if_instr .)
+    IF              reduce using rule 10 (instruccion -> if_instr .)
+    $end            reduce using rule 10 (instruccion -> if_instr .)
 
 
 state 11
 
-    (10) asignacion -> VAR . IGUAL ENTERO
+    (6) label -> ID . DOSPUNTOS instrucciones
 
-    IGUAL           shift and go to state 16
+    DOSPUNTOS       shift and go to state 17
 
 
 state 12
+
+    (11) asignacion -> VAR . IGUAL exp_numerica PTCOMA
+
+    IGUAL           shift and go to state 18
+
+
+state 13
+
+    (21) if_instr -> IF . goto_instr
+    (22) goto_instr -> . GOTO ID PTCOMA
+
+    GOTO            shift and go to state 20
+
+    goto_instr                     shift and go to state 19
+
+state 14
 
     (2) cuerpo -> instrucciones labels .
     (4) labels -> labels . label
     (6) label -> . ID DOSPUNTOS instrucciones
 
     $end            reduce using rule 2 (cuerpo -> instrucciones labels .)
-    ID              shift and go to state 10
+    ID              shift and go to state 11
 
-    label                          shift and go to state 14
+    label                          shift and go to state 16
 
-state 13
+state 15
 
     (7) instrucciones -> instrucciones instruccion .
 
     ID              reduce using rule 7 (instrucciones -> instrucciones instruccion .)
     VAR             reduce using rule 7 (instrucciones -> instrucciones instruccion .)
+    IF              reduce using rule 7 (instrucciones -> instrucciones instruccion .)
     $end            reduce using rule 7 (instrucciones -> instrucciones instruccion .)
 
 
-state 14
+state 16
 
     (4) labels -> labels label .
 
@@ -264,46 +302,367 @@ state 14
     $end            reduce using rule 4 (labels -> labels label .)
 
 
-state 15
+state 17
 
     (6) label -> ID DOSPUNTOS . instrucciones
     (7) instrucciones -> . instrucciones instruccion
     (8) instrucciones -> . instruccion
     (9) instruccion -> . asignacion
-    (10) asignacion -> . VAR IGUAL ENTERO
+    (10) instruccion -> . if_instr
+    (11) asignacion -> . VAR IGUAL exp_numerica PTCOMA
+    (21) if_instr -> . IF goto_instr
 
-    VAR             shift and go to state 11
+    VAR             shift and go to state 12
+    IF              shift and go to state 13
 
-    instrucciones                  shift and go to state 17
+    instrucciones                  shift and go to state 21
     instruccion                    shift and go to state 7
     asignacion                     shift and go to state 9
+    if_instr                       shift and go to state 10
 
-state 16
+state 18
 
-    (10) asignacion -> VAR IGUAL . ENTERO
+    (11) asignacion -> VAR IGUAL . exp_numerica PTCOMA
+    (12) exp_numerica -> . exp_numerica MAS exp_numerica
+    (13) exp_numerica -> . exp_numerica MENOS exp_numerica
+    (14) exp_numerica -> . exp_numerica POR exp_numerica
+    (15) exp_numerica -> . exp_numerica DIVIDIDO exp_numerica
+    (16) exp_numerica -> . MENOS exp_numerica
+    (17) exp_numerica -> . ENTERO
+    (18) exp_numerica -> . DECIMAL
+    (19) exp_numerica -> . VAR
+    (20) exp_numerica -> . CADENA
 
-    ENTERO          shift and go to state 18
+    MENOS           shift and go to state 24
+    ENTERO          shift and go to state 25
+    DECIMAL         shift and go to state 26
+    VAR             shift and go to state 22
+    CADENA          shift and go to state 27
+
+    exp_numerica                   shift and go to state 23
+
+state 19
+
+    (21) if_instr -> IF goto_instr .
+
+    ID              reduce using rule 21 (if_instr -> IF goto_instr .)
+    VAR             reduce using rule 21 (if_instr -> IF goto_instr .)
+    IF              reduce using rule 21 (if_instr -> IF goto_instr .)
+    $end            reduce using rule 21 (if_instr -> IF goto_instr .)
 
 
-state 17
+state 20
+
+    (22) goto_instr -> GOTO . ID PTCOMA
+
+    ID              shift and go to state 28
+
+
+state 21
 
     (6) label -> ID DOSPUNTOS instrucciones .
     (7) instrucciones -> instrucciones . instruccion
     (9) instruccion -> . asignacion
-    (10) asignacion -> . VAR IGUAL ENTERO
+    (10) instruccion -> . if_instr
+    (11) asignacion -> . VAR IGUAL exp_numerica PTCOMA
+    (21) if_instr -> . IF goto_instr
 
     ID              reduce using rule 6 (label -> ID DOSPUNTOS instrucciones .)
     $end            reduce using rule 6 (label -> ID DOSPUNTOS instrucciones .)
-    VAR             shift and go to state 11
+    VAR             shift and go to state 12
+    IF              shift and go to state 13
 
-    instruccion                    shift and go to state 13
+    instruccion                    shift and go to state 15
     asignacion                     shift and go to state 9
+    if_instr                       shift and go to state 10
 
-state 18
+state 22
 
-    (10) asignacion -> VAR IGUAL ENTERO .
+    (19) exp_numerica -> VAR .
 
-    ID              reduce using rule 10 (asignacion -> VAR IGUAL ENTERO .)
-    VAR             reduce using rule 10 (asignacion -> VAR IGUAL ENTERO .)
-    $end            reduce using rule 10 (asignacion -> VAR IGUAL ENTERO .)
+    PTCOMA          reduce using rule 19 (exp_numerica -> VAR .)
+    MAS             reduce using rule 19 (exp_numerica -> VAR .)
+    MENOS           reduce using rule 19 (exp_numerica -> VAR .)
+    POR             reduce using rule 19 (exp_numerica -> VAR .)
+    DIVIDIDO        reduce using rule 19 (exp_numerica -> VAR .)
+
+
+state 23
+
+    (11) asignacion -> VAR IGUAL exp_numerica . PTCOMA
+    (12) exp_numerica -> exp_numerica . MAS exp_numerica
+    (13) exp_numerica -> exp_numerica . MENOS exp_numerica
+    (14) exp_numerica -> exp_numerica . POR exp_numerica
+    (15) exp_numerica -> exp_numerica . DIVIDIDO exp_numerica
+
+    PTCOMA          shift and go to state 29
+    MAS             shift and go to state 30
+    MENOS           shift and go to state 31
+    POR             shift and go to state 32
+    DIVIDIDO        shift and go to state 33
+
+
+state 24
+
+    (16) exp_numerica -> MENOS . exp_numerica
+    (12) exp_numerica -> . exp_numerica MAS exp_numerica
+    (13) exp_numerica -> . exp_numerica MENOS exp_numerica
+    (14) exp_numerica -> . exp_numerica POR exp_numerica
+    (15) exp_numerica -> . exp_numerica DIVIDIDO exp_numerica
+    (16) exp_numerica -> . MENOS exp_numerica
+    (17) exp_numerica -> . ENTERO
+    (18) exp_numerica -> . DECIMAL
+    (19) exp_numerica -> . VAR
+    (20) exp_numerica -> . CADENA
+
+    MENOS           shift and go to state 24
+    ENTERO          shift and go to state 25
+    DECIMAL         shift and go to state 26
+    VAR             shift and go to state 22
+    CADENA          shift and go to state 27
+
+    exp_numerica                   shift and go to state 34
+
+state 25
+
+    (17) exp_numerica -> ENTERO .
+
+    PTCOMA          reduce using rule 17 (exp_numerica -> ENTERO .)
+    MAS             reduce using rule 17 (exp_numerica -> ENTERO .)
+    MENOS           reduce using rule 17 (exp_numerica -> ENTERO .)
+    POR             reduce using rule 17 (exp_numerica -> ENTERO .)
+    DIVIDIDO        reduce using rule 17 (exp_numerica -> ENTERO .)
+
+
+state 26
+
+    (18) exp_numerica -> DECIMAL .
+
+    PTCOMA          reduce using rule 18 (exp_numerica -> DECIMAL .)
+    MAS             reduce using rule 18 (exp_numerica -> DECIMAL .)
+    MENOS           reduce using rule 18 (exp_numerica -> DECIMAL .)
+    POR             reduce using rule 18 (exp_numerica -> DECIMAL .)
+    DIVIDIDO        reduce using rule 18 (exp_numerica -> DECIMAL .)
+
+
+state 27
+
+    (20) exp_numerica -> CADENA .
+
+    PTCOMA          reduce using rule 20 (exp_numerica -> CADENA .)
+    MAS             reduce using rule 20 (exp_numerica -> CADENA .)
+    MENOS           reduce using rule 20 (exp_numerica -> CADENA .)
+    POR             reduce using rule 20 (exp_numerica -> CADENA .)
+    DIVIDIDO        reduce using rule 20 (exp_numerica -> CADENA .)
+
+
+state 28
+
+    (22) goto_instr -> GOTO ID . PTCOMA
+
+    PTCOMA          shift and go to state 35
+
+
+state 29
+
+    (11) asignacion -> VAR IGUAL exp_numerica PTCOMA .
+
+    ID              reduce using rule 11 (asignacion -> VAR IGUAL exp_numerica PTCOMA .)
+    VAR             reduce using rule 11 (asignacion -> VAR IGUAL exp_numerica PTCOMA .)
+    IF              reduce using rule 11 (asignacion -> VAR IGUAL exp_numerica PTCOMA .)
+    $end            reduce using rule 11 (asignacion -> VAR IGUAL exp_numerica PTCOMA .)
+
+
+state 30
+
+    (12) exp_numerica -> exp_numerica MAS . exp_numerica
+    (12) exp_numerica -> . exp_numerica MAS exp_numerica
+    (13) exp_numerica -> . exp_numerica MENOS exp_numerica
+    (14) exp_numerica -> . exp_numerica POR exp_numerica
+    (15) exp_numerica -> . exp_numerica DIVIDIDO exp_numerica
+    (16) exp_numerica -> . MENOS exp_numerica
+    (17) exp_numerica -> . ENTERO
+    (18) exp_numerica -> . DECIMAL
+    (19) exp_numerica -> . VAR
+    (20) exp_numerica -> . CADENA
+
+    MENOS           shift and go to state 24
+    ENTERO          shift and go to state 25
+    DECIMAL         shift and go to state 26
+    VAR             shift and go to state 22
+    CADENA          shift and go to state 27
+
+    exp_numerica                   shift and go to state 36
+
+state 31
+
+    (13) exp_numerica -> exp_numerica MENOS . exp_numerica
+    (12) exp_numerica -> . exp_numerica MAS exp_numerica
+    (13) exp_numerica -> . exp_numerica MENOS exp_numerica
+    (14) exp_numerica -> . exp_numerica POR exp_numerica
+    (15) exp_numerica -> . exp_numerica DIVIDIDO exp_numerica
+    (16) exp_numerica -> . MENOS exp_numerica
+    (17) exp_numerica -> . ENTERO
+    (18) exp_numerica -> . DECIMAL
+    (19) exp_numerica -> . VAR
+    (20) exp_numerica -> . CADENA
+
+    MENOS           shift and go to state 24
+    ENTERO          shift and go to state 25
+    DECIMAL         shift and go to state 26
+    VAR             shift and go to state 22
+    CADENA          shift and go to state 27
+
+    exp_numerica                   shift and go to state 37
+
+state 32
+
+    (14) exp_numerica -> exp_numerica POR . exp_numerica
+    (12) exp_numerica -> . exp_numerica MAS exp_numerica
+    (13) exp_numerica -> . exp_numerica MENOS exp_numerica
+    (14) exp_numerica -> . exp_numerica POR exp_numerica
+    (15) exp_numerica -> . exp_numerica DIVIDIDO exp_numerica
+    (16) exp_numerica -> . MENOS exp_numerica
+    (17) exp_numerica -> . ENTERO
+    (18) exp_numerica -> . DECIMAL
+    (19) exp_numerica -> . VAR
+    (20) exp_numerica -> . CADENA
+
+    MENOS           shift and go to state 24
+    ENTERO          shift and go to state 25
+    DECIMAL         shift and go to state 26
+    VAR             shift and go to state 22
+    CADENA          shift and go to state 27
+
+    exp_numerica                   shift and go to state 38
+
+state 33
+
+    (15) exp_numerica -> exp_numerica DIVIDIDO . exp_numerica
+    (12) exp_numerica -> . exp_numerica MAS exp_numerica
+    (13) exp_numerica -> . exp_numerica MENOS exp_numerica
+    (14) exp_numerica -> . exp_numerica POR exp_numerica
+    (15) exp_numerica -> . exp_numerica DIVIDIDO exp_numerica
+    (16) exp_numerica -> . MENOS exp_numerica
+    (17) exp_numerica -> . ENTERO
+    (18) exp_numerica -> . DECIMAL
+    (19) exp_numerica -> . VAR
+    (20) exp_numerica -> . CADENA
+
+    MENOS           shift and go to state 24
+    ENTERO          shift and go to state 25
+    DECIMAL         shift and go to state 26
+    VAR             shift and go to state 22
+    CADENA          shift and go to state 27
+
+    exp_numerica                   shift and go to state 39
+
+state 34
+
+    (16) exp_numerica -> MENOS exp_numerica .
+    (12) exp_numerica -> exp_numerica . MAS exp_numerica
+    (13) exp_numerica -> exp_numerica . MENOS exp_numerica
+    (14) exp_numerica -> exp_numerica . POR exp_numerica
+    (15) exp_numerica -> exp_numerica . DIVIDIDO exp_numerica
+
+    PTCOMA          reduce using rule 16 (exp_numerica -> MENOS exp_numerica .)
+    MAS             reduce using rule 16 (exp_numerica -> MENOS exp_numerica .)
+    MENOS           reduce using rule 16 (exp_numerica -> MENOS exp_numerica .)
+    POR             reduce using rule 16 (exp_numerica -> MENOS exp_numerica .)
+    DIVIDIDO        reduce using rule 16 (exp_numerica -> MENOS exp_numerica .)
+
+  ! MAS             [ shift and go to state 30 ]
+  ! MENOS           [ shift and go to state 31 ]
+  ! POR             [ shift and go to state 32 ]
+  ! DIVIDIDO        [ shift and go to state 33 ]
+
+
+state 35
+
+    (22) goto_instr -> GOTO ID PTCOMA .
+
+    ID              reduce using rule 22 (goto_instr -> GOTO ID PTCOMA .)
+    VAR             reduce using rule 22 (goto_instr -> GOTO ID PTCOMA .)
+    IF              reduce using rule 22 (goto_instr -> GOTO ID PTCOMA .)
+    $end            reduce using rule 22 (goto_instr -> GOTO ID PTCOMA .)
+
+
+state 36
+
+    (12) exp_numerica -> exp_numerica MAS exp_numerica .
+    (12) exp_numerica -> exp_numerica . MAS exp_numerica
+    (13) exp_numerica -> exp_numerica . MENOS exp_numerica
+    (14) exp_numerica -> exp_numerica . POR exp_numerica
+    (15) exp_numerica -> exp_numerica . DIVIDIDO exp_numerica
+
+    PTCOMA          reduce using rule 12 (exp_numerica -> exp_numerica MAS exp_numerica .)
+    MAS             reduce using rule 12 (exp_numerica -> exp_numerica MAS exp_numerica .)
+    MENOS           reduce using rule 12 (exp_numerica -> exp_numerica MAS exp_numerica .)
+    POR             shift and go to state 32
+    DIVIDIDO        shift and go to state 33
+
+  ! POR             [ reduce using rule 12 (exp_numerica -> exp_numerica MAS exp_numerica .) ]
+  ! DIVIDIDO        [ reduce using rule 12 (exp_numerica -> exp_numerica MAS exp_numerica .) ]
+  ! MAS             [ shift and go to state 30 ]
+  ! MENOS           [ shift and go to state 31 ]
+
+
+state 37
+
+    (13) exp_numerica -> exp_numerica MENOS exp_numerica .
+    (12) exp_numerica -> exp_numerica . MAS exp_numerica
+    (13) exp_numerica -> exp_numerica . MENOS exp_numerica
+    (14) exp_numerica -> exp_numerica . POR exp_numerica
+    (15) exp_numerica -> exp_numerica . DIVIDIDO exp_numerica
+
+    PTCOMA          reduce using rule 13 (exp_numerica -> exp_numerica MENOS exp_numerica .)
+    MAS             reduce using rule 13 (exp_numerica -> exp_numerica MENOS exp_numerica .)
+    MENOS           reduce using rule 13 (exp_numerica -> exp_numerica MENOS exp_numerica .)
+    POR             shift and go to state 32
+    DIVIDIDO        shift and go to state 33
+
+  ! POR             [ reduce using rule 13 (exp_numerica -> exp_numerica MENOS exp_numerica .) ]
+  ! DIVIDIDO        [ reduce using rule 13 (exp_numerica -> exp_numerica MENOS exp_numerica .) ]
+  ! MAS             [ shift and go to state 30 ]
+  ! MENOS           [ shift and go to state 31 ]
+
+
+state 38
+
+    (14) exp_numerica -> exp_numerica POR exp_numerica .
+    (12) exp_numerica -> exp_numerica . MAS exp_numerica
+    (13) exp_numerica -> exp_numerica . MENOS exp_numerica
+    (14) exp_numerica -> exp_numerica . POR exp_numerica
+    (15) exp_numerica -> exp_numerica . DIVIDIDO exp_numerica
+
+    PTCOMA          reduce using rule 14 (exp_numerica -> exp_numerica POR exp_numerica .)
+    MAS             reduce using rule 14 (exp_numerica -> exp_numerica POR exp_numerica .)
+    MENOS           reduce using rule 14 (exp_numerica -> exp_numerica POR exp_numerica .)
+    POR             reduce using rule 14 (exp_numerica -> exp_numerica POR exp_numerica .)
+    DIVIDIDO        reduce using rule 14 (exp_numerica -> exp_numerica POR exp_numerica .)
+
+  ! MAS             [ shift and go to state 30 ]
+  ! MENOS           [ shift and go to state 31 ]
+  ! POR             [ shift and go to state 32 ]
+  ! DIVIDIDO        [ shift and go to state 33 ]
+
+
+state 39
+
+    (15) exp_numerica -> exp_numerica DIVIDIDO exp_numerica .
+    (12) exp_numerica -> exp_numerica . MAS exp_numerica
+    (13) exp_numerica -> exp_numerica . MENOS exp_numerica
+    (14) exp_numerica -> exp_numerica . POR exp_numerica
+    (15) exp_numerica -> exp_numerica . DIVIDIDO exp_numerica
+
+    PTCOMA          reduce using rule 15 (exp_numerica -> exp_numerica DIVIDIDO exp_numerica .)
+    MAS             reduce using rule 15 (exp_numerica -> exp_numerica DIVIDIDO exp_numerica .)
+    MENOS           reduce using rule 15 (exp_numerica -> exp_numerica DIVIDIDO exp_numerica .)
+    POR             reduce using rule 15 (exp_numerica -> exp_numerica DIVIDIDO exp_numerica .)
+    DIVIDIDO        reduce using rule 15 (exp_numerica -> exp_numerica DIVIDIDO exp_numerica .)
+
+  ! MAS             [ shift and go to state 30 ]
+  ! MENOS           [ shift and go to state 31 ]
+  ! POR             [ shift and go to state 32 ]
+  ! DIVIDIDO        [ shift and go to state 33 ]
 

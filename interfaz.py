@@ -8,7 +8,8 @@
 
 import sys
 
-from gramatica import *
+#from gramatica import *
+from asc import *
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.Qt import QDir, QFileDialog
@@ -214,8 +215,9 @@ class Ui_MainWindow(object):
         tab = self.tabWidget.widget(self.tabWidget.currentIndex())
         items = tab.children()
         texto = items[3].toPlainText()
-        print(texto)
-        parse(texto)
+        #print(texto)
+        #instrucciones = parse(texto)
+        analisisAsc = Main(texto)
     
     def openFile(self):                        
         dialog = QFileDialog()
