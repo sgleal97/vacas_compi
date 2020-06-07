@@ -14,3 +14,10 @@ class Asignacion(Instruccion):
         self.id = id
         self.expNumerica = expNumerica
 
+class AsignacionCadena(Instruccion):
+    '''Instruccion asignacion, parametro ID y valor'''
+
+    def __init__(self, id, expCadena):
+        self.id = id
+        self.expCadena = expCadena
+

@@ -2,6 +2,9 @@ from enum import Enum
 
 class TIPO_DATO(Enum):
     NUMERO = 1
+    CADENA = 2
+    BOOL = 3
+    BIT = 4
 
 class Simbolo():
     #Clase que representa un simbolo en la TS

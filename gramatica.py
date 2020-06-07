@@ -9,7 +9,8 @@ reserved = {
     'int' : 'INT',
     'float' : 'FLOAT',
     'char' : 'CHAR',
-    'if' : 'IF'
+    'if' : 'IF',
+    'xor' : 'XOR'
 }
 
 tokens  = [
@@ -30,7 +31,6 @@ tokens  = [
     'NOT',
     'AND',
     'OR',
-    'XOR',
     'BNOT',
     'BAND',
     'BOR',
@@ -60,9 +60,8 @@ t_MAS       = r'\+'
 t_MENOS     = r'-'
 t_POR       = r'\*'
 t_DIVIDIDO  = r'/'
-t_RESIDUO   = r'%'
+t_RESIDUO   = r'\%'
 t_PTCOMA    = r';'
-#t_DOLLAR    = r'\$'
 t_NOT       = r'!'
 t_BNOT      = r'~'
 t_BAND      = r'&'
@@ -70,7 +69,6 @@ t_BOR       = r'\|'
 t_BXOR      = r'\^'
 t_AND       = r'&&'
 t_OR        = r'\|\|'
-t_XOR       = r'xor'
 t_MENORQ    = r'<'
 t_MAYORQ    = r'>'
 t_SHIFTD    = r'>>'
@@ -146,10 +144,23 @@ import ply.lex as lex
 lexer = lex.lex()
 
 # Asociación de operadores y precedencia
+#nonassoc para que solo permita operaciones simples
+#left o right para permitir operaciones complejas
 precedence = (
-    ('left','MAS','MENOS'),
-    ('left','POR','DIVIDIDO'),
-    ('right','UMENOS'),
+    ('nonassoc', 'OR',),
+    ('nonassoc', 'XOR',),
+    ('nonassoc', 'AND'),
+    ('nonassoc', 'NOT'),
+    ('nonassoc', 'BOR',),
+    ('nonassoc', 'BXOR',),
+    ('nonassoc', 'BAND'),
+    ('nonassoc', 'BNOT'),
+    ('nonassoc', 'SHIFTI', 'SHIFTD'),
+    ('nonassoc', 'IGUALQ', 'NIGUALQ'),
+    ('nonassoc', 'MENORQ', 'MAYORQ','MENORIGUALQ','MAYORIGUALQ'),
+    ('nonassoc','MAS','MENOS'),
+    ('nonassoc','POR','DIVIDIDO', 'RESIDUO'),
+    ('nonassoc','UMENOS'),
     )
 
 # Definición de la gramática
@@ -203,21 +214,61 @@ def p_instruccion(t):
 
 def p_asignacion(t):
     'asignacion             : VAR IGUAL exp_numerica PTCOMA'
+    Instruccion
     t[0] = Asignacion(t[1], t[3])
 
 def p_exp_numerica_binaria(t):
     '''exp_numerica         : exp_numerica MAS exp_numerica
                             | exp_numerica MENOS exp_numerica
                             | exp_numerica POR exp_numerica
-                            | exp_numerica DIVIDIDO exp_numerica'''
+                            | exp_numerica DIVIDIDO exp_numerica
+                            | exp_numerica RESIDUO exp_numerica
+                            | exp_numerica AND exp_numerica
+                            | exp_numerica OR exp_numerica
+                            | exp_numerica XOR exp_numerica
+                            | exp_numerica BAND exp_numerica
+                            | exp_numerica BOR exp_numerica
+                            | exp_numerica BXOR exp_numerica
+                            | exp_numerica SHIFTI exp_numerica
+                            | exp_numerica SHIFTD exp_numerica
+                            | exp_numerica IGUALQ exp_numerica
+                            | exp_numerica NIGUALQ exp_numerica
+                            | exp_numerica MAYORQ exp_numerica
+                            | exp_numerica MENORQ exp_numerica
+                            | exp_numerica MAYORIGUALQ exp_numerica
+                            | exp_numerica MENORIGUALQ exp_numerica'''
     if t[2] == '+'  : t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MAS)
     elif t[2] == '-': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MENOS)
     elif t[2] == '*': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.POR)
     elif t[2] == '/': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.DIVIDIDO)
+    elif t[2] == '%': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.RESIDUO)
+    elif t[2] == '&&': t[0] = ExpresionBinariaLogica(t[1], t[3], OPERACION_LOGICA.AND)
+    elif t[2] == '||': t[0] = ExpresionBinariaLogica(t[1], t[3], OPERACION_LOGICA.OR)
+    elif t[2] == 'xor': t[0] = ExpresionBinariaLogica(t[1], t[3], OPERACION_LOGICA.XOR)
+    elif t[2] == '&': t[0] = ExpresionBinariaBit(t[1], t[3], OPERACION_BIT.BAND)
+    elif t[2] == '|': t[0] = ExpresionBinariaBit(t[1], t[3], OPERACION_BIT.BOR)
+    elif t[2] == '^': t[0] = ExpresionBinariaBit(t[1], t[3], OPERACION_BIT.BXOR)
+    elif t[2] == '<<': t[0] = ExpresionBinariaBit(t[1], t[3], OPERACION_BIT.SHIFTI)
+    elif t[2] == '>>': t[0] = ExpresionBinariaBit(t[1], t[3], OPERACION_BIT.SHIFTD)
+    elif t[2] == '==': t[0] = ExpresionBinariaRelacional(t[1], t[3], OPERACION_RELACIONAL.IGUAL)
+    elif t[2] == '!=': t[0] = ExpresionBinariaRelacional(t[1], t[3], OPERACION_RELACIONAL.DIFERENTE)
+    elif t[2] == '>=': t[0] = ExpresionBinariaRelacional(t[1], t[3], OPERACION_RELACIONAL.MAYORIGUAL_QUE)
+    elif t[2] == '<=': t[0] = ExpresionBinariaRelacional(t[1], t[3], OPERACION_RELACIONAL.MENORIGUAL_QUE)
+    elif t[2] == '>': t[0] = ExpresionBinariaRelacional(t[1], t[3], OPERACION_RELACIONAL.MAYOR_QUE)
+    elif t[2] == '<': t[0] = ExpresionBinariaRelacional(t[1], t[3], OPERACION_RELACIONAL.MENOR_QUE)
+    
 
 def p_exp_numerica_unaria(t):
-    'exp_numerica         : MENOS exp_numerica %prec UMENOS'
-    t[0] = ExpresionNegativo(t[2])
+    '''exp_numerica         : MENOS exp_numerica %prec UMENOS
+                            | NOT exp_numerica %prec UMENOS
+                            | BNOT exp_numerica %prec UMENOS'''
+    if t[1] == '-': t[0] = ExpresionNegativo(t[2])
+    elif t[1] == '!': t[0] = ExpresionNotLogica(t[2])
+    elif t[1] == '~': t[0] = ExpresionNotBit(t[2])
+    
+def p_exp_numerica_abs(t):
+    'exp_numerica           : ABS PARIZQ exp_numerica PARDER'
+    t[0] = ExpresionAbsoluto(t[3])
 
 def p_exp_numerica_valores(t):
     '''exp_numerica         : ENTERO
@@ -230,16 +281,19 @@ def p_exp_id(t):
 
 def p_exp_cadena(t):
     'exp_numerica           : CADENA'
-    t[0] = ExpresionDobleComilla(t[1])
-
-def p_etiqueta(t):
-    'etiqueta_instr         : ID DOSPUNTOS'
-    t[0] = t[1]
+    t[0] = ExpresionString(t[1])
 
 def p_if(t):
-    'if_instr               : IF goto_instr'
+    'if_instr               : IF PARIZQ condicion_instr PARDER goto_instr'
+    
+def p_condicion(t):
+    'condicion_instr        : exp_numerica'
 
-def p_etiqueta(t):
+#def p_etiqueta(t):
+#    'etiqueta_instr         : ID DOSPUNTOS'
+#    t[0] = t[1]
+
+def p_goto(t):
     'goto_instr             : GOTO ID PTCOMA'
     t[0] = t[1]
 
