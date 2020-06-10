@@ -24,66 +24,6 @@ class init(Nodo):
 
         return id
 
-class lista_cuerpo(Nodo):
-    def __init__(self, name):
-        self.name = name
-
-    def imprimir(ident):
-
-    def traducir(self):
-        global txt
-        id = incrementarContador()
-
-        return id
-
-class cuerpo(Nodo):
-    def __init__(self, name):
-        self.name = name
-
-    def imprimir(ident):
-
-    def traducir(self):
-        global txt
-        id = incrementarContador()
-
-        return id
-
-class lista_labels(Nodo):
-    def __init__(self, name):
-        self.name = name
-
-    def imprimir(ident):
-
-    def traducir(self):
-        global txt
-        id = incrementarContador()
-
-        return id
-
-class labels_label(Nodo):
-    def __init__(self, name):
-        self.name = name
-
-    def imprimir(ident):
-
-    def traducir(self):
-        global txt
-        id = incrementarContador()
-
-        return id
-
-class label(Nodo):
-    def __init__(self, name):
-        self.name = name
-
-    def imprimir(ident):
-
-    def traducir(self):
-        global txt
-        id = incrementarContador()
-
-        return id
-
 class lista_instrucciones(Nodo):
     def __init__(self, name):
         self.name = name
@@ -136,7 +76,7 @@ class asignacion_conversion(Nodo):
     def __init__(self, name):
         self.name = name
 
-    def imprimir(ident):
+    #def imprimir(ident):
 
     def traducir(self):
         global txt
@@ -157,6 +97,18 @@ class exp_numerica_binaria(Nodo):
         return id
 
 class exp_numerica_unaria(Nodo):
+    def __init__(self, name):
+        self.name = name
+
+    def imprimir(ident):
+
+    def traducir(self):
+        global txt
+        id = incrementarContador()
+
+        return id
+
+class exp_numerica_abs(nodo):
     def __init__(self, name):
         self.name = name
 
@@ -204,14 +156,38 @@ class exp_cadena(Nodo):
 
         return id
 
-class numerica(Nodo):
+class ifIns(nodo):
     def __init__(self, name):
         self.name = name
-
-    def imprimir(ident):
 
     def traducir(self):
         global txt
         id = incrementarContador()
+        return id
+    
+class condicion(nodo):
+    def __init__(self, name):
+        self.name = name
 
+    def traducir(self):
+        global txt
+        id = incrementarContador()
+        return id
+
+class etiqueta(nodo):
+    def __init__(self, name):
+        self.name = name
+
+    def traducir(self):
+        global txt
+        id = incrementarContador()
+        return id
+
+class goto(nodo):
+    def __init__(self, name):
+        self.name = name
+
+    def traducir(self):
+        global txt
+        id = incrementarContador()
         return id

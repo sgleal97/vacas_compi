@@ -10,7 +10,8 @@ reserved = {
     'float' : 'FLOAT',
     'char' : 'CHAR',
     'if' : 'IF',
-    'xor' : 'XOR'
+    'xor' : 'XOR',
+    'array' : 'ARRAY'
 }
 
 tokens  = [
@@ -168,35 +169,38 @@ precedence = (
 #from prueba import *
 from expresiones import *
 from instrucciones import *
+import pila as PILA
 
-
+ambito = PILA.Pila()
+ambito.push('main')
 
 def p_init(t):
-    'init                   : MAIN DOSPUNTOS cuerpo'
+    'init                   : MAIN DOSPUNTOS instrucciones'#instrucciones x cuerpo
     t[0] = t[3]
-
-def p_lista_cuerpo(t):
-    'cuerpo                 : instrucciones labels'
-    t[1]+=t[2]
-    t[0]=t[1]
-
-def p_cuerpo(t):
-    'cuerpo                 : labels'
-    t[0]=t[1]
-
-def p_lista_label(t):
-    'labels                 : labels label'
-    t[1]+=t[2]
-    t[0]=t[1]
-
-def p_label_instrucion(t):
-    'labels                 : label'
-    t[0]=t[1]
-
-def p_label(t):
-    'label                  : ID DOSPUNTOS instrucciones'
-    t[0]=t[3]
-
+    print("Ambito: ",ambito.inspeccionar())
+#
+#def p_lista_cuerpo(t):
+#    'cuerpo                 : instrucciones labels'
+#    t[1]+=t[2]
+#    t[0]=t[1]
+#
+#def p_cuerpo(t):
+#    'cuerpo                 : labels'
+#    t[0]=t[1]
+#
+#def p_lista_label(t):
+#    'labels                 : labels label'
+#    t[1]+=t[2]
+#    t[0]=t[1]
+#
+#def p_label_instrucion(t):
+#    'labels                 : label'
+#    t[0]=t[1]
+#
+#def p_label(t):
+#    'label                  : ID DOSPUNTOS instrucciones'
+#    t[0]=t[3]
+#
 def p_lista_instrucciones(t):
     'instrucciones          : instrucciones instruccion'
     t[1].append(t[2])
@@ -208,14 +212,34 @@ def p_instrucciones_instruccion(t):
 
 def p_instruccion(t):
     '''instruccion          : asignacion
+                            | array_instr
+                            | print_instr
+                            | unset_instr
                             | if_instr
+                            | etiqueta_instr
                             '''
     t[0] = t[1]
 
+def p_array_instr(t):
+    'array_instr            : VAR indices IGUAL exp_numerica PTCOMA'
+    t[0] = AsignacionPosicionArray(t[1], t[2], t[4], ambito.inspeccionar())
+
+def p_lista_indices(t):
+    'indices                : indices indice'
+    t[1].append(t[2])
+    t[0]=t[1]
+
+def p_indices_indice(t):
+    'indices                : indice'
+    t[0] = [t[1]]
+
+def p_indice(t):
+    'indice                 : CORIZQ exp_numerica CORDER'
+    t[0] = t[2]
+
 def p_asignacion(t):
     'asignacion             : VAR IGUAL exp_numerica PTCOMA'
-    Instruccion
-    t[0] = Asignacion(t[1], t[3])
+    if t[2] == '=': t[0] = Asignacion(t[1], t[3], ambito.inspeccionar())
 
 def p_exp_numerica_binaria(t):
     '''exp_numerica         : exp_numerica MAS exp_numerica
@@ -236,7 +260,8 @@ def p_exp_numerica_binaria(t):
                             | exp_numerica MAYORQ exp_numerica
                             | exp_numerica MENORQ exp_numerica
                             | exp_numerica MAYORIGUALQ exp_numerica
-                            | exp_numerica MENORIGUALQ exp_numerica'''
+                            | exp_numerica MENORIGUALQ exp_numerica
+                            | PARIZQ tipo_dato PARDER VAR'''
     if t[2] == '+'  : t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MAS)
     elif t[2] == '-': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MENOS)
     elif t[2] == '*': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.POR)
@@ -256,6 +281,9 @@ def p_exp_numerica_binaria(t):
     elif t[2] == '<=': t[0] = ExpresionBinariaRelacional(t[1], t[3], OPERACION_RELACIONAL.MENORIGUAL_QUE)
     elif t[2] == '>': t[0] = ExpresionBinariaRelacional(t[1], t[3], OPERACION_RELACIONAL.MAYOR_QUE)
     elif t[2] == '<': t[0] = ExpresionBinariaRelacional(t[1], t[3], OPERACION_RELACIONAL.MENOR_QUE)
+    elif t[2] == 'int': t[0] = ExpresionConversion(t[2], t[4])
+    elif t[2] == 'float': t[0] = ExpresionConversion(t[2], t[4])
+    elif t[2] == 'char': t[0] = ExpresionConversion(t[2], t[4])
     
 
 def p_exp_numerica_unaria(t):
@@ -276,12 +304,35 @@ def p_exp_numerica_valores(t):
     t[0] = ExpresionNumero(t[1])
 
 def p_exp_id(t):
-    'exp_numerica           : VAR'
-    t[0] = ExpresionIdentificador(t[1])
+    '''exp_numerica         : VAR
+                            | VAR indices'''
+    try:
+        t[0] = ExpresionArray(t[1], t[2])
+        print(* t[2])
+    except:
+        t[0] = ExpresionIdentificador(t[1])
 
 def p_exp_cadena(t):
     'exp_numerica           : CADENA'
     t[0] = ExpresionString(t[1])
+
+def p_exp_array(t):
+    'exp_numerica           : ARRAY PARIZQ PARDER'
+    t[0] = ExpresionDeclaracionArray("array()")
+
+def p_tipo_dato(t):
+    '''tipo_dato            : INT
+                            | FLOAT
+                            | CHAR'''
+    t[0]=t[1]
+
+def p_print(t):
+    'print_instr            : PRINT PARIZQ exp_numerica PARDER PTCOMA'
+    t[0] = Imprimir(t[3])
+
+def p_unse(t):
+    'unset_instr            : UNSET PARIZQ exp_numerica PARDER PTCOMA'
+    t[0] = Unset(t[3])
 
 def p_if(t):
     'if_instr               : IF PARIZQ condicion_instr PARDER goto_instr'
@@ -289,9 +340,15 @@ def p_if(t):
 def p_condicion(t):
     'condicion_instr        : exp_numerica'
 
-#def p_etiqueta(t):
-#    'etiqueta_instr         : ID DOSPUNTOS'
-#    t[0] = t[1]
+def p_etiqueta(t):
+    'etiqueta_instr         : ID DOSPUNTOS'
+    if ambito.size() == 1:
+        ambito.push(t[1])
+    else:
+        ambito.pop()
+        ambito.push(t[1])
+    print("Ambito: ",ambito.inspeccionar())
+    t[0] = t[1]
 
 def p_goto(t):
     'goto_instr             : GOTO ID PTCOMA'

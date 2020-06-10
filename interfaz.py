@@ -28,7 +28,7 @@ class Ui_MainWindow(object):
 
         self.tabWidget.setTabsClosable(True)
         self.tabWidget.tabCloseRequested.connect(self.closeTab)
-        
+
         self.tabWidget.setMovable(False)
         self.tabWidget.setTabBarAutoHide(False)
         self.tabWidget.setObjectName("tabWidget")
@@ -58,7 +58,7 @@ class Ui_MainWindow(object):
         self.btn_mas.setGeometry(QtCore.QRect(1070, 10, 21, 21))
         self.btn_mas.setObjectName("btn_mas")
         self.btn_mas.clicked.connect(self.newTab)
-        
+
         self.btn_menos = QtWidgets.QPushButton(self.centralwidget)
         self.btn_menos.setGeometry(QtCore.QRect(1100, 10, 21, 21))
         self.btn_menos.setObjectName("btn_menos")
@@ -78,6 +78,8 @@ class Ui_MainWindow(object):
         self.menuReportes.setObjectName("menuReportes")
         self.menuErrores = QtWidgets.QMenu(self.menuReportes)
         self.menuErrores.setObjectName("menuErrores")
+        self.menuAST = QtWidgets.QMenu(self.menuReportes)
+        self.menuAST.setObjectName("menuAST")
         self.menuEjecutar = QtWidgets.QMenu(self.menubar)
         self.menuEjecutar.setObjectName("menuEjecutar")
         self.menuAyuda_2 = QtWidgets.QMenu(self.menubar)
@@ -86,11 +88,11 @@ class Ui_MainWindow(object):
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
-
+        
         self.actionNuevo = QtWidgets.QAction(MainWindow)
         self.actionNuevo.setObjectName("actionNuevo")
         self.actionNuevo.triggered.connect(self.newTab)
-        
+
         self.actionAbrir = QtWidgets.QAction(MainWindow)
         self.actionAbrir.setObjectName("actionAbrir")
         self.actionAbrir.triggered.connect(self.openFile)
@@ -111,8 +113,10 @@ class Ui_MainWindow(object):
         self.actionAcerca_de.setObjectName("actionAcerca_de")
         self.actionTabla_de_simbolos = QtWidgets.QAction(MainWindow)
         self.actionTabla_de_simbolos.setObjectName("actionTabla_de_simbolos")
+
         self.actionAST = QtWidgets.QAction(MainWindow)
         self.actionAST.setObjectName("actionAST")
+
         self.actionReporte_gramatical = QtWidgets.QAction(MainWindow)
         self.actionReporte_gramatical.setObjectName("actionReporte_gramatical")
         self.actionLexicos = QtWidgets.QAction(MainWindow)
@@ -135,6 +139,10 @@ class Ui_MainWindow(object):
         self.actionAyuda_2.setObjectName("actionAyuda_2")
         self.actionAcerca_de_2 = QtWidgets.QAction(MainWindow)
         self.actionAcerca_de_2.setObjectName("actionAcerca_de_2")
+        self.actionAscendente = QtWidgets.QAction(MainWindow)
+        self.actionAscendente.setObjectName("actionAscendente")
+        self.actionDescendente = QtWidgets.QAction(MainWindow)
+        self.actionDescendente.setObjectName("actionDescendente")
         self.menuArchivo.addAction(self.actionNuevo)
         self.menuArchivo.addAction(self.actionAbrir)
         self.menuArchivo.addAction(self.actionGuardar)
@@ -151,9 +159,11 @@ class Ui_MainWindow(object):
         self.menuErrores.addAction(self.actionLexicos)
         self.menuErrores.addAction(self.actionSintacticos)
         self.menuErrores.addAction(self.actionSemanticos)
+        self.menuAST.addAction(self.actionAscendente)
+        self.menuAST.addAction(self.actionDescendente)
         self.menuReportes.addAction(self.menuErrores.menuAction())
         self.menuReportes.addAction(self.actionTabla_de_simbolos)
-        self.menuReportes.addAction(self.actionAST)
+        self.menuReportes.addAction(self.menuAST.menuAction())
         self.menuReportes.addAction(self.actionReporte_gramatical)
         self.menuEjecutar.addAction(self.actionCambiar_color_2)
         self.menuEjecutar.addAction(self.actionQuitar_numero_de_lineas_2)
@@ -218,6 +228,9 @@ class Ui_MainWindow(object):
         #print(texto)
         #instrucciones = parse(texto)
         analisisAsc = Main(texto)
+        archivoAsc = astAsc()
+        archivoTS = getTS()
+
     
     def openFile(self):                        
         dialog = QFileDialog()
@@ -242,9 +255,6 @@ class Ui_MainWindow(object):
             else:
                 pass
 
-    
-        
-
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
@@ -260,6 +270,7 @@ class Ui_MainWindow(object):
         self.menuAscendente.setTitle(_translate("MainWindow", "Ascendente"))
         self.menuReportes.setTitle(_translate("MainWindow", "Reportes"))
         self.menuErrores.setTitle(_translate("MainWindow", "Errores"))
+        self.menuAST.setTitle(_translate("MainWindow", "AST"))
         self.menuEjecutar.setTitle(_translate("MainWindow", "Opciones"))
         self.menuAyuda_2.setTitle(_translate("MainWindow", "Ayuda"))
         self.actionNuevo.setText(_translate("MainWindow", "Nuevo"))
@@ -272,7 +283,6 @@ class Ui_MainWindow(object):
         self.actionQuitar_numero_de_lineas.setText(_translate("MainWindow", "Quitar numero de lineas"))
         self.actionAcerca_de.setText(_translate("MainWindow", "Descendente"))
         self.actionTabla_de_simbolos.setText(_translate("MainWindow", "Tabla de simbolos"))
-        self.actionAST.setText(_translate("MainWindow", "AST"))
         self.actionReporte_gramatical.setText(_translate("MainWindow", "Reporte gramatical"))
         self.actionLexicos.setText(_translate("MainWindow", "Lexicos"))
         self.actionSintacticos.setText(_translate("MainWindow", "Sintacticos"))
@@ -284,6 +294,8 @@ class Ui_MainWindow(object):
         self.actionQuitar_numero_de_lineas_2.setText(_translate("MainWindow", "Quitar numero de lineas"))
         self.actionAyuda_2.setText(_translate("MainWindow", "Ayuda"))
         self.actionAcerca_de_2.setText(_translate("MainWindow", "Acerca de"))
+        self.actionAscendente.setText(_translate("MainWindow", "Ascendente"))
+        self.actionDescendente.setText(_translate("MainWindow", "Descendente"))
 
 
 if __name__ == "__main__":

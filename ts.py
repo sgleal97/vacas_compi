@@ -5,13 +5,16 @@ class TIPO_DATO(Enum):
     CADENA = 2
     BOOL = 3
     BIT = 4
+    ARRAY = 5
+    STRUCT = 6
 
 class Simbolo():
     #Clase que representa un simbolo en la TS
-    def __init__(self, id, tipo, valor):
+    def __init__(self, id, tipo, valor, ambito):#agrego ambito
         self.id = id
         self.tipo = tipo
         self.valor = valor
+        self.ambito = ambito#Agrego ambito
 
 class TablaDeSimbolos():
     #Tabla de simbolos
