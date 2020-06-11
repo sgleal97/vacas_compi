@@ -308,7 +308,6 @@ def p_exp_id(t):
                             | VAR indices'''
     try:
         t[0] = ExpresionArray(t[1], t[2])
-        print(* t[2])
     except:
         t[0] = ExpresionIdentificador(t[1])
 

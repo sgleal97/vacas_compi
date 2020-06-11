@@ -21,7 +21,6 @@ class Asignacion(Instruccion):
         grafo = ""
         grafo += "nodo"+str(id+1)+"[label=\""+str(nodo1)+"\"];\n"
         grafo += "p"+str(idP+1)+"[label=\"Asignacion\"];\n"
-        #grafo += "p"+str(idP)+"->p"+str(idP+1)+";\n"
         grafo += "p"+str(idP+1)+"->nodo"+str(id+1)+";\n"
         grafo += "nodo"+str(id+1)+"->nodo"+str(id)+";\n"
         auxId += 1
@@ -33,6 +32,7 @@ class AsignacionPosicionArray(Instruccion):
         self.id = id
         self.posicion = posicion
         self.expNumerica = expNumerica
+        self.ambito = ambito
 
     def graficar(self, id, idP, var, posicion):
         nodo1 = var
@@ -40,7 +40,6 @@ class AsignacionPosicionArray(Instruccion):
         grafo = ""
         grafo += "nodo"+str(id+1)+"[label=\""+str(nodo1)+str(posicion)+"\"];\n"
         grafo += "p"+str(idP+1)+"[label=\"ArrayAsignacion\"];\n"
-        #grafo += "p"+str(idP)+"->p"+str(idP+1)+";\n"
         grafo += "p"+str(idP+1)+"->nodo"+str(id+1)+";\n"
         grafo += "nodo"+str(id+1)+"->nodo"+str(id)+";\n"
         auxId += 1

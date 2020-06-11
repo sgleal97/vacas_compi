@@ -3,6 +3,17 @@ import ts as TS
 import interfaz as inter
 from expresiones import *
 from instrucciones import *
+import pila as PILA
+import copy
+import collections
+
+def update(dict1, dict2):
+    for key, value in dict2.items():
+        if value and isinstance(value, collections.Mapping):
+            dict1[key] = update(dict1.get(key, {}), value)
+        else:
+            dict1[key] = dict2[key]
+    return dict1
 
 def procesar_definicion(instr, ts) :
     simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NUMERO, 0, instr.ambito)      # inicializamos con 0 como valor por defecto
@@ -11,7 +22,6 @@ def procesar_definicion(instr, ts) :
 def procesar_asignacion(instr, ts) :
     val = resolver_expresion_aritmetica(instr.expNumerica, ts)
     if(val!=None):
-
         if(val=="cadena"):
             procesar_asignacion_cadena(instr, ts)
         elif(val=="logicabinaria"):
@@ -24,6 +34,11 @@ def procesar_asignacion(instr, ts) :
             procesar_asignacion_bit_unitaria(instr, ts)
         elif(val == "relacionalbinaria"):
             procesar_asignacion_relacional(instr, ts)
+        elif(val == "asignacionarray"):
+            '''procesar_asignacion_array(instr, ts)####ARREGLARLO'''
+            pass
+        elif(val == "declaracionarray"):
+            procesar_definicion_array(instr,ts)
         else:
             flag = ts.buscar(instr.id)
             simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NUMERO, val, instr.ambito)
@@ -34,6 +49,57 @@ def procesar_asignacion(instr, ts) :
                 ts.actualizar(simbolo)
     else:
         print("Error: No se puede declarar esta variable por tipo de dato")
+
+def procesar_definicion_array(instr,ts):
+    flag = ts.buscar(instr.id)
+    if flag == True:
+        diccionario = {}
+        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.ARRAY, diccionario, instr.ambito)
+        ts.agregar(simbolo)
+    else:
+        diccionario = {}
+        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.ARRAY, diccionario, instr.ambito)
+        ts.agregar(simbolo)
+
+def procesar_asignacion_array(instr, ts):
+    indices = PILA.Pila()
+    flag = ts.buscar(instr.id)
+    indice = None
+    if flag == True:
+        valorId = ts.obtener(instr.id).valor
+        valorNew = resolver_expresion_aritmetica(instr.expNumerica, ts)
+        ########## GET INDICES
+        for expArray in instr.posicion:
+            if isinstance(expArray, ExpresionArray):
+                print("Expresion Array Indice")
+            elif isinstance(expArray, ExpresionNumerica):
+                val = resolver_expresion_aritmetica(expArray, ts)
+                if val == "cadena":
+                    val = resolver_cadena(expArray, ts)
+                    indices.push(val)
+                else:
+                    indices.push(val)
+
+        ########## GET VALOR
+        if valorNew == "asignacionarray":
+            print("Expresion Array Valor")
+        elif valorNew == "cadena":
+            valorNew = resolver_cadena(instr.expNumerica, ts)
+
+        ##################### DICCIONARIO = VALOR
+        valorAux = indices.pop()
+        Diccionario = {valorAux: valorNew}
+        while indices.estaVacia() == False:
+            valorAux = indices.pop()
+            auxDiccionario = {valorAux:Diccionario}
+            Diccionario = auxDiccionario
+        valorFinal = update(copy.deepcopy(valorId), Diccionario)
+        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.STRUCT, valorFinal, instr.ambito)
+        ts.actualizar(simbolo)
+    else:
+        procesar_definicion_array(instr, ts)
+        procesar_asignacion_array(instr, ts)
+#def obtenerDiccionarioIndice(posicion, ts):
 
 def procesar_definicion_cadena(instr, ts):
     simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CADENA, "", instr.ambito)
@@ -125,7 +191,6 @@ def resolver_cadena(expCad, ts) :
     #    exp2 = resolver_cadena(expCad.exp2, ts)
     #    return exp1 + exp2
     if isinstance(expCad, ExpresionString):
-        print (expCad.val," <-AQUI ESTA EL VALOR")
         return expCad.val
     #elif isinstance(expCad, ExpresionCadenaNumerico) :
     #    return str(resolver_expresion_aritmetica(expCad.exp, ts))
@@ -277,6 +342,10 @@ def resolver_expresion_aritmetica(expNum, ts) :
         return "bitbinaria"
     elif isinstance(expNum, ExpresionBinariaRelacional):
         return "relacionalbinaria"
+    elif isinstance(expNum, ExpresionArray):
+        return "asignacionarray"
+    elif isinstance(expNum, ExpresionDeclaracionArray):
+        return "declaracionarray"
 
 def graficar_expresion_aritmetica(expNum, ts) :
     global id
@@ -347,7 +416,6 @@ def graficar_expresion_aritmetica(expNum, ts) :
         archivoDot += expNum.graficar(id, expNum.id, expNum.tipo)
         id += 1
     elif isinstance(expNum, ExpresionArray):
-        print("Expresion Array")
         lista = []
         for expArray in expNum.indices:
             if isinstance(expArray, ExpresionNumero):
@@ -389,11 +457,9 @@ def procesar_instrucciones(instrucciones, ts) :
             archivoDot+=instr.graficar(id, idP, instr.id)
             id+=1
             idP += 1
-            #archivoDot += "nodo"+str(id+1)+"[label=\"Asignacion\"];\n"
-            #archivoDot += "nodo"+str(id+1)+"->nodo"+str(id)+";\n"
-            #id+=1
         elif isinstance(instr, AsignacionPosicionArray):
             print("Asignacion Array")
+            procesar_asignacion_array(instr, ts)
             graficar_expresion_aritmetica(instr.expNumerica, ts)
             txt = getIndiceArray(instr.posicion, ts)
             archivoDot += instr.graficar(id, idP, instr.id, txt)
