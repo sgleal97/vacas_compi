@@ -35,8 +35,7 @@ def procesar_asignacion(instr, ts) :
         elif(val == "relacionalbinaria"):
             procesar_asignacion_relacional(instr, ts)
         elif(val == "asignacionarray"):
-            '''procesar_asignacion_array(instr, ts)####ARREGLARLO'''
-            pass
+            procesar_indice_valor(instr,ts)
         elif(val == "declaracionarray"):
             procesar_definicion_array(instr,ts)
         else:
@@ -72,6 +71,12 @@ def procesar_asignacion_array(instr, ts):
         for expArray in instr.posicion:
             if isinstance(expArray, ExpresionArray):
                 print("Expresion Array Indice")
+                val = resolver_indice_valor(instr.expNumerica, ts)
+                if(val != None):
+                    indice.push(val)
+                else: 
+                    print("ERROR: Array o Struct no exist")
+                    return
             elif isinstance(expArray, ExpresionNumerica):
                 val = resolver_expresion_aritmetica(expArray, ts)
                 if val == "cadena":
@@ -81,9 +86,14 @@ def procesar_asignacion_array(instr, ts):
                     indices.push(val)
 
         ########## GET VALOR
-        if valorNew == "asignacionarray":
+        if (valorNew == "asignacionarray"):
             print("Expresion Array Valor")
-        elif valorNew == "cadena":
+            val = resolver_indice_valor(instr.expNumerica, ts)
+            if(val != None):
+                valorNew = val
+            else:
+                print("ERROR: Array o Struct no exist")
+        elif (valorNew == "cadena"):
             valorNew = resolver_cadena(instr.expNumerica, ts)
 
         ##################### DICCIONARIO = VALOR
@@ -99,7 +109,22 @@ def procesar_asignacion_array(instr, ts):
     else:
         procesar_definicion_array(instr, ts)
         procesar_asignacion_array(instr, ts)
-#def obtenerDiccionarioIndice(posicion, ts):
+
+def procesar_indice_valor(instr, ts):
+    flag = ts.buscar(instr.id)
+    if flag == True:
+        val = resolver_indice_valor(instr.expNumerica, ts)
+        try:
+            valorFinal = int(val)
+            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NUMERO, valorFinal, instr.ambito)
+        except:
+            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CADENA, val, instr.ambito)
+        ts.actualizar(simbolo)
+    else:
+        procesar_definicion(instr, ts)
+        procesar_indice_valor(instr, ts)
+
+
 
 def procesar_definicion_cadena(instr, ts):
     simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CADENA, "", instr.ambito)
@@ -184,6 +209,36 @@ def procesar_asignacion_relacional(instr, ts):
     else:
         procesar_definicion_relacional(instr,ts)
         ts.agregar(simbolo)
+
+def resolver_indice_valor(expArray, ts):
+    flag = ts.buscar(expArray.id)
+    if flag == True:
+        valorId = ts.obtener(expArray.id).valor
+        cola = PILA.Pila()
+        for expArreglo in expArray.indices:
+            val = resolver_expresion_aritmetica(expArreglo, ts)
+            if val == "cadena":
+                val = resolver_cadena(expArreglo, ts)
+                cola.agregar(val)
+            elif val == "declaracionarray":
+                val = resolver_indice_valor(expArreglo, ts)
+                if val != None:
+                    cola.agregar(val)
+                else:
+                    print("ERROR: Array o Struct no exist")
+            else:
+                cola.agregar(val)
+        valorAux = valorId.get(cola.pop())
+        try:
+            while cola.estaVacia() == False:
+                valorAux = valorAux.get(cola.pop())
+        except:
+            print("Error: estos indices no existen")
+            valorAux = None
+        return valorAux
+    else:
+        print("Error: Este arreglo o struct no existe")
+    
 
 def resolver_cadena(expCad, ts) :
     #if isinstance(expCad, ExpresionConcatenar) :

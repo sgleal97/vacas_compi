@@ -11,14 +11,66 @@ label=<
 </tr>
 <tr>
 <td>$t1</td>
-<td>{0: {'nombre': 'Daniel', 'direccion': 'Zona 4', 'telefono': {0: 56457854, 1: 48457585}}, 1: {'nombre': 'Hugo', 'direccion': 'Zona 8', 'telefono': {0: 24659865}}, 2: {'nombre': 'Manuel', 'direccion': 'Zona 11', 'telefono': {0: 47859685, 1: 54659865}}}</td>
+<td>{0: {'nombre': 'Daniel'}}</td>
 <td>6</td>
 <td>main</td>
 </tr>
 <tr>
 <td>$t2</td>
-<td>{0: {1: 'asignacionarray', 2: {0: {'nombre': 'Daniel', 'direccion': 'Zona 4', 'telefono': {0: 56457854, 1: 48457585}}, 1: {'nombre': 'Hugo', 'direccion': 'Zona 8', 'telefono': {0: 24659865}}, 2: {'nombre': 'Manuel', 'direccion': 'Zona 11', 'telefono': {0: 47859685, 1: 54659865}}}}}</td>
+<td>{1: 'asignacionarray'}</td>
 <td>6</td>
+<td>main</td>
+</tr>
+</table>
+>];
+}
+digraph H {
+aHtmlTable [
+shape=plaintext
+label=<
+<table border='1' cellborder='1'>
+<tr>
+<td>ID</td>
+<td>VALOR</td>
+<td>TIPO</td>
+<td>AMBITO</td>
+</tr>
+<tr>
+<td>$t1</td>
+<td>{0: {'nombre': 'Daniel'}}</td>
+<td>6</td>
+<td>main</td>
+</tr>
+<tr>
+<td>$t2</td>
+<td>{1: 'Daniel'}</td>
+<td>6</td>
+<td>main</td>
+</tr>
+</table>
+>];
+}
+digraph H {
+aHtmlTable [
+shape=plaintext
+label=<
+<table border='1' cellborder='1'>
+<tr>
+<td>ID</td>
+<td>VALOR</td>
+<td>TIPO</td>
+<td>AMBITO</td>
+</tr>
+<tr>
+<td>$t1</td>
+<td>{0: {'nombre': 'Daniel'}}</td>
+<td>6</td>
+<td>main</td>
+</tr>
+<tr>
+<td>$t2</td>
+<td>Daniel</td>
+<td>2</td>
 <td>main</td>
 </tr>
 </table>

@@ -16,3 +16,6 @@ class Pila:
 
      def size(self):
          return len(self.items)
+
+     def agregar(self, item):
+         self.items.insert(0,item)
