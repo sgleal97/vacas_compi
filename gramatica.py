@@ -217,6 +217,7 @@ def p_instruccion(t):
                             | unset_instr
                             | if_instr
                             | etiqueta_instr
+                            | goto_instr
                             '''
     t[0] = t[1]
 
@@ -346,8 +347,7 @@ def p_etiqueta(t):
     else:
         ambito.pop()
         ambito.push(t[1])
-    print("Ambito: ",ambito.inspeccionar())
-    t[0] = t[1]
+    t[0] = Etiqueta(t[1])
 
 def p_goto(t):
     'goto_instr             : GOTO ID PTCOMA'

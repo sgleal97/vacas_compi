@@ -520,6 +520,8 @@ def procesar_instrucciones(instrucciones, ts) :
             archivoDot += instr.graficar(id, idP, instr.id, txt)
             id+=1
             idP+=1
+        elif isinstance(instr, Etiqueta):
+            print("Etiqueta")
         #elif isinstance(instr, Mientras) : procesar_mientras(instr, ts)
         #elif isinstance(instr, If) : procesar_if(instr, ts)
         #elif isinstance(instr, IfElse) : procesar_if_else(instr, ts)

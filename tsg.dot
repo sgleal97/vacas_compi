@@ -11,67 +11,15 @@ label=<
 </tr>
 <tr>
 <td>$t1</td>
-<td>{0: {'nombre': 'Daniel'}}</td>
+<td>{0: {'nombre': 'Hugo', 'direccion': 'zona 4', 'telefono': {0: 45784565}}, 1: {'nombre': 'Peter Parker', 'direccion': 'Petapolis', 'telefono': {0: 45124125}}}</td>
 <td>6</td>
 <td>main</td>
 </tr>
 <tr>
 <td>$t2</td>
-<td>{1: 'asignacionarray'}</td>
-<td>6</td>
-<td>main</td>
-</tr>
-</table>
->];
-}
-digraph H {
-aHtmlTable [
-shape=plaintext
-label=<
-<table border='1' cellborder='1'>
-<tr>
-<td>ID</td>
-<td>VALOR</td>
-<td>TIPO</td>
-<td>AMBITO</td>
-</tr>
-<tr>
-<td>$t1</td>
-<td>{0: {'nombre': 'Daniel'}}</td>
-<td>6</td>
-<td>main</td>
-</tr>
-<tr>
-<td>$t2</td>
-<td>{1: 'Daniel'}</td>
-<td>6</td>
-<td>main</td>
-</tr>
-</table>
->];
-}
-digraph H {
-aHtmlTable [
-shape=plaintext
-label=<
-<table border='1' cellborder='1'>
-<tr>
-<td>ID</td>
-<td>VALOR</td>
-<td>TIPO</td>
-<td>AMBITO</td>
-</tr>
-<tr>
-<td>$t1</td>
-<td>{0: {'nombre': 'Daniel'}}</td>
-<td>6</td>
-<td>main</td>
-</tr>
-<tr>
-<td>$t2</td>
-<td>Daniel</td>
-<td>2</td>
-<td>main</td>
+<td>1</td>
+<td>1</td>
+<td>while0</td>
 </tr>
 </table>
 >];
