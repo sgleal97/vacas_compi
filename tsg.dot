@@ -11,15 +11,9 @@ label=<
 </tr>
 <tr>
 <td>$t1</td>
-<td>{0: {'nombre': 'Hugo', 'direccion': 'zona 4', 'telefono': {0: 45784565}}, 1: {'nombre': 'Peter Parker', 'direccion': 'Petapolis', 'telefono': {0: 45124125}}}</td>
+<td>{1: {'nombre': 'Peter Parker', 'direccion': 'Petapolis', 'telefono': {0: 45124125}}}</td>
 <td>6</td>
-<td>main</td>
-</tr>
-<tr>
-<td>$t2</td>
-<td>1</td>
-<td>1</td>
-<td>while0</td>
+<td>linea4</td>
 </tr>
 </table>
 >];

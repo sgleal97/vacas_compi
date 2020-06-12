@@ -351,7 +351,7 @@ def p_etiqueta(t):
 
 def p_goto(t):
     'goto_instr             : GOTO ID PTCOMA'
-    t[0] = t[1]
+    t[0] = Goto(t[2])
 
 def p_error(t):
     print("Error sintáctico en '%s'" % t.value)

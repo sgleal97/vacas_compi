@@ -210,6 +210,22 @@ def procesar_asignacion_relacional(instr, ts):
         procesar_definicion_relacional(instr,ts)
         ts.agregar(simbolo)
 
+def procesar_goto(instr, instrucciones, ts):
+    indice = 0
+    flag = False
+    while indice < len(instrucciones):
+        instrGoto = instrucciones[indice]
+        if isinstance(instrGoto, Etiqueta):
+            if instrGoto.id == instr.id:
+                procesar_instrucciones(instrucciones, indice, ts)
+                flag = True
+                break
+        indice += 1
+    if flag == False:
+        print("Error: la etiequeta ",str(instr.id), " no existe")
+
+#def resolver_goto
+
 def resolver_indice_valor(expArray, ts):
     flag = ts.buscar(expArray.id)
     if flag == True:
@@ -498,12 +514,14 @@ def getIndiceArray(expNum, ts):
             txt += "]"
     return txt
 
-def procesar_instrucciones(instrucciones, ts) :
+def procesar_instrucciones(instrucciones, indice, ts) :
     ## lista de instrucciones recolectadas
     global archivoDot
     global id
     global idP
-    for instr in instrucciones:
+    #for instr in instrucciones:
+    while indice < len(instrucciones):
+        instr = instrucciones[indice]
         #if isinstance(instr, Imprimir) : procesar_imprimir(instr, ts)
         #elif isinstance(instr, Definicion) : procesar_definicion(instr, ts)
         if isinstance(instr, Asignacion):
@@ -522,10 +540,15 @@ def procesar_instrucciones(instrucciones, ts) :
             idP+=1
         elif isinstance(instr, Etiqueta):
             print("Etiqueta")
+        elif isinstance(instr, Goto):
+            print("GOTO")
+            procesar_goto(instr, instrucciones, ts)
+            break
         #elif isinstance(instr, Mientras) : procesar_mientras(instr, ts)
         #elif isinstance(instr, If) : procesar_if(instr, ts)
         #elif isinstance(instr, IfElse) : procesar_if_else(instr, ts)
         else : print('Error: instrucción no válida')
+        indice += 1
 
 def graficar_expresion_binaria(expG,ts, operador):
     global id
@@ -604,7 +627,7 @@ def Main(input):
     instrucciones = g.parse(input)
     ts_global = TS.TablaDeSimbolos()
     archivoDot += "Digraph{\n p0[label=\"Main\"];\n"
-    procesar_instrucciones(instrucciones,ts_global)
+    procesar_instrucciones(instrucciones, 0, ts_global)
     contadorPadre()
     archivoDot+="}"
     crearTS(ts_global)
