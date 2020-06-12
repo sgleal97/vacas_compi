@@ -7,14 +7,19 @@
 # WARNING! All changes made in this file will be lost!
 
 import sys
+import subprocess
 
 #from gramatica import *
 from asc import *
+import pila as PILA
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.Qt import QDir, QFileDialog
 
 contador = 1
+
+def cmd(commando):
+    subprocess.run(commando, shell=True)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -119,10 +124,16 @@ class Ui_MainWindow(object):
 
         self.actionReporte_gramatical = QtWidgets.QAction(MainWindow)
         self.actionReporte_gramatical.setObjectName("actionReporte_gramatical")
+
         self.actionLexicos = QtWidgets.QAction(MainWindow)
         self.actionLexicos.setObjectName("actionLexicos")
+        self.actionLexicos.triggered.connect(self.reporteErrorLexico)
+
+
         self.actionSintacticos = QtWidgets.QAction(MainWindow)
         self.actionSintacticos.setObjectName("actionSintacticos")
+        self.actionSintacticos.triggered.connect(self.reporteErrorSintactico)
+
         self.actionSemanticos = QtWidgets.QAction(MainWindow)
         self.actionSemanticos.setObjectName("actionSemanticos")
         self.actionPegar = QtWidgets.QAction(MainWindow)
@@ -230,8 +241,12 @@ class Ui_MainWindow(object):
         analisisAsc = Main(texto)
         archivoAsc = astAsc()
         archivoTS = getTS()
-
     
+    def setTextConsola(self, valor):
+        tab = self.tabWidget.widget(self.tabWidget.currentIndex())
+        items = tab.children()
+        items[4].setPlainText(valor)
+
     def openFile(self):                        
         dialog = QFileDialog()
         dialog.setFileMode(QFileDialog.AnyFile)
@@ -254,6 +269,70 @@ class Ui_MainWindow(object):
                     f.close
             else:
                 pass
+
+    def reporteErrorLexico(self):
+        lexicos = PILA.Pila()
+        lexicos = g.errorLexicos
+        lex = ""
+        lex += "digraph H {\n"
+        lex += "aHtmlTable [\n"
+        lex += "shape=plaintext\n"
+        lex += "label=<\n"
+        lex += "<table border='1' cellborder='1'>\n"
+        lex += "<tr>\n"
+        lex += "<td>VALOR</td>\n"
+        lex += "<td>TIPO</td>\n"
+        lex += "<td>FILA</td>\n"
+        lex += "<td>COLUMNA</td>\n"
+        lex += "</tr>\n"
+        while lexicos.estaVacia() == False:
+            Diccionario = lexicos.pop()
+            lex+="<tr>\n"
+            lex += "<td>"+ str(Diccionario['Error']) + "</td>\n"
+            lex += "<td>"+ str(Diccionario['Tipo']) + "</td>\n"
+            lex += "<td>"+ str(Diccionario['Fila']) + "</td>\n"
+            lex += "<td>"+ str(Diccionario['Columna']) + "</td>\n"
+            lex += "</tr>\n"
+        lex += "</table>\n"
+        lex += ">];\n"
+        lex += "}\n"
+        tab = self.tabWidget.widget(self.tabWidget.currentIndex())
+        items = tab.children()
+        items[4].setPlainText("***********Se genero el reporte de errores lexicos***************")
+        f = open("lexicos.dot", "w")
+        f.write(lex)
+        f.close()
+        cmd("dot -Tpng lexicos.dot -o lexicos.png")
+    
+    def reporteErrorSintactico(self):
+        sintactivos = PILA.Pila()
+        sintactivos = g.erroresSintacticos
+        lex = " "
+        lex += "digraph H {\n"
+        lex += "aHtmlTable [\n"
+        lex += "shape=plaintext\n"
+        lex += "label=<\n"
+        lex += "<table border='1' cellborder='1'>\n"
+        lex += "<tr>\n"
+        lex += "<td>VALOR</td>\n"
+        lex += "<td>TIPO</td>\n"
+        lex += "<td>FILA</td>\n"
+        lex += "<td>COLUMNA</td>\n"
+        lex += "</tr>\n"
+        while sintactivos.estaVacia() == False:
+            Diccionario = sintactivos.pop()
+            lex+="<tr>\n"
+            lex += "<td>"+ str(Diccionario['Error']) + "</td>\n"
+            lex += "<td>"+ str(Diccionario['Tipo']) + "</td>\n"
+            lex += "<td>"+ str(Diccionario['Fila']) + "</td>\n"
+            lex += "<td>"+ str(Diccionario['Columna']) + "</td>\n"
+            lex += "</tr>\n"
+        lex += "</table>\n"
+        lex += ">];\n"
+        lex += "}\n"
+        tab = self.tabWidget.widget(self.tabWidget.currentIndex())
+        items = tab.children()
+        items[4].setPlainText(lex)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

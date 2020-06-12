@@ -1,6 +1,6 @@
 import gramatica as g
 import ts as TS
-import interfaz as inter
+from interfaz import *
 from expresiones import *
 from instrucciones import *
 import pila as PILA
@@ -224,7 +224,43 @@ def procesar_goto(instr, instrucciones, ts):
     if flag == False:
         print("Error: la etiequeta ",str(instr.id), " no existe")
 
-#def resolver_goto
+def procesar_imprimir(expPrint, ts):
+    val = resolver_expresion_aritmetica(expPrint, ts)
+    if val == "cadena":
+        val = resolver_cadena(expPrint, ts)
+    elif val == "asignacionarray":
+        val = resolver_indice_valor(expPrint, ts)
+    print(">",val)
+
+def procesar_if(expIf, ts):
+    print("IF:", str(expIf))
+    val = resolver_expresion_aritmetica(expIf.expLogica, ts)
+    if(val!=None):
+        if(val=="cadena"):
+            val = resolver_cadena(expIf.expLogica, ts)
+        elif(val=="logicabinaria"):
+            resolver_expresion_binaria_logica(expIf.expLogica,ts)
+        elif(val=="logicaunitaria"):
+            val = resolver_expresion_unitaria_logica(expIf.expLogica,ts)
+        elif(val == "bitbinaria"):
+            val = resolver_expresion_binaria_bit(expIf.expLogica,ts)
+        elif(val == "bitunitaria"):
+            val = resolver_expresion_unitaria_bit(expIf.expLogica, ts)
+        elif(val == "relacionalbinaria"):
+            val = resolver_expresion_binaria_relacional(expIf.expLogica, ts)
+        elif(val == "asignacionarray"):
+            val = resolver_indice_valor(expIf.expLogica, ts)
+        elif(val == "declaracionarray"):
+            val = resolver_indice_valor(expIf.expLogica, ts)
+        if val == 0:
+             return 0
+        elif val == 1:
+            return 1
+        else:
+            return None
+    else:
+        print("Error: Condicional incorrecta ",str(val))
+
 
 def resolver_indice_valor(expArray, ts):
     flag = ts.buscar(expArray.id)
@@ -522,9 +558,11 @@ def procesar_instrucciones(instrucciones, indice, ts) :
     #for instr in instrucciones:
     while indice < len(instrucciones):
         instr = instrucciones[indice]
-        #if isinstance(instr, Imprimir) : procesar_imprimir(instr, ts)
+        if isinstance(instr, Imprimir) : 
+            procesar_imprimir(instr.exp, ts)
+            print("IMPRIMIR", str(instr.exp))
         #elif isinstance(instr, Definicion) : procesar_definicion(instr, ts)
-        if isinstance(instr, Asignacion):
+        elif isinstance(instr, Asignacion):
             procesar_asignacion(instr, ts)
             graficar_expresion_aritmetica(instr.expNumerica, ts)
             archivoDot+=instr.graficar(id, idP, instr.id)
@@ -541,11 +579,14 @@ def procesar_instrucciones(instrucciones, indice, ts) :
         elif isinstance(instr, Etiqueta):
             print("Etiqueta")
         elif isinstance(instr, Goto):
-            print("GOTO")
             procesar_goto(instr, instrucciones, ts)
             break
         #elif isinstance(instr, Mientras) : procesar_mientras(instr, ts)
-        #elif isinstance(instr, If) : procesar_if(instr, ts)
+        elif isinstance(instr, If) :
+            condicion = procesar_if(instr, ts)
+            if condicion == 1:
+                procesar_goto(instr.id, instrucciones, ts)
+                break
         #elif isinstance(instr, IfElse) : procesar_if_else(instr, ts)
         else : print('Error: instrucción no válida')
         indice += 1

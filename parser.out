@@ -59,10 +59,9 @@ Rule 47    tipo_dato -> FLOAT
 Rule 48    tipo_dato -> CHAR
 Rule 49    print_instr -> PRINT PARIZQ exp_numerica PARDER PTCOMA
 Rule 50    unset_instr -> UNSET PARIZQ exp_numerica PARDER PTCOMA
-Rule 51    if_instr -> IF PARIZQ condicion_instr PARDER goto_instr
-Rule 52    condicion_instr -> exp_numerica
-Rule 53    etiqueta_instr -> ID DOSPUNTOS
-Rule 54    goto_instr -> GOTO ID PTCOMA
+Rule 51    if_instr -> IF PARIZQ exp_numerica PARDER goto_instr
+Rule 52    etiqueta_instr -> ID DOSPUNTOS
+Rule 53    goto_instr -> GOTO ID PTCOMA
 
 Terminals, with rules where they appear
 
@@ -79,12 +78,12 @@ CORDER               : 14
 CORIZQ               : 14
 DECIMAL              : 41
 DIVIDIDO             : 19
-DOSPUNTOS            : 1 53
+DOSPUNTOS            : 1 52
 ENTERO               : 40
 EXIT                 : 
 FLOAT                : 47
-GOTO                 : 54
-ID                   : 53 54
+GOTO                 : 53
+ID                   : 52 53
 IF                   : 51
 IGUAL                : 11 15
 IGUALQ               : 29
@@ -103,7 +102,7 @@ PARDER               : 35 39 45 49 50 51
 PARIZQ               : 35 39 45 49 50 51
 POR                  : 18
 PRINT                : 49
-PTCOMA               : 11 15 49 50 54
+PTCOMA               : 11 15 49 50 53
 READ                 : 
 RESIDUO              : 20
 REVALUAR             : 
@@ -118,9 +117,8 @@ Nonterminals, with rules where they appear
 
 array_instr          : 5
 asignacion           : 4
-condicion_instr      : 51
 etiqueta_instr       : 9
-exp_numerica         : 11 14 15 16 16 17 17 18 18 19 19 20 20 21 21 22 22 23 23 24 24 25 25 26 26 27 27 28 28 29 29 30 30 31 31 32 32 33 33 34 34 36 37 38 39 49 50 52
+exp_numerica         : 11 14 15 16 16 17 17 18 18 19 19 20 20 21 21 22 22 23 23 24 24 25 25 26 26 27 27 28 28 29 29 30 30 31 31 32 32 33 33 34 34 36 37 38 39 49 50 51
 goto_instr           : 10 51
 if_instr             : 8
 indice               : 12 13
@@ -172,9 +170,9 @@ state 3
     (11) array_instr -> . VAR indices IGUAL exp_numerica PTCOMA
     (49) print_instr -> . PRINT PARIZQ exp_numerica PARDER PTCOMA
     (50) unset_instr -> . UNSET PARIZQ exp_numerica PARDER PTCOMA
-    (51) if_instr -> . IF PARIZQ condicion_instr PARDER goto_instr
-    (53) etiqueta_instr -> . ID DOSPUNTOS
-    (54) goto_instr -> . GOTO ID PTCOMA
+    (51) if_instr -> . IF PARIZQ exp_numerica PARDER goto_instr
+    (52) etiqueta_instr -> . ID DOSPUNTOS
+    (53) goto_instr -> . GOTO ID PTCOMA
 
     VAR             shift and go to state 13
     PRINT           shift and go to state 14
@@ -208,9 +206,9 @@ state 4
     (11) array_instr -> . VAR indices IGUAL exp_numerica PTCOMA
     (49) print_instr -> . PRINT PARIZQ exp_numerica PARDER PTCOMA
     (50) unset_instr -> . UNSET PARIZQ exp_numerica PARDER PTCOMA
-    (51) if_instr -> . IF PARIZQ condicion_instr PARDER goto_instr
-    (53) etiqueta_instr -> . ID DOSPUNTOS
-    (54) goto_instr -> . GOTO ID PTCOMA
+    (51) if_instr -> . IF PARIZQ exp_numerica PARDER goto_instr
+    (52) etiqueta_instr -> . ID DOSPUNTOS
+    (53) goto_instr -> . GOTO ID PTCOMA
 
     $end            reduce using rule 1 (init -> MAIN DOSPUNTOS instrucciones .)
     VAR             shift and go to state 13
@@ -363,21 +361,21 @@ state 15
 
 state 16
 
-    (51) if_instr -> IF . PARIZQ condicion_instr PARDER goto_instr
+    (51) if_instr -> IF . PARIZQ exp_numerica PARDER goto_instr
 
     PARIZQ          shift and go to state 26
 
 
 state 17
 
-    (53) etiqueta_instr -> ID . DOSPUNTOS
+    (52) etiqueta_instr -> ID . DOSPUNTOS
 
     DOSPUNTOS       shift and go to state 27
 
 
 state 18
 
-    (54) goto_instr -> GOTO . ID PTCOMA
+    (53) goto_instr -> GOTO . ID PTCOMA
 
     ID              shift and go to state 28
 
@@ -626,8 +624,7 @@ state 25
 
 state 26
 
-    (51) if_instr -> IF PARIZQ . condicion_instr PARDER goto_instr
-    (52) condicion_instr -> . exp_numerica
+    (51) if_instr -> IF PARIZQ . exp_numerica PARDER goto_instr
     (16) exp_numerica -> . exp_numerica MAS exp_numerica
     (17) exp_numerica -> . exp_numerica MENOS exp_numerica
     (18) exp_numerica -> . exp_numerica POR exp_numerica
@@ -670,27 +667,26 @@ state 26
     CADENA          shift and go to state 38
     ARRAY           shift and go to state 39
 
-    condicion_instr                shift and go to state 45
-    exp_numerica                   shift and go to state 46
+    exp_numerica                   shift and go to state 45
 
 state 27
 
-    (53) etiqueta_instr -> ID DOSPUNTOS .
+    (52) etiqueta_instr -> ID DOSPUNTOS .
 
-    VAR             reduce using rule 53 (etiqueta_instr -> ID DOSPUNTOS .)
-    PRINT           reduce using rule 53 (etiqueta_instr -> ID DOSPUNTOS .)
-    UNSET           reduce using rule 53 (etiqueta_instr -> ID DOSPUNTOS .)
-    IF              reduce using rule 53 (etiqueta_instr -> ID DOSPUNTOS .)
-    ID              reduce using rule 53 (etiqueta_instr -> ID DOSPUNTOS .)
-    GOTO            reduce using rule 53 (etiqueta_instr -> ID DOSPUNTOS .)
-    $end            reduce using rule 53 (etiqueta_instr -> ID DOSPUNTOS .)
+    VAR             reduce using rule 52 (etiqueta_instr -> ID DOSPUNTOS .)
+    PRINT           reduce using rule 52 (etiqueta_instr -> ID DOSPUNTOS .)
+    UNSET           reduce using rule 52 (etiqueta_instr -> ID DOSPUNTOS .)
+    IF              reduce using rule 52 (etiqueta_instr -> ID DOSPUNTOS .)
+    ID              reduce using rule 52 (etiqueta_instr -> ID DOSPUNTOS .)
+    GOTO            reduce using rule 52 (etiqueta_instr -> ID DOSPUNTOS .)
+    $end            reduce using rule 52 (etiqueta_instr -> ID DOSPUNTOS .)
 
 
 state 28
 
-    (54) goto_instr -> GOTO ID . PTCOMA
+    (53) goto_instr -> GOTO ID . PTCOMA
 
-    PTCOMA          shift and go to state 47
+    PTCOMA          shift and go to state 46
 
 
 state 29
@@ -725,7 +721,7 @@ state 29
     PARDER          reduce using rule 42 (exp_numerica -> VAR .)
     CORIZQ          shift and go to state 23
 
-    indices                        shift and go to state 48
+    indices                        shift and go to state 47
     indice                         shift and go to state 22
 
 state 30
@@ -751,26 +747,26 @@ state 30
     (33) exp_numerica -> exp_numerica . MAYORIGUALQ exp_numerica
     (34) exp_numerica -> exp_numerica . MENORIGUALQ exp_numerica
 
-    PTCOMA          shift and go to state 49
-    MAS             shift and go to state 50
-    MENOS           shift and go to state 51
-    POR             shift and go to state 52
-    DIVIDIDO        shift and go to state 53
-    RESIDUO         shift and go to state 54
-    AND             shift and go to state 55
-    OR              shift and go to state 56
-    XOR             shift and go to state 57
-    BAND            shift and go to state 58
-    BOR             shift and go to state 59
-    BXOR            shift and go to state 60
-    SHIFTI          shift and go to state 61
-    SHIFTD          shift and go to state 62
-    IGUALQ          shift and go to state 63
-    NIGUALQ         shift and go to state 64
-    MAYORQ          shift and go to state 65
-    MENORQ          shift and go to state 66
-    MAYORIGUALQ     shift and go to state 67
-    MENORIGUALQ     shift and go to state 68
+    PTCOMA          shift and go to state 48
+    MAS             shift and go to state 49
+    MENOS           shift and go to state 50
+    POR             shift and go to state 51
+    DIVIDIDO        shift and go to state 52
+    RESIDUO         shift and go to state 53
+    AND             shift and go to state 54
+    OR              shift and go to state 55
+    XOR             shift and go to state 56
+    BAND            shift and go to state 57
+    BOR             shift and go to state 58
+    BXOR            shift and go to state 59
+    SHIFTI          shift and go to state 60
+    SHIFTD          shift and go to state 61
+    IGUALQ          shift and go to state 62
+    NIGUALQ         shift and go to state 63
+    MAYORQ          shift and go to state 64
+    MENORQ          shift and go to state 65
+    MAYORIGUALQ     shift and go to state 66
+    MENORIGUALQ     shift and go to state 67
 
 
 state 31
@@ -818,7 +814,7 @@ state 31
     CADENA          shift and go to state 38
     ARRAY           shift and go to state 39
 
-    exp_numerica                   shift and go to state 69
+    exp_numerica                   shift and go to state 68
 
 state 32
 
@@ -827,11 +823,11 @@ state 32
     (47) tipo_dato -> . FLOAT
     (48) tipo_dato -> . CHAR
 
-    INT             shift and go to state 71
-    FLOAT           shift and go to state 72
-    CHAR            shift and go to state 73
+    INT             shift and go to state 70
+    FLOAT           shift and go to state 71
+    CHAR            shift and go to state 72
 
-    tipo_dato                      shift and go to state 70
+    tipo_dato                      shift and go to state 69
 
 state 33
 
@@ -878,7 +874,7 @@ state 33
     CADENA          shift and go to state 38
     ARRAY           shift and go to state 39
 
-    exp_numerica                   shift and go to state 74
+    exp_numerica                   shift and go to state 73
 
 state 34
 
@@ -925,13 +921,13 @@ state 34
     CADENA          shift and go to state 38
     ARRAY           shift and go to state 39
 
-    exp_numerica                   shift and go to state 75
+    exp_numerica                   shift and go to state 74
 
 state 35
 
     (39) exp_numerica -> ABS . PARIZQ exp_numerica PARDER
 
-    PARIZQ          shift and go to state 76
+    PARIZQ          shift and go to state 75
 
 
 state 36
@@ -1022,7 +1018,7 @@ state 39
 
     (45) exp_numerica -> ARRAY . PARIZQ PARDER
 
-    PARIZQ          shift and go to state 77
+    PARIZQ          shift and go to state 76
 
 
 state 40
@@ -1070,7 +1066,7 @@ state 40
     CADENA          shift and go to state 38
     ARRAY           shift and go to state 39
 
-    exp_numerica                   shift and go to state 78
+    exp_numerica                   shift and go to state 77
 
 state 41
 
@@ -1125,26 +1121,26 @@ state 42
     (33) exp_numerica -> exp_numerica . MAYORIGUALQ exp_numerica
     (34) exp_numerica -> exp_numerica . MENORIGUALQ exp_numerica
 
-    CORDER          shift and go to state 79
-    MAS             shift and go to state 50
-    MENOS           shift and go to state 51
-    POR             shift and go to state 52
-    DIVIDIDO        shift and go to state 53
-    RESIDUO         shift and go to state 54
-    AND             shift and go to state 55
-    OR              shift and go to state 56
-    XOR             shift and go to state 57
-    BAND            shift and go to state 58
-    BOR             shift and go to state 59
-    BXOR            shift and go to state 60
-    SHIFTI          shift and go to state 61
-    SHIFTD          shift and go to state 62
-    IGUALQ          shift and go to state 63
-    NIGUALQ         shift and go to state 64
-    MAYORQ          shift and go to state 65
-    MENORQ          shift and go to state 66
-    MAYORIGUALQ     shift and go to state 67
-    MENORIGUALQ     shift and go to state 68
+    CORDER          shift and go to state 78
+    MAS             shift and go to state 49
+    MENOS           shift and go to state 50
+    POR             shift and go to state 51
+    DIVIDIDO        shift and go to state 52
+    RESIDUO         shift and go to state 53
+    AND             shift and go to state 54
+    OR              shift and go to state 55
+    XOR             shift and go to state 56
+    BAND            shift and go to state 57
+    BOR             shift and go to state 58
+    BXOR            shift and go to state 59
+    SHIFTI          shift and go to state 60
+    SHIFTD          shift and go to state 61
+    IGUALQ          shift and go to state 62
+    NIGUALQ         shift and go to state 63
+    MAYORQ          shift and go to state 64
+    MENORQ          shift and go to state 65
+    MAYORIGUALQ     shift and go to state 66
+    MENORIGUALQ     shift and go to state 67
 
 
 state 43
@@ -1170,26 +1166,26 @@ state 43
     (33) exp_numerica -> exp_numerica . MAYORIGUALQ exp_numerica
     (34) exp_numerica -> exp_numerica . MENORIGUALQ exp_numerica
 
-    PARDER          shift and go to state 80
-    MAS             shift and go to state 50
-    MENOS           shift and go to state 51
-    POR             shift and go to state 52
-    DIVIDIDO        shift and go to state 53
-    RESIDUO         shift and go to state 54
-    AND             shift and go to state 55
-    OR              shift and go to state 56
-    XOR             shift and go to state 57
-    BAND            shift and go to state 58
-    BOR             shift and go to state 59
-    BXOR            shift and go to state 60
-    SHIFTI          shift and go to state 61
-    SHIFTD          shift and go to state 62
-    IGUALQ          shift and go to state 63
-    NIGUALQ         shift and go to state 64
-    MAYORQ          shift and go to state 65
-    MENORQ          shift and go to state 66
-    MAYORIGUALQ     shift and go to state 67
-    MENORIGUALQ     shift and go to state 68
+    PARDER          shift and go to state 79
+    MAS             shift and go to state 49
+    MENOS           shift and go to state 50
+    POR             shift and go to state 51
+    DIVIDIDO        shift and go to state 52
+    RESIDUO         shift and go to state 53
+    AND             shift and go to state 54
+    OR              shift and go to state 55
+    XOR             shift and go to state 56
+    BAND            shift and go to state 57
+    BOR             shift and go to state 58
+    BXOR            shift and go to state 59
+    SHIFTI          shift and go to state 60
+    SHIFTD          shift and go to state 61
+    IGUALQ          shift and go to state 62
+    NIGUALQ         shift and go to state 63
+    MAYORQ          shift and go to state 64
+    MENORQ          shift and go to state 65
+    MAYORIGUALQ     shift and go to state 66
+    MENORIGUALQ     shift and go to state 67
 
 
 state 44
@@ -1215,38 +1211,31 @@ state 44
     (33) exp_numerica -> exp_numerica . MAYORIGUALQ exp_numerica
     (34) exp_numerica -> exp_numerica . MENORIGUALQ exp_numerica
 
-    PARDER          shift and go to state 81
-    MAS             shift and go to state 50
-    MENOS           shift and go to state 51
-    POR             shift and go to state 52
-    DIVIDIDO        shift and go to state 53
-    RESIDUO         shift and go to state 54
-    AND             shift and go to state 55
-    OR              shift and go to state 56
-    XOR             shift and go to state 57
-    BAND            shift and go to state 58
-    BOR             shift and go to state 59
-    BXOR            shift and go to state 60
-    SHIFTI          shift and go to state 61
-    SHIFTD          shift and go to state 62
-    IGUALQ          shift and go to state 63
-    NIGUALQ         shift and go to state 64
-    MAYORQ          shift and go to state 65
-    MENORQ          shift and go to state 66
-    MAYORIGUALQ     shift and go to state 67
-    MENORIGUALQ     shift and go to state 68
+    PARDER          shift and go to state 80
+    MAS             shift and go to state 49
+    MENOS           shift and go to state 50
+    POR             shift and go to state 51
+    DIVIDIDO        shift and go to state 52
+    RESIDUO         shift and go to state 53
+    AND             shift and go to state 54
+    OR              shift and go to state 55
+    XOR             shift and go to state 56
+    BAND            shift and go to state 57
+    BOR             shift and go to state 58
+    BXOR            shift and go to state 59
+    SHIFTI          shift and go to state 60
+    SHIFTD          shift and go to state 61
+    IGUALQ          shift and go to state 62
+    NIGUALQ         shift and go to state 63
+    MAYORQ          shift and go to state 64
+    MENORQ          shift and go to state 65
+    MAYORIGUALQ     shift and go to state 66
+    MENORIGUALQ     shift and go to state 67
 
 
 state 45
 
-    (51) if_instr -> IF PARIZQ condicion_instr . PARDER goto_instr
-
-    PARDER          shift and go to state 82
-
-
-state 46
-
-    (52) condicion_instr -> exp_numerica .
+    (51) if_instr -> IF PARIZQ exp_numerica . PARDER goto_instr
     (16) exp_numerica -> exp_numerica . MAS exp_numerica
     (17) exp_numerica -> exp_numerica . MENOS exp_numerica
     (18) exp_numerica -> exp_numerica . POR exp_numerica
@@ -1267,42 +1256,42 @@ state 46
     (33) exp_numerica -> exp_numerica . MAYORIGUALQ exp_numerica
     (34) exp_numerica -> exp_numerica . MENORIGUALQ exp_numerica
 
-    PARDER          reduce using rule 52 (condicion_instr -> exp_numerica .)
-    MAS             shift and go to state 50
-    MENOS           shift and go to state 51
-    POR             shift and go to state 52
-    DIVIDIDO        shift and go to state 53
-    RESIDUO         shift and go to state 54
-    AND             shift and go to state 55
-    OR              shift and go to state 56
-    XOR             shift and go to state 57
-    BAND            shift and go to state 58
-    BOR             shift and go to state 59
-    BXOR            shift and go to state 60
-    SHIFTI          shift and go to state 61
-    SHIFTD          shift and go to state 62
-    IGUALQ          shift and go to state 63
-    NIGUALQ         shift and go to state 64
-    MAYORQ          shift and go to state 65
-    MENORQ          shift and go to state 66
-    MAYORIGUALQ     shift and go to state 67
-    MENORIGUALQ     shift and go to state 68
+    PARDER          shift and go to state 81
+    MAS             shift and go to state 49
+    MENOS           shift and go to state 50
+    POR             shift and go to state 51
+    DIVIDIDO        shift and go to state 52
+    RESIDUO         shift and go to state 53
+    AND             shift and go to state 54
+    OR              shift and go to state 55
+    XOR             shift and go to state 56
+    BAND            shift and go to state 57
+    BOR             shift and go to state 58
+    BXOR            shift and go to state 59
+    SHIFTI          shift and go to state 60
+    SHIFTD          shift and go to state 61
+    IGUALQ          shift and go to state 62
+    NIGUALQ         shift and go to state 63
+    MAYORQ          shift and go to state 64
+    MENORQ          shift and go to state 65
+    MAYORIGUALQ     shift and go to state 66
+    MENORIGUALQ     shift and go to state 67
+
+
+state 46
+
+    (53) goto_instr -> GOTO ID PTCOMA .
+
+    VAR             reduce using rule 53 (goto_instr -> GOTO ID PTCOMA .)
+    PRINT           reduce using rule 53 (goto_instr -> GOTO ID PTCOMA .)
+    UNSET           reduce using rule 53 (goto_instr -> GOTO ID PTCOMA .)
+    IF              reduce using rule 53 (goto_instr -> GOTO ID PTCOMA .)
+    ID              reduce using rule 53 (goto_instr -> GOTO ID PTCOMA .)
+    GOTO            reduce using rule 53 (goto_instr -> GOTO ID PTCOMA .)
+    $end            reduce using rule 53 (goto_instr -> GOTO ID PTCOMA .)
 
 
 state 47
-
-    (54) goto_instr -> GOTO ID PTCOMA .
-
-    VAR             reduce using rule 54 (goto_instr -> GOTO ID PTCOMA .)
-    PRINT           reduce using rule 54 (goto_instr -> GOTO ID PTCOMA .)
-    UNSET           reduce using rule 54 (goto_instr -> GOTO ID PTCOMA .)
-    IF              reduce using rule 54 (goto_instr -> GOTO ID PTCOMA .)
-    ID              reduce using rule 54 (goto_instr -> GOTO ID PTCOMA .)
-    GOTO            reduce using rule 54 (goto_instr -> GOTO ID PTCOMA .)
-    $end            reduce using rule 54 (goto_instr -> GOTO ID PTCOMA .)
-
-
-state 48
 
     (43) exp_numerica -> VAR indices .
     (12) indices -> indices . indice
@@ -1334,7 +1323,7 @@ state 48
 
     indice                         shift and go to state 41
 
-state 49
+state 48
 
     (15) asignacion -> VAR IGUAL exp_numerica PTCOMA .
 
@@ -1347,9 +1336,56 @@ state 49
     $end            reduce using rule 15 (asignacion -> VAR IGUAL exp_numerica PTCOMA .)
 
 
-state 50
+state 49
 
     (16) exp_numerica -> exp_numerica MAS . exp_numerica
+    (16) exp_numerica -> . exp_numerica MAS exp_numerica
+    (17) exp_numerica -> . exp_numerica MENOS exp_numerica
+    (18) exp_numerica -> . exp_numerica POR exp_numerica
+    (19) exp_numerica -> . exp_numerica DIVIDIDO exp_numerica
+    (20) exp_numerica -> . exp_numerica RESIDUO exp_numerica
+    (21) exp_numerica -> . exp_numerica AND exp_numerica
+    (22) exp_numerica -> . exp_numerica OR exp_numerica
+    (23) exp_numerica -> . exp_numerica XOR exp_numerica
+    (24) exp_numerica -> . exp_numerica BAND exp_numerica
+    (25) exp_numerica -> . exp_numerica BOR exp_numerica
+    (26) exp_numerica -> . exp_numerica BXOR exp_numerica
+    (27) exp_numerica -> . exp_numerica SHIFTI exp_numerica
+    (28) exp_numerica -> . exp_numerica SHIFTD exp_numerica
+    (29) exp_numerica -> . exp_numerica IGUALQ exp_numerica
+    (30) exp_numerica -> . exp_numerica NIGUALQ exp_numerica
+    (31) exp_numerica -> . exp_numerica MAYORQ exp_numerica
+    (32) exp_numerica -> . exp_numerica MENORQ exp_numerica
+    (33) exp_numerica -> . exp_numerica MAYORIGUALQ exp_numerica
+    (34) exp_numerica -> . exp_numerica MENORIGUALQ exp_numerica
+    (35) exp_numerica -> . PARIZQ tipo_dato PARDER VAR
+    (36) exp_numerica -> . MENOS exp_numerica
+    (37) exp_numerica -> . NOT exp_numerica
+    (38) exp_numerica -> . BNOT exp_numerica
+    (39) exp_numerica -> . ABS PARIZQ exp_numerica PARDER
+    (40) exp_numerica -> . ENTERO
+    (41) exp_numerica -> . DECIMAL
+    (42) exp_numerica -> . VAR
+    (43) exp_numerica -> . VAR indices
+    (44) exp_numerica -> . CADENA
+    (45) exp_numerica -> . ARRAY PARIZQ PARDER
+
+    PARIZQ          shift and go to state 32
+    MENOS           shift and go to state 31
+    NOT             shift and go to state 33
+    BNOT            shift and go to state 34
+    ABS             shift and go to state 35
+    ENTERO          shift and go to state 36
+    DECIMAL         shift and go to state 37
+    VAR             shift and go to state 29
+    CADENA          shift and go to state 38
+    ARRAY           shift and go to state 39
+
+    exp_numerica                   shift and go to state 82
+
+state 50
+
+    (17) exp_numerica -> exp_numerica MENOS . exp_numerica
     (16) exp_numerica -> . exp_numerica MAS exp_numerica
     (17) exp_numerica -> . exp_numerica MENOS exp_numerica
     (18) exp_numerica -> . exp_numerica POR exp_numerica
@@ -1396,7 +1432,7 @@ state 50
 
 state 51
 
-    (17) exp_numerica -> exp_numerica MENOS . exp_numerica
+    (18) exp_numerica -> exp_numerica POR . exp_numerica
     (16) exp_numerica -> . exp_numerica MAS exp_numerica
     (17) exp_numerica -> . exp_numerica MENOS exp_numerica
     (18) exp_numerica -> . exp_numerica POR exp_numerica
@@ -1443,7 +1479,7 @@ state 51
 
 state 52
 
-    (18) exp_numerica -> exp_numerica POR . exp_numerica
+    (19) exp_numerica -> exp_numerica DIVIDIDO . exp_numerica
     (16) exp_numerica -> . exp_numerica MAS exp_numerica
     (17) exp_numerica -> . exp_numerica MENOS exp_numerica
     (18) exp_numerica -> . exp_numerica POR exp_numerica
@@ -1490,7 +1526,7 @@ state 52
 
 state 53
 
-    (19) exp_numerica -> exp_numerica DIVIDIDO . exp_numerica
+    (20) exp_numerica -> exp_numerica RESIDUO . exp_numerica
     (16) exp_numerica -> . exp_numerica MAS exp_numerica
     (17) exp_numerica -> . exp_numerica MENOS exp_numerica
     (18) exp_numerica -> . exp_numerica POR exp_numerica
@@ -1537,7 +1573,7 @@ state 53
 
 state 54
 
-    (20) exp_numerica -> exp_numerica RESIDUO . exp_numerica
+    (21) exp_numerica -> exp_numerica AND . exp_numerica
     (16) exp_numerica -> . exp_numerica MAS exp_numerica
     (17) exp_numerica -> . exp_numerica MENOS exp_numerica
     (18) exp_numerica -> . exp_numerica POR exp_numerica
@@ -1584,7 +1620,7 @@ state 54
 
 state 55
 
-    (21) exp_numerica -> exp_numerica AND . exp_numerica
+    (22) exp_numerica -> exp_numerica OR . exp_numerica
     (16) exp_numerica -> . exp_numerica MAS exp_numerica
     (17) exp_numerica -> . exp_numerica MENOS exp_numerica
     (18) exp_numerica -> . exp_numerica POR exp_numerica
@@ -1631,7 +1667,7 @@ state 55
 
 state 56
 
-    (22) exp_numerica -> exp_numerica OR . exp_numerica
+    (23) exp_numerica -> exp_numerica XOR . exp_numerica
     (16) exp_numerica -> . exp_numerica MAS exp_numerica
     (17) exp_numerica -> . exp_numerica MENOS exp_numerica
     (18) exp_numerica -> . exp_numerica POR exp_numerica
@@ -1678,7 +1714,7 @@ state 56
 
 state 57
 
-    (23) exp_numerica -> exp_numerica XOR . exp_numerica
+    (24) exp_numerica -> exp_numerica BAND . exp_numerica
     (16) exp_numerica -> . exp_numerica MAS exp_numerica
     (17) exp_numerica -> . exp_numerica MENOS exp_numerica
     (18) exp_numerica -> . exp_numerica POR exp_numerica
@@ -1725,7 +1761,7 @@ state 57
 
 state 58
 
-    (24) exp_numerica -> exp_numerica BAND . exp_numerica
+    (25) exp_numerica -> exp_numerica BOR . exp_numerica
     (16) exp_numerica -> . exp_numerica MAS exp_numerica
     (17) exp_numerica -> . exp_numerica MENOS exp_numerica
     (18) exp_numerica -> . exp_numerica POR exp_numerica
@@ -1772,7 +1808,7 @@ state 58
 
 state 59
 
-    (25) exp_numerica -> exp_numerica BOR . exp_numerica
+    (26) exp_numerica -> exp_numerica BXOR . exp_numerica
     (16) exp_numerica -> . exp_numerica MAS exp_numerica
     (17) exp_numerica -> . exp_numerica MENOS exp_numerica
     (18) exp_numerica -> . exp_numerica POR exp_numerica
@@ -1819,7 +1855,7 @@ state 59
 
 state 60
 
-    (26) exp_numerica -> exp_numerica BXOR . exp_numerica
+    (27) exp_numerica -> exp_numerica SHIFTI . exp_numerica
     (16) exp_numerica -> . exp_numerica MAS exp_numerica
     (17) exp_numerica -> . exp_numerica MENOS exp_numerica
     (18) exp_numerica -> . exp_numerica POR exp_numerica
@@ -1866,7 +1902,7 @@ state 60
 
 state 61
 
-    (27) exp_numerica -> exp_numerica SHIFTI . exp_numerica
+    (28) exp_numerica -> exp_numerica SHIFTD . exp_numerica
     (16) exp_numerica -> . exp_numerica MAS exp_numerica
     (17) exp_numerica -> . exp_numerica MENOS exp_numerica
     (18) exp_numerica -> . exp_numerica POR exp_numerica
@@ -1913,7 +1949,7 @@ state 61
 
 state 62
 
-    (28) exp_numerica -> exp_numerica SHIFTD . exp_numerica
+    (29) exp_numerica -> exp_numerica IGUALQ . exp_numerica
     (16) exp_numerica -> . exp_numerica MAS exp_numerica
     (17) exp_numerica -> . exp_numerica MENOS exp_numerica
     (18) exp_numerica -> . exp_numerica POR exp_numerica
@@ -1960,7 +1996,7 @@ state 62
 
 state 63
 
-    (29) exp_numerica -> exp_numerica IGUALQ . exp_numerica
+    (30) exp_numerica -> exp_numerica NIGUALQ . exp_numerica
     (16) exp_numerica -> . exp_numerica MAS exp_numerica
     (17) exp_numerica -> . exp_numerica MENOS exp_numerica
     (18) exp_numerica -> . exp_numerica POR exp_numerica
@@ -2007,7 +2043,7 @@ state 63
 
 state 64
 
-    (30) exp_numerica -> exp_numerica NIGUALQ . exp_numerica
+    (31) exp_numerica -> exp_numerica MAYORQ . exp_numerica
     (16) exp_numerica -> . exp_numerica MAS exp_numerica
     (17) exp_numerica -> . exp_numerica MENOS exp_numerica
     (18) exp_numerica -> . exp_numerica POR exp_numerica
@@ -2054,7 +2090,7 @@ state 64
 
 state 65
 
-    (31) exp_numerica -> exp_numerica MAYORQ . exp_numerica
+    (32) exp_numerica -> exp_numerica MENORQ . exp_numerica
     (16) exp_numerica -> . exp_numerica MAS exp_numerica
     (17) exp_numerica -> . exp_numerica MENOS exp_numerica
     (18) exp_numerica -> . exp_numerica POR exp_numerica
@@ -2101,7 +2137,7 @@ state 65
 
 state 66
 
-    (32) exp_numerica -> exp_numerica MENORQ . exp_numerica
+    (33) exp_numerica -> exp_numerica MAYORIGUALQ . exp_numerica
     (16) exp_numerica -> . exp_numerica MAS exp_numerica
     (17) exp_numerica -> . exp_numerica MENOS exp_numerica
     (18) exp_numerica -> . exp_numerica POR exp_numerica
@@ -2148,7 +2184,7 @@ state 66
 
 state 67
 
-    (33) exp_numerica -> exp_numerica MAYORIGUALQ . exp_numerica
+    (34) exp_numerica -> exp_numerica MENORIGUALQ . exp_numerica
     (16) exp_numerica -> . exp_numerica MAS exp_numerica
     (17) exp_numerica -> . exp_numerica MENOS exp_numerica
     (18) exp_numerica -> . exp_numerica POR exp_numerica
@@ -2195,53 +2231,6 @@ state 67
 
 state 68
 
-    (34) exp_numerica -> exp_numerica MENORIGUALQ . exp_numerica
-    (16) exp_numerica -> . exp_numerica MAS exp_numerica
-    (17) exp_numerica -> . exp_numerica MENOS exp_numerica
-    (18) exp_numerica -> . exp_numerica POR exp_numerica
-    (19) exp_numerica -> . exp_numerica DIVIDIDO exp_numerica
-    (20) exp_numerica -> . exp_numerica RESIDUO exp_numerica
-    (21) exp_numerica -> . exp_numerica AND exp_numerica
-    (22) exp_numerica -> . exp_numerica OR exp_numerica
-    (23) exp_numerica -> . exp_numerica XOR exp_numerica
-    (24) exp_numerica -> . exp_numerica BAND exp_numerica
-    (25) exp_numerica -> . exp_numerica BOR exp_numerica
-    (26) exp_numerica -> . exp_numerica BXOR exp_numerica
-    (27) exp_numerica -> . exp_numerica SHIFTI exp_numerica
-    (28) exp_numerica -> . exp_numerica SHIFTD exp_numerica
-    (29) exp_numerica -> . exp_numerica IGUALQ exp_numerica
-    (30) exp_numerica -> . exp_numerica NIGUALQ exp_numerica
-    (31) exp_numerica -> . exp_numerica MAYORQ exp_numerica
-    (32) exp_numerica -> . exp_numerica MENORQ exp_numerica
-    (33) exp_numerica -> . exp_numerica MAYORIGUALQ exp_numerica
-    (34) exp_numerica -> . exp_numerica MENORIGUALQ exp_numerica
-    (35) exp_numerica -> . PARIZQ tipo_dato PARDER VAR
-    (36) exp_numerica -> . MENOS exp_numerica
-    (37) exp_numerica -> . NOT exp_numerica
-    (38) exp_numerica -> . BNOT exp_numerica
-    (39) exp_numerica -> . ABS PARIZQ exp_numerica PARDER
-    (40) exp_numerica -> . ENTERO
-    (41) exp_numerica -> . DECIMAL
-    (42) exp_numerica -> . VAR
-    (43) exp_numerica -> . VAR indices
-    (44) exp_numerica -> . CADENA
-    (45) exp_numerica -> . ARRAY PARIZQ PARDER
-
-    PARIZQ          shift and go to state 32
-    MENOS           shift and go to state 31
-    NOT             shift and go to state 33
-    BNOT            shift and go to state 34
-    ABS             shift and go to state 35
-    ENTERO          shift and go to state 36
-    DECIMAL         shift and go to state 37
-    VAR             shift and go to state 29
-    CADENA          shift and go to state 38
-    ARRAY           shift and go to state 39
-
-    exp_numerica                   shift and go to state 101
-
-state 69
-
     (36) exp_numerica -> MENOS exp_numerica .
     (16) exp_numerica -> exp_numerica . MAS exp_numerica
     (17) exp_numerica -> exp_numerica . MENOS exp_numerica
@@ -2286,56 +2275,56 @@ state 69
     CORDER          reduce using rule 36 (exp_numerica -> MENOS exp_numerica .)
     PARDER          reduce using rule 36 (exp_numerica -> MENOS exp_numerica .)
 
-  ! MAS             [ shift and go to state 50 ]
-  ! MENOS           [ shift and go to state 51 ]
-  ! POR             [ shift and go to state 52 ]
-  ! DIVIDIDO        [ shift and go to state 53 ]
-  ! RESIDUO         [ shift and go to state 54 ]
-  ! AND             [ shift and go to state 55 ]
-  ! OR              [ shift and go to state 56 ]
-  ! XOR             [ shift and go to state 57 ]
-  ! BAND            [ shift and go to state 58 ]
-  ! BOR             [ shift and go to state 59 ]
-  ! BXOR            [ shift and go to state 60 ]
-  ! SHIFTI          [ shift and go to state 61 ]
-  ! SHIFTD          [ shift and go to state 62 ]
-  ! IGUALQ          [ shift and go to state 63 ]
-  ! NIGUALQ         [ shift and go to state 64 ]
-  ! MAYORQ          [ shift and go to state 65 ]
-  ! MENORQ          [ shift and go to state 66 ]
-  ! MAYORIGUALQ     [ shift and go to state 67 ]
-  ! MENORIGUALQ     [ shift and go to state 68 ]
+  ! MAS             [ shift and go to state 49 ]
+  ! MENOS           [ shift and go to state 50 ]
+  ! POR             [ shift and go to state 51 ]
+  ! DIVIDIDO        [ shift and go to state 52 ]
+  ! RESIDUO         [ shift and go to state 53 ]
+  ! AND             [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! XOR             [ shift and go to state 56 ]
+  ! BAND            [ shift and go to state 57 ]
+  ! BOR             [ shift and go to state 58 ]
+  ! BXOR            [ shift and go to state 59 ]
+  ! SHIFTI          [ shift and go to state 60 ]
+  ! SHIFTD          [ shift and go to state 61 ]
+  ! IGUALQ          [ shift and go to state 62 ]
+  ! NIGUALQ         [ shift and go to state 63 ]
+  ! MAYORQ          [ shift and go to state 64 ]
+  ! MENORQ          [ shift and go to state 65 ]
+  ! MAYORIGUALQ     [ shift and go to state 66 ]
+  ! MENORIGUALQ     [ shift and go to state 67 ]
 
 
-state 70
+state 69
 
     (35) exp_numerica -> PARIZQ tipo_dato . PARDER VAR
 
-    PARDER          shift and go to state 102
+    PARDER          shift and go to state 101
 
 
-state 71
+state 70
 
     (46) tipo_dato -> INT .
 
     PARDER          reduce using rule 46 (tipo_dato -> INT .)
 
 
-state 72
+state 71
 
     (47) tipo_dato -> FLOAT .
 
     PARDER          reduce using rule 47 (tipo_dato -> FLOAT .)
 
 
-state 73
+state 72
 
     (48) tipo_dato -> CHAR .
 
     PARDER          reduce using rule 48 (tipo_dato -> CHAR .)
 
 
-state 74
+state 73
 
     (37) exp_numerica -> NOT exp_numerica .
     (16) exp_numerica -> exp_numerica . MAS exp_numerica
@@ -2381,28 +2370,28 @@ state 74
     CORDER          reduce using rule 37 (exp_numerica -> NOT exp_numerica .)
     PARDER          reduce using rule 37 (exp_numerica -> NOT exp_numerica .)
 
-  ! MAS             [ shift and go to state 50 ]
-  ! MENOS           [ shift and go to state 51 ]
-  ! POR             [ shift and go to state 52 ]
-  ! DIVIDIDO        [ shift and go to state 53 ]
-  ! RESIDUO         [ shift and go to state 54 ]
-  ! AND             [ shift and go to state 55 ]
-  ! OR              [ shift and go to state 56 ]
-  ! XOR             [ shift and go to state 57 ]
-  ! BAND            [ shift and go to state 58 ]
-  ! BOR             [ shift and go to state 59 ]
-  ! BXOR            [ shift and go to state 60 ]
-  ! SHIFTI          [ shift and go to state 61 ]
-  ! SHIFTD          [ shift and go to state 62 ]
-  ! IGUALQ          [ shift and go to state 63 ]
-  ! NIGUALQ         [ shift and go to state 64 ]
-  ! MAYORQ          [ shift and go to state 65 ]
-  ! MENORQ          [ shift and go to state 66 ]
-  ! MAYORIGUALQ     [ shift and go to state 67 ]
-  ! MENORIGUALQ     [ shift and go to state 68 ]
+  ! MAS             [ shift and go to state 49 ]
+  ! MENOS           [ shift and go to state 50 ]
+  ! POR             [ shift and go to state 51 ]
+  ! DIVIDIDO        [ shift and go to state 52 ]
+  ! RESIDUO         [ shift and go to state 53 ]
+  ! AND             [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! XOR             [ shift and go to state 56 ]
+  ! BAND            [ shift and go to state 57 ]
+  ! BOR             [ shift and go to state 58 ]
+  ! BXOR            [ shift and go to state 59 ]
+  ! SHIFTI          [ shift and go to state 60 ]
+  ! SHIFTD          [ shift and go to state 61 ]
+  ! IGUALQ          [ shift and go to state 62 ]
+  ! NIGUALQ         [ shift and go to state 63 ]
+  ! MAYORQ          [ shift and go to state 64 ]
+  ! MENORQ          [ shift and go to state 65 ]
+  ! MAYORIGUALQ     [ shift and go to state 66 ]
+  ! MENORIGUALQ     [ shift and go to state 67 ]
 
 
-state 75
+state 74
 
     (38) exp_numerica -> BNOT exp_numerica .
     (16) exp_numerica -> exp_numerica . MAS exp_numerica
@@ -2448,28 +2437,28 @@ state 75
     CORDER          reduce using rule 38 (exp_numerica -> BNOT exp_numerica .)
     PARDER          reduce using rule 38 (exp_numerica -> BNOT exp_numerica .)
 
-  ! MAS             [ shift and go to state 50 ]
-  ! MENOS           [ shift and go to state 51 ]
-  ! POR             [ shift and go to state 52 ]
-  ! DIVIDIDO        [ shift and go to state 53 ]
-  ! RESIDUO         [ shift and go to state 54 ]
-  ! AND             [ shift and go to state 55 ]
-  ! OR              [ shift and go to state 56 ]
-  ! XOR             [ shift and go to state 57 ]
-  ! BAND            [ shift and go to state 58 ]
-  ! BOR             [ shift and go to state 59 ]
-  ! BXOR            [ shift and go to state 60 ]
-  ! SHIFTI          [ shift and go to state 61 ]
-  ! SHIFTD          [ shift and go to state 62 ]
-  ! IGUALQ          [ shift and go to state 63 ]
-  ! NIGUALQ         [ shift and go to state 64 ]
-  ! MAYORQ          [ shift and go to state 65 ]
-  ! MENORQ          [ shift and go to state 66 ]
-  ! MAYORIGUALQ     [ shift and go to state 67 ]
-  ! MENORIGUALQ     [ shift and go to state 68 ]
+  ! MAS             [ shift and go to state 49 ]
+  ! MENOS           [ shift and go to state 50 ]
+  ! POR             [ shift and go to state 51 ]
+  ! DIVIDIDO        [ shift and go to state 52 ]
+  ! RESIDUO         [ shift and go to state 53 ]
+  ! AND             [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! XOR             [ shift and go to state 56 ]
+  ! BAND            [ shift and go to state 57 ]
+  ! BOR             [ shift and go to state 58 ]
+  ! BXOR            [ shift and go to state 59 ]
+  ! SHIFTI          [ shift and go to state 60 ]
+  ! SHIFTD          [ shift and go to state 61 ]
+  ! IGUALQ          [ shift and go to state 62 ]
+  ! NIGUALQ         [ shift and go to state 63 ]
+  ! MAYORQ          [ shift and go to state 64 ]
+  ! MENORQ          [ shift and go to state 65 ]
+  ! MAYORIGUALQ     [ shift and go to state 66 ]
+  ! MENORIGUALQ     [ shift and go to state 67 ]
 
 
-state 76
+state 75
 
     (39) exp_numerica -> ABS PARIZQ . exp_numerica PARDER
     (16) exp_numerica -> . exp_numerica MAS exp_numerica
@@ -2514,16 +2503,16 @@ state 76
     CADENA          shift and go to state 38
     ARRAY           shift and go to state 39
 
-    exp_numerica                   shift and go to state 103
+    exp_numerica                   shift and go to state 102
 
-state 77
+state 76
 
     (45) exp_numerica -> ARRAY PARIZQ . PARDER
 
-    PARDER          shift and go to state 104
+    PARDER          shift and go to state 103
 
 
-state 78
+state 77
 
     (11) array_instr -> VAR indices IGUAL exp_numerica . PTCOMA
     (16) exp_numerica -> exp_numerica . MAS exp_numerica
@@ -2546,29 +2535,29 @@ state 78
     (33) exp_numerica -> exp_numerica . MAYORIGUALQ exp_numerica
     (34) exp_numerica -> exp_numerica . MENORIGUALQ exp_numerica
 
-    PTCOMA          shift and go to state 105
-    MAS             shift and go to state 50
-    MENOS           shift and go to state 51
-    POR             shift and go to state 52
-    DIVIDIDO        shift and go to state 53
-    RESIDUO         shift and go to state 54
-    AND             shift and go to state 55
-    OR              shift and go to state 56
-    XOR             shift and go to state 57
-    BAND            shift and go to state 58
-    BOR             shift and go to state 59
-    BXOR            shift and go to state 60
-    SHIFTI          shift and go to state 61
-    SHIFTD          shift and go to state 62
-    IGUALQ          shift and go to state 63
-    NIGUALQ         shift and go to state 64
-    MAYORQ          shift and go to state 65
-    MENORQ          shift and go to state 66
-    MAYORIGUALQ     shift and go to state 67
-    MENORIGUALQ     shift and go to state 68
+    PTCOMA          shift and go to state 104
+    MAS             shift and go to state 49
+    MENOS           shift and go to state 50
+    POR             shift and go to state 51
+    DIVIDIDO        shift and go to state 52
+    RESIDUO         shift and go to state 53
+    AND             shift and go to state 54
+    OR              shift and go to state 55
+    XOR             shift and go to state 56
+    BAND            shift and go to state 57
+    BOR             shift and go to state 58
+    BXOR            shift and go to state 59
+    SHIFTI          shift and go to state 60
+    SHIFTD          shift and go to state 61
+    IGUALQ          shift and go to state 62
+    NIGUALQ         shift and go to state 63
+    MAYORQ          shift and go to state 64
+    MENORQ          shift and go to state 65
+    MAYORIGUALQ     shift and go to state 66
+    MENORIGUALQ     shift and go to state 67
 
 
-state 79
+state 78
 
     (14) indice -> CORIZQ exp_numerica CORDER .
 
@@ -2598,30 +2587,30 @@ state 79
     PARDER          reduce using rule 14 (indice -> CORIZQ exp_numerica CORDER .)
 
 
-state 80
+state 79
 
     (49) print_instr -> PRINT PARIZQ exp_numerica PARDER . PTCOMA
+
+    PTCOMA          shift and go to state 105
+
+
+state 80
+
+    (50) unset_instr -> UNSET PARIZQ exp_numerica PARDER . PTCOMA
 
     PTCOMA          shift and go to state 106
 
 
 state 81
 
-    (50) unset_instr -> UNSET PARIZQ exp_numerica PARDER . PTCOMA
-
-    PTCOMA          shift and go to state 107
-
-
-state 82
-
-    (51) if_instr -> IF PARIZQ condicion_instr PARDER . goto_instr
-    (54) goto_instr -> . GOTO ID PTCOMA
+    (51) if_instr -> IF PARIZQ exp_numerica PARDER . goto_instr
+    (53) goto_instr -> . GOTO ID PTCOMA
 
     GOTO            shift and go to state 18
 
-    goto_instr                     shift and go to state 108
+    goto_instr                     shift and go to state 107
 
-state 83
+state 82
 
     (16) exp_numerica -> exp_numerica MAS exp_numerica .
     (16) exp_numerica -> exp_numerica . MAS exp_numerica
@@ -2663,32 +2652,32 @@ state 83
     MENORIGUALQ     reduce using rule 16 (exp_numerica -> exp_numerica MAS exp_numerica .)
     CORDER          reduce using rule 16 (exp_numerica -> exp_numerica MAS exp_numerica .)
     PARDER          reduce using rule 16 (exp_numerica -> exp_numerica MAS exp_numerica .)
-    POR             shift and go to state 52
-    DIVIDIDO        shift and go to state 53
-    RESIDUO         shift and go to state 54
+    POR             shift and go to state 51
+    DIVIDIDO        shift and go to state 52
+    RESIDUO         shift and go to state 53
 
   ! POR             [ reduce using rule 16 (exp_numerica -> exp_numerica MAS exp_numerica .) ]
   ! DIVIDIDO        [ reduce using rule 16 (exp_numerica -> exp_numerica MAS exp_numerica .) ]
   ! RESIDUO         [ reduce using rule 16 (exp_numerica -> exp_numerica MAS exp_numerica .) ]
-  ! MAS             [ shift and go to state 50 ]
-  ! MENOS           [ shift and go to state 51 ]
-  ! AND             [ shift and go to state 55 ]
-  ! OR              [ shift and go to state 56 ]
-  ! XOR             [ shift and go to state 57 ]
-  ! BAND            [ shift and go to state 58 ]
-  ! BOR             [ shift and go to state 59 ]
-  ! BXOR            [ shift and go to state 60 ]
-  ! SHIFTI          [ shift and go to state 61 ]
-  ! SHIFTD          [ shift and go to state 62 ]
-  ! IGUALQ          [ shift and go to state 63 ]
-  ! NIGUALQ         [ shift and go to state 64 ]
-  ! MAYORQ          [ shift and go to state 65 ]
-  ! MENORQ          [ shift and go to state 66 ]
-  ! MAYORIGUALQ     [ shift and go to state 67 ]
-  ! MENORIGUALQ     [ shift and go to state 68 ]
+  ! MAS             [ shift and go to state 49 ]
+  ! MENOS           [ shift and go to state 50 ]
+  ! AND             [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! XOR             [ shift and go to state 56 ]
+  ! BAND            [ shift and go to state 57 ]
+  ! BOR             [ shift and go to state 58 ]
+  ! BXOR            [ shift and go to state 59 ]
+  ! SHIFTI          [ shift and go to state 60 ]
+  ! SHIFTD          [ shift and go to state 61 ]
+  ! IGUALQ          [ shift and go to state 62 ]
+  ! NIGUALQ         [ shift and go to state 63 ]
+  ! MAYORQ          [ shift and go to state 64 ]
+  ! MENORQ          [ shift and go to state 65 ]
+  ! MAYORIGUALQ     [ shift and go to state 66 ]
+  ! MENORIGUALQ     [ shift and go to state 67 ]
 
 
-state 84
+state 83
 
     (17) exp_numerica -> exp_numerica MENOS exp_numerica .
     (16) exp_numerica -> exp_numerica . MAS exp_numerica
@@ -2730,32 +2719,32 @@ state 84
     MENORIGUALQ     reduce using rule 17 (exp_numerica -> exp_numerica MENOS exp_numerica .)
     CORDER          reduce using rule 17 (exp_numerica -> exp_numerica MENOS exp_numerica .)
     PARDER          reduce using rule 17 (exp_numerica -> exp_numerica MENOS exp_numerica .)
-    POR             shift and go to state 52
-    DIVIDIDO        shift and go to state 53
-    RESIDUO         shift and go to state 54
+    POR             shift and go to state 51
+    DIVIDIDO        shift and go to state 52
+    RESIDUO         shift and go to state 53
 
   ! POR             [ reduce using rule 17 (exp_numerica -> exp_numerica MENOS exp_numerica .) ]
   ! DIVIDIDO        [ reduce using rule 17 (exp_numerica -> exp_numerica MENOS exp_numerica .) ]
   ! RESIDUO         [ reduce using rule 17 (exp_numerica -> exp_numerica MENOS exp_numerica .) ]
-  ! MAS             [ shift and go to state 50 ]
-  ! MENOS           [ shift and go to state 51 ]
-  ! AND             [ shift and go to state 55 ]
-  ! OR              [ shift and go to state 56 ]
-  ! XOR             [ shift and go to state 57 ]
-  ! BAND            [ shift and go to state 58 ]
-  ! BOR             [ shift and go to state 59 ]
-  ! BXOR            [ shift and go to state 60 ]
-  ! SHIFTI          [ shift and go to state 61 ]
-  ! SHIFTD          [ shift and go to state 62 ]
-  ! IGUALQ          [ shift and go to state 63 ]
-  ! NIGUALQ         [ shift and go to state 64 ]
-  ! MAYORQ          [ shift and go to state 65 ]
-  ! MENORQ          [ shift and go to state 66 ]
-  ! MAYORIGUALQ     [ shift and go to state 67 ]
-  ! MENORIGUALQ     [ shift and go to state 68 ]
+  ! MAS             [ shift and go to state 49 ]
+  ! MENOS           [ shift and go to state 50 ]
+  ! AND             [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! XOR             [ shift and go to state 56 ]
+  ! BAND            [ shift and go to state 57 ]
+  ! BOR             [ shift and go to state 58 ]
+  ! BXOR            [ shift and go to state 59 ]
+  ! SHIFTI          [ shift and go to state 60 ]
+  ! SHIFTD          [ shift and go to state 61 ]
+  ! IGUALQ          [ shift and go to state 62 ]
+  ! NIGUALQ         [ shift and go to state 63 ]
+  ! MAYORQ          [ shift and go to state 64 ]
+  ! MENORQ          [ shift and go to state 65 ]
+  ! MAYORIGUALQ     [ shift and go to state 66 ]
+  ! MENORIGUALQ     [ shift and go to state 67 ]
 
 
-state 85
+state 84
 
     (18) exp_numerica -> exp_numerica POR exp_numerica .
     (16) exp_numerica -> exp_numerica . MAS exp_numerica
@@ -2801,28 +2790,28 @@ state 85
     CORDER          reduce using rule 18 (exp_numerica -> exp_numerica POR exp_numerica .)
     PARDER          reduce using rule 18 (exp_numerica -> exp_numerica POR exp_numerica .)
 
-  ! MAS             [ shift and go to state 50 ]
-  ! MENOS           [ shift and go to state 51 ]
-  ! POR             [ shift and go to state 52 ]
-  ! DIVIDIDO        [ shift and go to state 53 ]
-  ! RESIDUO         [ shift and go to state 54 ]
-  ! AND             [ shift and go to state 55 ]
-  ! OR              [ shift and go to state 56 ]
-  ! XOR             [ shift and go to state 57 ]
-  ! BAND            [ shift and go to state 58 ]
-  ! BOR             [ shift and go to state 59 ]
-  ! BXOR            [ shift and go to state 60 ]
-  ! SHIFTI          [ shift and go to state 61 ]
-  ! SHIFTD          [ shift and go to state 62 ]
-  ! IGUALQ          [ shift and go to state 63 ]
-  ! NIGUALQ         [ shift and go to state 64 ]
-  ! MAYORQ          [ shift and go to state 65 ]
-  ! MENORQ          [ shift and go to state 66 ]
-  ! MAYORIGUALQ     [ shift and go to state 67 ]
-  ! MENORIGUALQ     [ shift and go to state 68 ]
+  ! MAS             [ shift and go to state 49 ]
+  ! MENOS           [ shift and go to state 50 ]
+  ! POR             [ shift and go to state 51 ]
+  ! DIVIDIDO        [ shift and go to state 52 ]
+  ! RESIDUO         [ shift and go to state 53 ]
+  ! AND             [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! XOR             [ shift and go to state 56 ]
+  ! BAND            [ shift and go to state 57 ]
+  ! BOR             [ shift and go to state 58 ]
+  ! BXOR            [ shift and go to state 59 ]
+  ! SHIFTI          [ shift and go to state 60 ]
+  ! SHIFTD          [ shift and go to state 61 ]
+  ! IGUALQ          [ shift and go to state 62 ]
+  ! NIGUALQ         [ shift and go to state 63 ]
+  ! MAYORQ          [ shift and go to state 64 ]
+  ! MENORQ          [ shift and go to state 65 ]
+  ! MAYORIGUALQ     [ shift and go to state 66 ]
+  ! MENORIGUALQ     [ shift and go to state 67 ]
 
 
-state 86
+state 85
 
     (19) exp_numerica -> exp_numerica DIVIDIDO exp_numerica .
     (16) exp_numerica -> exp_numerica . MAS exp_numerica
@@ -2868,28 +2857,28 @@ state 86
     CORDER          reduce using rule 19 (exp_numerica -> exp_numerica DIVIDIDO exp_numerica .)
     PARDER          reduce using rule 19 (exp_numerica -> exp_numerica DIVIDIDO exp_numerica .)
 
-  ! MAS             [ shift and go to state 50 ]
-  ! MENOS           [ shift and go to state 51 ]
-  ! POR             [ shift and go to state 52 ]
-  ! DIVIDIDO        [ shift and go to state 53 ]
-  ! RESIDUO         [ shift and go to state 54 ]
-  ! AND             [ shift and go to state 55 ]
-  ! OR              [ shift and go to state 56 ]
-  ! XOR             [ shift and go to state 57 ]
-  ! BAND            [ shift and go to state 58 ]
-  ! BOR             [ shift and go to state 59 ]
-  ! BXOR            [ shift and go to state 60 ]
-  ! SHIFTI          [ shift and go to state 61 ]
-  ! SHIFTD          [ shift and go to state 62 ]
-  ! IGUALQ          [ shift and go to state 63 ]
-  ! NIGUALQ         [ shift and go to state 64 ]
-  ! MAYORQ          [ shift and go to state 65 ]
-  ! MENORQ          [ shift and go to state 66 ]
-  ! MAYORIGUALQ     [ shift and go to state 67 ]
-  ! MENORIGUALQ     [ shift and go to state 68 ]
+  ! MAS             [ shift and go to state 49 ]
+  ! MENOS           [ shift and go to state 50 ]
+  ! POR             [ shift and go to state 51 ]
+  ! DIVIDIDO        [ shift and go to state 52 ]
+  ! RESIDUO         [ shift and go to state 53 ]
+  ! AND             [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! XOR             [ shift and go to state 56 ]
+  ! BAND            [ shift and go to state 57 ]
+  ! BOR             [ shift and go to state 58 ]
+  ! BXOR            [ shift and go to state 59 ]
+  ! SHIFTI          [ shift and go to state 60 ]
+  ! SHIFTD          [ shift and go to state 61 ]
+  ! IGUALQ          [ shift and go to state 62 ]
+  ! NIGUALQ         [ shift and go to state 63 ]
+  ! MAYORQ          [ shift and go to state 64 ]
+  ! MENORQ          [ shift and go to state 65 ]
+  ! MAYORIGUALQ     [ shift and go to state 66 ]
+  ! MENORIGUALQ     [ shift and go to state 67 ]
 
 
-state 87
+state 86
 
     (20) exp_numerica -> exp_numerica RESIDUO exp_numerica .
     (16) exp_numerica -> exp_numerica . MAS exp_numerica
@@ -2935,28 +2924,28 @@ state 87
     CORDER          reduce using rule 20 (exp_numerica -> exp_numerica RESIDUO exp_numerica .)
     PARDER          reduce using rule 20 (exp_numerica -> exp_numerica RESIDUO exp_numerica .)
 
-  ! MAS             [ shift and go to state 50 ]
-  ! MENOS           [ shift and go to state 51 ]
-  ! POR             [ shift and go to state 52 ]
-  ! DIVIDIDO        [ shift and go to state 53 ]
-  ! RESIDUO         [ shift and go to state 54 ]
-  ! AND             [ shift and go to state 55 ]
-  ! OR              [ shift and go to state 56 ]
-  ! XOR             [ shift and go to state 57 ]
-  ! BAND            [ shift and go to state 58 ]
-  ! BOR             [ shift and go to state 59 ]
-  ! BXOR            [ shift and go to state 60 ]
-  ! SHIFTI          [ shift and go to state 61 ]
-  ! SHIFTD          [ shift and go to state 62 ]
-  ! IGUALQ          [ shift and go to state 63 ]
-  ! NIGUALQ         [ shift and go to state 64 ]
-  ! MAYORQ          [ shift and go to state 65 ]
-  ! MENORQ          [ shift and go to state 66 ]
-  ! MAYORIGUALQ     [ shift and go to state 67 ]
-  ! MENORIGUALQ     [ shift and go to state 68 ]
+  ! MAS             [ shift and go to state 49 ]
+  ! MENOS           [ shift and go to state 50 ]
+  ! POR             [ shift and go to state 51 ]
+  ! DIVIDIDO        [ shift and go to state 52 ]
+  ! RESIDUO         [ shift and go to state 53 ]
+  ! AND             [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! XOR             [ shift and go to state 56 ]
+  ! BAND            [ shift and go to state 57 ]
+  ! BOR             [ shift and go to state 58 ]
+  ! BXOR            [ shift and go to state 59 ]
+  ! SHIFTI          [ shift and go to state 60 ]
+  ! SHIFTD          [ shift and go to state 61 ]
+  ! IGUALQ          [ shift and go to state 62 ]
+  ! NIGUALQ         [ shift and go to state 63 ]
+  ! MAYORQ          [ shift and go to state 64 ]
+  ! MENORQ          [ shift and go to state 65 ]
+  ! MAYORIGUALQ     [ shift and go to state 66 ]
+  ! MENORIGUALQ     [ shift and go to state 67 ]
 
 
-state 88
+state 87
 
     (21) exp_numerica -> exp_numerica AND exp_numerica .
     (16) exp_numerica -> exp_numerica . MAS exp_numerica
@@ -2985,22 +2974,22 @@ state 88
     XOR             reduce using rule 21 (exp_numerica -> exp_numerica AND exp_numerica .)
     CORDER          reduce using rule 21 (exp_numerica -> exp_numerica AND exp_numerica .)
     PARDER          reduce using rule 21 (exp_numerica -> exp_numerica AND exp_numerica .)
-    MAS             shift and go to state 50
-    MENOS           shift and go to state 51
-    POR             shift and go to state 52
-    DIVIDIDO        shift and go to state 53
-    RESIDUO         shift and go to state 54
-    BAND            shift and go to state 58
-    BOR             shift and go to state 59
-    BXOR            shift and go to state 60
-    SHIFTI          shift and go to state 61
-    SHIFTD          shift and go to state 62
-    IGUALQ          shift and go to state 63
-    NIGUALQ         shift and go to state 64
-    MAYORQ          shift and go to state 65
-    MENORQ          shift and go to state 66
-    MAYORIGUALQ     shift and go to state 67
-    MENORIGUALQ     shift and go to state 68
+    MAS             shift and go to state 49
+    MENOS           shift and go to state 50
+    POR             shift and go to state 51
+    DIVIDIDO        shift and go to state 52
+    RESIDUO         shift and go to state 53
+    BAND            shift and go to state 57
+    BOR             shift and go to state 58
+    BXOR            shift and go to state 59
+    SHIFTI          shift and go to state 60
+    SHIFTD          shift and go to state 61
+    IGUALQ          shift and go to state 62
+    NIGUALQ         shift and go to state 63
+    MAYORQ          shift and go to state 64
+    MENORQ          shift and go to state 65
+    MAYORIGUALQ     shift and go to state 66
+    MENORIGUALQ     shift and go to state 67
 
   ! MAS             [ reduce using rule 21 (exp_numerica -> exp_numerica AND exp_numerica .) ]
   ! MENOS           [ reduce using rule 21 (exp_numerica -> exp_numerica AND exp_numerica .) ]
@@ -3018,12 +3007,12 @@ state 88
   ! MENORQ          [ reduce using rule 21 (exp_numerica -> exp_numerica AND exp_numerica .) ]
   ! MAYORIGUALQ     [ reduce using rule 21 (exp_numerica -> exp_numerica AND exp_numerica .) ]
   ! MENORIGUALQ     [ reduce using rule 21 (exp_numerica -> exp_numerica AND exp_numerica .) ]
-  ! AND             [ shift and go to state 55 ]
-  ! OR              [ shift and go to state 56 ]
-  ! XOR             [ shift and go to state 57 ]
+  ! AND             [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! XOR             [ shift and go to state 56 ]
 
 
-state 89
+state 88
 
     (22) exp_numerica -> exp_numerica OR exp_numerica .
     (16) exp_numerica -> exp_numerica . MAS exp_numerica
@@ -3050,24 +3039,24 @@ state 89
     OR              reduce using rule 22 (exp_numerica -> exp_numerica OR exp_numerica .)
     CORDER          reduce using rule 22 (exp_numerica -> exp_numerica OR exp_numerica .)
     PARDER          reduce using rule 22 (exp_numerica -> exp_numerica OR exp_numerica .)
-    MAS             shift and go to state 50
-    MENOS           shift and go to state 51
-    POR             shift and go to state 52
-    DIVIDIDO        shift and go to state 53
-    RESIDUO         shift and go to state 54
-    AND             shift and go to state 55
-    XOR             shift and go to state 57
-    BAND            shift and go to state 58
-    BOR             shift and go to state 59
-    BXOR            shift and go to state 60
-    SHIFTI          shift and go to state 61
-    SHIFTD          shift and go to state 62
-    IGUALQ          shift and go to state 63
-    NIGUALQ         shift and go to state 64
-    MAYORQ          shift and go to state 65
-    MENORQ          shift and go to state 66
-    MAYORIGUALQ     shift and go to state 67
-    MENORIGUALQ     shift and go to state 68
+    MAS             shift and go to state 49
+    MENOS           shift and go to state 50
+    POR             shift and go to state 51
+    DIVIDIDO        shift and go to state 52
+    RESIDUO         shift and go to state 53
+    AND             shift and go to state 54
+    XOR             shift and go to state 56
+    BAND            shift and go to state 57
+    BOR             shift and go to state 58
+    BXOR            shift and go to state 59
+    SHIFTI          shift and go to state 60
+    SHIFTD          shift and go to state 61
+    IGUALQ          shift and go to state 62
+    NIGUALQ         shift and go to state 63
+    MAYORQ          shift and go to state 64
+    MENORQ          shift and go to state 65
+    MAYORIGUALQ     shift and go to state 66
+    MENORIGUALQ     shift and go to state 67
 
   ! MAS             [ reduce using rule 22 (exp_numerica -> exp_numerica OR exp_numerica .) ]
   ! MENOS           [ reduce using rule 22 (exp_numerica -> exp_numerica OR exp_numerica .) ]
@@ -3087,10 +3076,10 @@ state 89
   ! MENORQ          [ reduce using rule 22 (exp_numerica -> exp_numerica OR exp_numerica .) ]
   ! MAYORIGUALQ     [ reduce using rule 22 (exp_numerica -> exp_numerica OR exp_numerica .) ]
   ! MENORIGUALQ     [ reduce using rule 22 (exp_numerica -> exp_numerica OR exp_numerica .) ]
-  ! OR              [ shift and go to state 56 ]
+  ! OR              [ shift and go to state 55 ]
 
 
-state 90
+state 89
 
     (23) exp_numerica -> exp_numerica XOR exp_numerica .
     (16) exp_numerica -> exp_numerica . MAS exp_numerica
@@ -3118,23 +3107,23 @@ state 90
     XOR             reduce using rule 23 (exp_numerica -> exp_numerica XOR exp_numerica .)
     CORDER          reduce using rule 23 (exp_numerica -> exp_numerica XOR exp_numerica .)
     PARDER          reduce using rule 23 (exp_numerica -> exp_numerica XOR exp_numerica .)
-    MAS             shift and go to state 50
-    MENOS           shift and go to state 51
-    POR             shift and go to state 52
-    DIVIDIDO        shift and go to state 53
-    RESIDUO         shift and go to state 54
-    AND             shift and go to state 55
-    BAND            shift and go to state 58
-    BOR             shift and go to state 59
-    BXOR            shift and go to state 60
-    SHIFTI          shift and go to state 61
-    SHIFTD          shift and go to state 62
-    IGUALQ          shift and go to state 63
-    NIGUALQ         shift and go to state 64
-    MAYORQ          shift and go to state 65
-    MENORQ          shift and go to state 66
-    MAYORIGUALQ     shift and go to state 67
-    MENORIGUALQ     shift and go to state 68
+    MAS             shift and go to state 49
+    MENOS           shift and go to state 50
+    POR             shift and go to state 51
+    DIVIDIDO        shift and go to state 52
+    RESIDUO         shift and go to state 53
+    AND             shift and go to state 54
+    BAND            shift and go to state 57
+    BOR             shift and go to state 58
+    BXOR            shift and go to state 59
+    SHIFTI          shift and go to state 60
+    SHIFTD          shift and go to state 61
+    IGUALQ          shift and go to state 62
+    NIGUALQ         shift and go to state 63
+    MAYORQ          shift and go to state 64
+    MENORQ          shift and go to state 65
+    MAYORIGUALQ     shift and go to state 66
+    MENORIGUALQ     shift and go to state 67
 
   ! MAS             [ reduce using rule 23 (exp_numerica -> exp_numerica XOR exp_numerica .) ]
   ! MENOS           [ reduce using rule 23 (exp_numerica -> exp_numerica XOR exp_numerica .) ]
@@ -3153,11 +3142,11 @@ state 90
   ! MENORQ          [ reduce using rule 23 (exp_numerica -> exp_numerica XOR exp_numerica .) ]
   ! MAYORIGUALQ     [ reduce using rule 23 (exp_numerica -> exp_numerica XOR exp_numerica .) ]
   ! MENORIGUALQ     [ reduce using rule 23 (exp_numerica -> exp_numerica XOR exp_numerica .) ]
-  ! OR              [ shift and go to state 56 ]
-  ! XOR             [ shift and go to state 57 ]
+  ! OR              [ shift and go to state 55 ]
+  ! XOR             [ shift and go to state 56 ]
 
 
-state 91
+state 90
 
     (24) exp_numerica -> exp_numerica BAND exp_numerica .
     (16) exp_numerica -> exp_numerica . MAS exp_numerica
@@ -3189,19 +3178,19 @@ state 91
     BXOR            reduce using rule 24 (exp_numerica -> exp_numerica BAND exp_numerica .)
     CORDER          reduce using rule 24 (exp_numerica -> exp_numerica BAND exp_numerica .)
     PARDER          reduce using rule 24 (exp_numerica -> exp_numerica BAND exp_numerica .)
-    MAS             shift and go to state 50
-    MENOS           shift and go to state 51
-    POR             shift and go to state 52
-    DIVIDIDO        shift and go to state 53
-    RESIDUO         shift and go to state 54
-    SHIFTI          shift and go to state 61
-    SHIFTD          shift and go to state 62
-    IGUALQ          shift and go to state 63
-    NIGUALQ         shift and go to state 64
-    MAYORQ          shift and go to state 65
-    MENORQ          shift and go to state 66
-    MAYORIGUALQ     shift and go to state 67
-    MENORIGUALQ     shift and go to state 68
+    MAS             shift and go to state 49
+    MENOS           shift and go to state 50
+    POR             shift and go to state 51
+    DIVIDIDO        shift and go to state 52
+    RESIDUO         shift and go to state 53
+    SHIFTI          shift and go to state 60
+    SHIFTD          shift and go to state 61
+    IGUALQ          shift and go to state 62
+    NIGUALQ         shift and go to state 63
+    MAYORQ          shift and go to state 64
+    MENORQ          shift and go to state 65
+    MAYORIGUALQ     shift and go to state 66
+    MENORIGUALQ     shift and go to state 67
 
   ! MAS             [ reduce using rule 24 (exp_numerica -> exp_numerica BAND exp_numerica .) ]
   ! MENOS           [ reduce using rule 24 (exp_numerica -> exp_numerica BAND exp_numerica .) ]
@@ -3216,15 +3205,15 @@ state 91
   ! MENORQ          [ reduce using rule 24 (exp_numerica -> exp_numerica BAND exp_numerica .) ]
   ! MAYORIGUALQ     [ reduce using rule 24 (exp_numerica -> exp_numerica BAND exp_numerica .) ]
   ! MENORIGUALQ     [ reduce using rule 24 (exp_numerica -> exp_numerica BAND exp_numerica .) ]
-  ! AND             [ shift and go to state 55 ]
-  ! OR              [ shift and go to state 56 ]
-  ! XOR             [ shift and go to state 57 ]
-  ! BAND            [ shift and go to state 58 ]
-  ! BOR             [ shift and go to state 59 ]
-  ! BXOR            [ shift and go to state 60 ]
+  ! AND             [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! XOR             [ shift and go to state 56 ]
+  ! BAND            [ shift and go to state 57 ]
+  ! BOR             [ shift and go to state 58 ]
+  ! BXOR            [ shift and go to state 59 ]
 
 
-state 92
+state 91
 
     (25) exp_numerica -> exp_numerica BOR exp_numerica .
     (16) exp_numerica -> exp_numerica . MAS exp_numerica
@@ -3254,21 +3243,21 @@ state 92
     BOR             reduce using rule 25 (exp_numerica -> exp_numerica BOR exp_numerica .)
     CORDER          reduce using rule 25 (exp_numerica -> exp_numerica BOR exp_numerica .)
     PARDER          reduce using rule 25 (exp_numerica -> exp_numerica BOR exp_numerica .)
-    MAS             shift and go to state 50
-    MENOS           shift and go to state 51
-    POR             shift and go to state 52
-    DIVIDIDO        shift and go to state 53
-    RESIDUO         shift and go to state 54
-    BAND            shift and go to state 58
-    BXOR            shift and go to state 60
-    SHIFTI          shift and go to state 61
-    SHIFTD          shift and go to state 62
-    IGUALQ          shift and go to state 63
-    NIGUALQ         shift and go to state 64
-    MAYORQ          shift and go to state 65
-    MENORQ          shift and go to state 66
-    MAYORIGUALQ     shift and go to state 67
-    MENORIGUALQ     shift and go to state 68
+    MAS             shift and go to state 49
+    MENOS           shift and go to state 50
+    POR             shift and go to state 51
+    DIVIDIDO        shift and go to state 52
+    RESIDUO         shift and go to state 53
+    BAND            shift and go to state 57
+    BXOR            shift and go to state 59
+    SHIFTI          shift and go to state 60
+    SHIFTD          shift and go to state 61
+    IGUALQ          shift and go to state 62
+    NIGUALQ         shift and go to state 63
+    MAYORQ          shift and go to state 64
+    MENORQ          shift and go to state 65
+    MAYORIGUALQ     shift and go to state 66
+    MENORIGUALQ     shift and go to state 67
 
   ! MAS             [ reduce using rule 25 (exp_numerica -> exp_numerica BOR exp_numerica .) ]
   ! MENOS           [ reduce using rule 25 (exp_numerica -> exp_numerica BOR exp_numerica .) ]
@@ -3285,13 +3274,13 @@ state 92
   ! MENORQ          [ reduce using rule 25 (exp_numerica -> exp_numerica BOR exp_numerica .) ]
   ! MAYORIGUALQ     [ reduce using rule 25 (exp_numerica -> exp_numerica BOR exp_numerica .) ]
   ! MENORIGUALQ     [ reduce using rule 25 (exp_numerica -> exp_numerica BOR exp_numerica .) ]
-  ! AND             [ shift and go to state 55 ]
-  ! OR              [ shift and go to state 56 ]
-  ! XOR             [ shift and go to state 57 ]
-  ! BOR             [ shift and go to state 59 ]
+  ! AND             [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! XOR             [ shift and go to state 56 ]
+  ! BOR             [ shift and go to state 58 ]
 
 
-state 93
+state 92
 
     (26) exp_numerica -> exp_numerica BXOR exp_numerica .
     (16) exp_numerica -> exp_numerica . MAS exp_numerica
@@ -3322,20 +3311,20 @@ state 93
     BXOR            reduce using rule 26 (exp_numerica -> exp_numerica BXOR exp_numerica .)
     CORDER          reduce using rule 26 (exp_numerica -> exp_numerica BXOR exp_numerica .)
     PARDER          reduce using rule 26 (exp_numerica -> exp_numerica BXOR exp_numerica .)
-    MAS             shift and go to state 50
-    MENOS           shift and go to state 51
-    POR             shift and go to state 52
-    DIVIDIDO        shift and go to state 53
-    RESIDUO         shift and go to state 54
-    BAND            shift and go to state 58
-    SHIFTI          shift and go to state 61
-    SHIFTD          shift and go to state 62
-    IGUALQ          shift and go to state 63
-    NIGUALQ         shift and go to state 64
-    MAYORQ          shift and go to state 65
-    MENORQ          shift and go to state 66
-    MAYORIGUALQ     shift and go to state 67
-    MENORIGUALQ     shift and go to state 68
+    MAS             shift and go to state 49
+    MENOS           shift and go to state 50
+    POR             shift and go to state 51
+    DIVIDIDO        shift and go to state 52
+    RESIDUO         shift and go to state 53
+    BAND            shift and go to state 57
+    SHIFTI          shift and go to state 60
+    SHIFTD          shift and go to state 61
+    IGUALQ          shift and go to state 62
+    NIGUALQ         shift and go to state 63
+    MAYORQ          shift and go to state 64
+    MENORQ          shift and go to state 65
+    MAYORIGUALQ     shift and go to state 66
+    MENORIGUALQ     shift and go to state 67
 
   ! MAS             [ reduce using rule 26 (exp_numerica -> exp_numerica BXOR exp_numerica .) ]
   ! MENOS           [ reduce using rule 26 (exp_numerica -> exp_numerica BXOR exp_numerica .) ]
@@ -3351,14 +3340,14 @@ state 93
   ! MENORQ          [ reduce using rule 26 (exp_numerica -> exp_numerica BXOR exp_numerica .) ]
   ! MAYORIGUALQ     [ reduce using rule 26 (exp_numerica -> exp_numerica BXOR exp_numerica .) ]
   ! MENORIGUALQ     [ reduce using rule 26 (exp_numerica -> exp_numerica BXOR exp_numerica .) ]
-  ! AND             [ shift and go to state 55 ]
-  ! OR              [ shift and go to state 56 ]
-  ! XOR             [ shift and go to state 57 ]
-  ! BOR             [ shift and go to state 59 ]
-  ! BXOR            [ shift and go to state 60 ]
+  ! AND             [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! XOR             [ shift and go to state 56 ]
+  ! BOR             [ shift and go to state 58 ]
+  ! BXOR            [ shift and go to state 59 ]
 
 
-state 94
+state 93
 
     (27) exp_numerica -> exp_numerica SHIFTI exp_numerica .
     (16) exp_numerica -> exp_numerica . MAS exp_numerica
@@ -3392,17 +3381,17 @@ state 94
     SHIFTD          reduce using rule 27 (exp_numerica -> exp_numerica SHIFTI exp_numerica .)
     CORDER          reduce using rule 27 (exp_numerica -> exp_numerica SHIFTI exp_numerica .)
     PARDER          reduce using rule 27 (exp_numerica -> exp_numerica SHIFTI exp_numerica .)
-    MAS             shift and go to state 50
-    MENOS           shift and go to state 51
-    POR             shift and go to state 52
-    DIVIDIDO        shift and go to state 53
-    RESIDUO         shift and go to state 54
-    IGUALQ          shift and go to state 63
-    NIGUALQ         shift and go to state 64
-    MAYORQ          shift and go to state 65
-    MENORQ          shift and go to state 66
-    MAYORIGUALQ     shift and go to state 67
-    MENORIGUALQ     shift and go to state 68
+    MAS             shift and go to state 49
+    MENOS           shift and go to state 50
+    POR             shift and go to state 51
+    DIVIDIDO        shift and go to state 52
+    RESIDUO         shift and go to state 53
+    IGUALQ          shift and go to state 62
+    NIGUALQ         shift and go to state 63
+    MAYORQ          shift and go to state 64
+    MENORQ          shift and go to state 65
+    MAYORIGUALQ     shift and go to state 66
+    MENORIGUALQ     shift and go to state 67
 
   ! MAS             [ reduce using rule 27 (exp_numerica -> exp_numerica SHIFTI exp_numerica .) ]
   ! MENOS           [ reduce using rule 27 (exp_numerica -> exp_numerica SHIFTI exp_numerica .) ]
@@ -3415,17 +3404,17 @@ state 94
   ! MENORQ          [ reduce using rule 27 (exp_numerica -> exp_numerica SHIFTI exp_numerica .) ]
   ! MAYORIGUALQ     [ reduce using rule 27 (exp_numerica -> exp_numerica SHIFTI exp_numerica .) ]
   ! MENORIGUALQ     [ reduce using rule 27 (exp_numerica -> exp_numerica SHIFTI exp_numerica .) ]
-  ! AND             [ shift and go to state 55 ]
-  ! OR              [ shift and go to state 56 ]
-  ! XOR             [ shift and go to state 57 ]
-  ! BAND            [ shift and go to state 58 ]
-  ! BOR             [ shift and go to state 59 ]
-  ! BXOR            [ shift and go to state 60 ]
-  ! SHIFTI          [ shift and go to state 61 ]
-  ! SHIFTD          [ shift and go to state 62 ]
+  ! AND             [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! XOR             [ shift and go to state 56 ]
+  ! BAND            [ shift and go to state 57 ]
+  ! BOR             [ shift and go to state 58 ]
+  ! BXOR            [ shift and go to state 59 ]
+  ! SHIFTI          [ shift and go to state 60 ]
+  ! SHIFTD          [ shift and go to state 61 ]
 
 
-state 95
+state 94
 
     (28) exp_numerica -> exp_numerica SHIFTD exp_numerica .
     (16) exp_numerica -> exp_numerica . MAS exp_numerica
@@ -3459,17 +3448,17 @@ state 95
     SHIFTD          reduce using rule 28 (exp_numerica -> exp_numerica SHIFTD exp_numerica .)
     CORDER          reduce using rule 28 (exp_numerica -> exp_numerica SHIFTD exp_numerica .)
     PARDER          reduce using rule 28 (exp_numerica -> exp_numerica SHIFTD exp_numerica .)
-    MAS             shift and go to state 50
-    MENOS           shift and go to state 51
-    POR             shift and go to state 52
-    DIVIDIDO        shift and go to state 53
-    RESIDUO         shift and go to state 54
-    IGUALQ          shift and go to state 63
-    NIGUALQ         shift and go to state 64
-    MAYORQ          shift and go to state 65
-    MENORQ          shift and go to state 66
-    MAYORIGUALQ     shift and go to state 67
-    MENORIGUALQ     shift and go to state 68
+    MAS             shift and go to state 49
+    MENOS           shift and go to state 50
+    POR             shift and go to state 51
+    DIVIDIDO        shift and go to state 52
+    RESIDUO         shift and go to state 53
+    IGUALQ          shift and go to state 62
+    NIGUALQ         shift and go to state 63
+    MAYORQ          shift and go to state 64
+    MENORQ          shift and go to state 65
+    MAYORIGUALQ     shift and go to state 66
+    MENORIGUALQ     shift and go to state 67
 
   ! MAS             [ reduce using rule 28 (exp_numerica -> exp_numerica SHIFTD exp_numerica .) ]
   ! MENOS           [ reduce using rule 28 (exp_numerica -> exp_numerica SHIFTD exp_numerica .) ]
@@ -3482,17 +3471,17 @@ state 95
   ! MENORQ          [ reduce using rule 28 (exp_numerica -> exp_numerica SHIFTD exp_numerica .) ]
   ! MAYORIGUALQ     [ reduce using rule 28 (exp_numerica -> exp_numerica SHIFTD exp_numerica .) ]
   ! MENORIGUALQ     [ reduce using rule 28 (exp_numerica -> exp_numerica SHIFTD exp_numerica .) ]
-  ! AND             [ shift and go to state 55 ]
-  ! OR              [ shift and go to state 56 ]
-  ! XOR             [ shift and go to state 57 ]
-  ! BAND            [ shift and go to state 58 ]
-  ! BOR             [ shift and go to state 59 ]
-  ! BXOR            [ shift and go to state 60 ]
-  ! SHIFTI          [ shift and go to state 61 ]
-  ! SHIFTD          [ shift and go to state 62 ]
+  ! AND             [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! XOR             [ shift and go to state 56 ]
+  ! BAND            [ shift and go to state 57 ]
+  ! BOR             [ shift and go to state 58 ]
+  ! BXOR            [ shift and go to state 59 ]
+  ! SHIFTI          [ shift and go to state 60 ]
+  ! SHIFTD          [ shift and go to state 61 ]
 
 
-state 96
+state 95
 
     (29) exp_numerica -> exp_numerica IGUALQ exp_numerica .
     (16) exp_numerica -> exp_numerica . MAS exp_numerica
@@ -3528,15 +3517,15 @@ state 96
     NIGUALQ         reduce using rule 29 (exp_numerica -> exp_numerica IGUALQ exp_numerica .)
     CORDER          reduce using rule 29 (exp_numerica -> exp_numerica IGUALQ exp_numerica .)
     PARDER          reduce using rule 29 (exp_numerica -> exp_numerica IGUALQ exp_numerica .)
-    MAS             shift and go to state 50
-    MENOS           shift and go to state 51
-    POR             shift and go to state 52
-    DIVIDIDO        shift and go to state 53
-    RESIDUO         shift and go to state 54
-    MAYORQ          shift and go to state 65
-    MENORQ          shift and go to state 66
-    MAYORIGUALQ     shift and go to state 67
-    MENORIGUALQ     shift and go to state 68
+    MAS             shift and go to state 49
+    MENOS           shift and go to state 50
+    POR             shift and go to state 51
+    DIVIDIDO        shift and go to state 52
+    RESIDUO         shift and go to state 53
+    MAYORQ          shift and go to state 64
+    MENORQ          shift and go to state 65
+    MAYORIGUALQ     shift and go to state 66
+    MENORIGUALQ     shift and go to state 67
 
   ! MAS             [ reduce using rule 29 (exp_numerica -> exp_numerica IGUALQ exp_numerica .) ]
   ! MENOS           [ reduce using rule 29 (exp_numerica -> exp_numerica IGUALQ exp_numerica .) ]
@@ -3547,19 +3536,19 @@ state 96
   ! MENORQ          [ reduce using rule 29 (exp_numerica -> exp_numerica IGUALQ exp_numerica .) ]
   ! MAYORIGUALQ     [ reduce using rule 29 (exp_numerica -> exp_numerica IGUALQ exp_numerica .) ]
   ! MENORIGUALQ     [ reduce using rule 29 (exp_numerica -> exp_numerica IGUALQ exp_numerica .) ]
-  ! AND             [ shift and go to state 55 ]
-  ! OR              [ shift and go to state 56 ]
-  ! XOR             [ shift and go to state 57 ]
-  ! BAND            [ shift and go to state 58 ]
-  ! BOR             [ shift and go to state 59 ]
-  ! BXOR            [ shift and go to state 60 ]
-  ! SHIFTI          [ shift and go to state 61 ]
-  ! SHIFTD          [ shift and go to state 62 ]
-  ! IGUALQ          [ shift and go to state 63 ]
-  ! NIGUALQ         [ shift and go to state 64 ]
+  ! AND             [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! XOR             [ shift and go to state 56 ]
+  ! BAND            [ shift and go to state 57 ]
+  ! BOR             [ shift and go to state 58 ]
+  ! BXOR            [ shift and go to state 59 ]
+  ! SHIFTI          [ shift and go to state 60 ]
+  ! SHIFTD          [ shift and go to state 61 ]
+  ! IGUALQ          [ shift and go to state 62 ]
+  ! NIGUALQ         [ shift and go to state 63 ]
 
 
-state 97
+state 96
 
     (30) exp_numerica -> exp_numerica NIGUALQ exp_numerica .
     (16) exp_numerica -> exp_numerica . MAS exp_numerica
@@ -3595,15 +3584,15 @@ state 97
     NIGUALQ         reduce using rule 30 (exp_numerica -> exp_numerica NIGUALQ exp_numerica .)
     CORDER          reduce using rule 30 (exp_numerica -> exp_numerica NIGUALQ exp_numerica .)
     PARDER          reduce using rule 30 (exp_numerica -> exp_numerica NIGUALQ exp_numerica .)
-    MAS             shift and go to state 50
-    MENOS           shift and go to state 51
-    POR             shift and go to state 52
-    DIVIDIDO        shift and go to state 53
-    RESIDUO         shift and go to state 54
-    MAYORQ          shift and go to state 65
-    MENORQ          shift and go to state 66
-    MAYORIGUALQ     shift and go to state 67
-    MENORIGUALQ     shift and go to state 68
+    MAS             shift and go to state 49
+    MENOS           shift and go to state 50
+    POR             shift and go to state 51
+    DIVIDIDO        shift and go to state 52
+    RESIDUO         shift and go to state 53
+    MAYORQ          shift and go to state 64
+    MENORQ          shift and go to state 65
+    MAYORIGUALQ     shift and go to state 66
+    MENORIGUALQ     shift and go to state 67
 
   ! MAS             [ reduce using rule 30 (exp_numerica -> exp_numerica NIGUALQ exp_numerica .) ]
   ! MENOS           [ reduce using rule 30 (exp_numerica -> exp_numerica NIGUALQ exp_numerica .) ]
@@ -3614,19 +3603,19 @@ state 97
   ! MENORQ          [ reduce using rule 30 (exp_numerica -> exp_numerica NIGUALQ exp_numerica .) ]
   ! MAYORIGUALQ     [ reduce using rule 30 (exp_numerica -> exp_numerica NIGUALQ exp_numerica .) ]
   ! MENORIGUALQ     [ reduce using rule 30 (exp_numerica -> exp_numerica NIGUALQ exp_numerica .) ]
-  ! AND             [ shift and go to state 55 ]
-  ! OR              [ shift and go to state 56 ]
-  ! XOR             [ shift and go to state 57 ]
-  ! BAND            [ shift and go to state 58 ]
-  ! BOR             [ shift and go to state 59 ]
-  ! BXOR            [ shift and go to state 60 ]
-  ! SHIFTI          [ shift and go to state 61 ]
-  ! SHIFTD          [ shift and go to state 62 ]
-  ! IGUALQ          [ shift and go to state 63 ]
-  ! NIGUALQ         [ shift and go to state 64 ]
+  ! AND             [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! XOR             [ shift and go to state 56 ]
+  ! BAND            [ shift and go to state 57 ]
+  ! BOR             [ shift and go to state 58 ]
+  ! BXOR            [ shift and go to state 59 ]
+  ! SHIFTI          [ shift and go to state 60 ]
+  ! SHIFTD          [ shift and go to state 61 ]
+  ! IGUALQ          [ shift and go to state 62 ]
+  ! NIGUALQ         [ shift and go to state 63 ]
 
 
-state 98
+state 97
 
     (31) exp_numerica -> exp_numerica MAYORQ exp_numerica .
     (16) exp_numerica -> exp_numerica . MAS exp_numerica
@@ -3666,34 +3655,34 @@ state 98
     MENORIGUALQ     reduce using rule 31 (exp_numerica -> exp_numerica MAYORQ exp_numerica .)
     CORDER          reduce using rule 31 (exp_numerica -> exp_numerica MAYORQ exp_numerica .)
     PARDER          reduce using rule 31 (exp_numerica -> exp_numerica MAYORQ exp_numerica .)
-    MAS             shift and go to state 50
-    MENOS           shift and go to state 51
-    POR             shift and go to state 52
-    DIVIDIDO        shift and go to state 53
-    RESIDUO         shift and go to state 54
+    MAS             shift and go to state 49
+    MENOS           shift and go to state 50
+    POR             shift and go to state 51
+    DIVIDIDO        shift and go to state 52
+    RESIDUO         shift and go to state 53
 
   ! MAS             [ reduce using rule 31 (exp_numerica -> exp_numerica MAYORQ exp_numerica .) ]
   ! MENOS           [ reduce using rule 31 (exp_numerica -> exp_numerica MAYORQ exp_numerica .) ]
   ! POR             [ reduce using rule 31 (exp_numerica -> exp_numerica MAYORQ exp_numerica .) ]
   ! DIVIDIDO        [ reduce using rule 31 (exp_numerica -> exp_numerica MAYORQ exp_numerica .) ]
   ! RESIDUO         [ reduce using rule 31 (exp_numerica -> exp_numerica MAYORQ exp_numerica .) ]
-  ! AND             [ shift and go to state 55 ]
-  ! OR              [ shift and go to state 56 ]
-  ! XOR             [ shift and go to state 57 ]
-  ! BAND            [ shift and go to state 58 ]
-  ! BOR             [ shift and go to state 59 ]
-  ! BXOR            [ shift and go to state 60 ]
-  ! SHIFTI          [ shift and go to state 61 ]
-  ! SHIFTD          [ shift and go to state 62 ]
-  ! IGUALQ          [ shift and go to state 63 ]
-  ! NIGUALQ         [ shift and go to state 64 ]
-  ! MAYORQ          [ shift and go to state 65 ]
-  ! MENORQ          [ shift and go to state 66 ]
-  ! MAYORIGUALQ     [ shift and go to state 67 ]
-  ! MENORIGUALQ     [ shift and go to state 68 ]
+  ! AND             [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! XOR             [ shift and go to state 56 ]
+  ! BAND            [ shift and go to state 57 ]
+  ! BOR             [ shift and go to state 58 ]
+  ! BXOR            [ shift and go to state 59 ]
+  ! SHIFTI          [ shift and go to state 60 ]
+  ! SHIFTD          [ shift and go to state 61 ]
+  ! IGUALQ          [ shift and go to state 62 ]
+  ! NIGUALQ         [ shift and go to state 63 ]
+  ! MAYORQ          [ shift and go to state 64 ]
+  ! MENORQ          [ shift and go to state 65 ]
+  ! MAYORIGUALQ     [ shift and go to state 66 ]
+  ! MENORIGUALQ     [ shift and go to state 67 ]
 
 
-state 99
+state 98
 
     (32) exp_numerica -> exp_numerica MENORQ exp_numerica .
     (16) exp_numerica -> exp_numerica . MAS exp_numerica
@@ -3733,34 +3722,34 @@ state 99
     MENORIGUALQ     reduce using rule 32 (exp_numerica -> exp_numerica MENORQ exp_numerica .)
     CORDER          reduce using rule 32 (exp_numerica -> exp_numerica MENORQ exp_numerica .)
     PARDER          reduce using rule 32 (exp_numerica -> exp_numerica MENORQ exp_numerica .)
-    MAS             shift and go to state 50
-    MENOS           shift and go to state 51
-    POR             shift and go to state 52
-    DIVIDIDO        shift and go to state 53
-    RESIDUO         shift and go to state 54
+    MAS             shift and go to state 49
+    MENOS           shift and go to state 50
+    POR             shift and go to state 51
+    DIVIDIDO        shift and go to state 52
+    RESIDUO         shift and go to state 53
 
   ! MAS             [ reduce using rule 32 (exp_numerica -> exp_numerica MENORQ exp_numerica .) ]
   ! MENOS           [ reduce using rule 32 (exp_numerica -> exp_numerica MENORQ exp_numerica .) ]
   ! POR             [ reduce using rule 32 (exp_numerica -> exp_numerica MENORQ exp_numerica .) ]
   ! DIVIDIDO        [ reduce using rule 32 (exp_numerica -> exp_numerica MENORQ exp_numerica .) ]
   ! RESIDUO         [ reduce using rule 32 (exp_numerica -> exp_numerica MENORQ exp_numerica .) ]
-  ! AND             [ shift and go to state 55 ]
-  ! OR              [ shift and go to state 56 ]
-  ! XOR             [ shift and go to state 57 ]
-  ! BAND            [ shift and go to state 58 ]
-  ! BOR             [ shift and go to state 59 ]
-  ! BXOR            [ shift and go to state 60 ]
-  ! SHIFTI          [ shift and go to state 61 ]
-  ! SHIFTD          [ shift and go to state 62 ]
-  ! IGUALQ          [ shift and go to state 63 ]
-  ! NIGUALQ         [ shift and go to state 64 ]
-  ! MAYORQ          [ shift and go to state 65 ]
-  ! MENORQ          [ shift and go to state 66 ]
-  ! MAYORIGUALQ     [ shift and go to state 67 ]
-  ! MENORIGUALQ     [ shift and go to state 68 ]
+  ! AND             [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! XOR             [ shift and go to state 56 ]
+  ! BAND            [ shift and go to state 57 ]
+  ! BOR             [ shift and go to state 58 ]
+  ! BXOR            [ shift and go to state 59 ]
+  ! SHIFTI          [ shift and go to state 60 ]
+  ! SHIFTD          [ shift and go to state 61 ]
+  ! IGUALQ          [ shift and go to state 62 ]
+  ! NIGUALQ         [ shift and go to state 63 ]
+  ! MAYORQ          [ shift and go to state 64 ]
+  ! MENORQ          [ shift and go to state 65 ]
+  ! MAYORIGUALQ     [ shift and go to state 66 ]
+  ! MENORIGUALQ     [ shift and go to state 67 ]
 
 
-state 100
+state 99
 
     (33) exp_numerica -> exp_numerica MAYORIGUALQ exp_numerica .
     (16) exp_numerica -> exp_numerica . MAS exp_numerica
@@ -3800,34 +3789,34 @@ state 100
     MENORIGUALQ     reduce using rule 33 (exp_numerica -> exp_numerica MAYORIGUALQ exp_numerica .)
     CORDER          reduce using rule 33 (exp_numerica -> exp_numerica MAYORIGUALQ exp_numerica .)
     PARDER          reduce using rule 33 (exp_numerica -> exp_numerica MAYORIGUALQ exp_numerica .)
-    MAS             shift and go to state 50
-    MENOS           shift and go to state 51
-    POR             shift and go to state 52
-    DIVIDIDO        shift and go to state 53
-    RESIDUO         shift and go to state 54
+    MAS             shift and go to state 49
+    MENOS           shift and go to state 50
+    POR             shift and go to state 51
+    DIVIDIDO        shift and go to state 52
+    RESIDUO         shift and go to state 53
 
   ! MAS             [ reduce using rule 33 (exp_numerica -> exp_numerica MAYORIGUALQ exp_numerica .) ]
   ! MENOS           [ reduce using rule 33 (exp_numerica -> exp_numerica MAYORIGUALQ exp_numerica .) ]
   ! POR             [ reduce using rule 33 (exp_numerica -> exp_numerica MAYORIGUALQ exp_numerica .) ]
   ! DIVIDIDO        [ reduce using rule 33 (exp_numerica -> exp_numerica MAYORIGUALQ exp_numerica .) ]
   ! RESIDUO         [ reduce using rule 33 (exp_numerica -> exp_numerica MAYORIGUALQ exp_numerica .) ]
-  ! AND             [ shift and go to state 55 ]
-  ! OR              [ shift and go to state 56 ]
-  ! XOR             [ shift and go to state 57 ]
-  ! BAND            [ shift and go to state 58 ]
-  ! BOR             [ shift and go to state 59 ]
-  ! BXOR            [ shift and go to state 60 ]
-  ! SHIFTI          [ shift and go to state 61 ]
-  ! SHIFTD          [ shift and go to state 62 ]
-  ! IGUALQ          [ shift and go to state 63 ]
-  ! NIGUALQ         [ shift and go to state 64 ]
-  ! MAYORQ          [ shift and go to state 65 ]
-  ! MENORQ          [ shift and go to state 66 ]
-  ! MAYORIGUALQ     [ shift and go to state 67 ]
-  ! MENORIGUALQ     [ shift and go to state 68 ]
+  ! AND             [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! XOR             [ shift and go to state 56 ]
+  ! BAND            [ shift and go to state 57 ]
+  ! BOR             [ shift and go to state 58 ]
+  ! BXOR            [ shift and go to state 59 ]
+  ! SHIFTI          [ shift and go to state 60 ]
+  ! SHIFTD          [ shift and go to state 61 ]
+  ! IGUALQ          [ shift and go to state 62 ]
+  ! NIGUALQ         [ shift and go to state 63 ]
+  ! MAYORQ          [ shift and go to state 64 ]
+  ! MENORQ          [ shift and go to state 65 ]
+  ! MAYORIGUALQ     [ shift and go to state 66 ]
+  ! MENORIGUALQ     [ shift and go to state 67 ]
 
 
-state 101
+state 100
 
     (34) exp_numerica -> exp_numerica MENORIGUALQ exp_numerica .
     (16) exp_numerica -> exp_numerica . MAS exp_numerica
@@ -3867,41 +3856,41 @@ state 101
     MENORIGUALQ     reduce using rule 34 (exp_numerica -> exp_numerica MENORIGUALQ exp_numerica .)
     CORDER          reduce using rule 34 (exp_numerica -> exp_numerica MENORIGUALQ exp_numerica .)
     PARDER          reduce using rule 34 (exp_numerica -> exp_numerica MENORIGUALQ exp_numerica .)
-    MAS             shift and go to state 50
-    MENOS           shift and go to state 51
-    POR             shift and go to state 52
-    DIVIDIDO        shift and go to state 53
-    RESIDUO         shift and go to state 54
+    MAS             shift and go to state 49
+    MENOS           shift and go to state 50
+    POR             shift and go to state 51
+    DIVIDIDO        shift and go to state 52
+    RESIDUO         shift and go to state 53
 
   ! MAS             [ reduce using rule 34 (exp_numerica -> exp_numerica MENORIGUALQ exp_numerica .) ]
   ! MENOS           [ reduce using rule 34 (exp_numerica -> exp_numerica MENORIGUALQ exp_numerica .) ]
   ! POR             [ reduce using rule 34 (exp_numerica -> exp_numerica MENORIGUALQ exp_numerica .) ]
   ! DIVIDIDO        [ reduce using rule 34 (exp_numerica -> exp_numerica MENORIGUALQ exp_numerica .) ]
   ! RESIDUO         [ reduce using rule 34 (exp_numerica -> exp_numerica MENORIGUALQ exp_numerica .) ]
-  ! AND             [ shift and go to state 55 ]
-  ! OR              [ shift and go to state 56 ]
-  ! XOR             [ shift and go to state 57 ]
-  ! BAND            [ shift and go to state 58 ]
-  ! BOR             [ shift and go to state 59 ]
-  ! BXOR            [ shift and go to state 60 ]
-  ! SHIFTI          [ shift and go to state 61 ]
-  ! SHIFTD          [ shift and go to state 62 ]
-  ! IGUALQ          [ shift and go to state 63 ]
-  ! NIGUALQ         [ shift and go to state 64 ]
-  ! MAYORQ          [ shift and go to state 65 ]
-  ! MENORQ          [ shift and go to state 66 ]
-  ! MAYORIGUALQ     [ shift and go to state 67 ]
-  ! MENORIGUALQ     [ shift and go to state 68 ]
+  ! AND             [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! XOR             [ shift and go to state 56 ]
+  ! BAND            [ shift and go to state 57 ]
+  ! BOR             [ shift and go to state 58 ]
+  ! BXOR            [ shift and go to state 59 ]
+  ! SHIFTI          [ shift and go to state 60 ]
+  ! SHIFTD          [ shift and go to state 61 ]
+  ! IGUALQ          [ shift and go to state 62 ]
+  ! NIGUALQ         [ shift and go to state 63 ]
+  ! MAYORQ          [ shift and go to state 64 ]
+  ! MENORQ          [ shift and go to state 65 ]
+  ! MAYORIGUALQ     [ shift and go to state 66 ]
+  ! MENORIGUALQ     [ shift and go to state 67 ]
 
 
-state 102
+state 101
 
     (35) exp_numerica -> PARIZQ tipo_dato PARDER . VAR
 
-    VAR             shift and go to state 109
+    VAR             shift and go to state 108
 
 
-state 103
+state 102
 
     (39) exp_numerica -> ABS PARIZQ exp_numerica . PARDER
     (16) exp_numerica -> exp_numerica . MAS exp_numerica
@@ -3924,29 +3913,29 @@ state 103
     (33) exp_numerica -> exp_numerica . MAYORIGUALQ exp_numerica
     (34) exp_numerica -> exp_numerica . MENORIGUALQ exp_numerica
 
-    PARDER          shift and go to state 110
-    MAS             shift and go to state 50
-    MENOS           shift and go to state 51
-    POR             shift and go to state 52
-    DIVIDIDO        shift and go to state 53
-    RESIDUO         shift and go to state 54
-    AND             shift and go to state 55
-    OR              shift and go to state 56
-    XOR             shift and go to state 57
-    BAND            shift and go to state 58
-    BOR             shift and go to state 59
-    BXOR            shift and go to state 60
-    SHIFTI          shift and go to state 61
-    SHIFTD          shift and go to state 62
-    IGUALQ          shift and go to state 63
-    NIGUALQ         shift and go to state 64
-    MAYORQ          shift and go to state 65
-    MENORQ          shift and go to state 66
-    MAYORIGUALQ     shift and go to state 67
-    MENORIGUALQ     shift and go to state 68
+    PARDER          shift and go to state 109
+    MAS             shift and go to state 49
+    MENOS           shift and go to state 50
+    POR             shift and go to state 51
+    DIVIDIDO        shift and go to state 52
+    RESIDUO         shift and go to state 53
+    AND             shift and go to state 54
+    OR              shift and go to state 55
+    XOR             shift and go to state 56
+    BAND            shift and go to state 57
+    BOR             shift and go to state 58
+    BXOR            shift and go to state 59
+    SHIFTI          shift and go to state 60
+    SHIFTD          shift and go to state 61
+    IGUALQ          shift and go to state 62
+    NIGUALQ         shift and go to state 63
+    MAYORQ          shift and go to state 64
+    MENORQ          shift and go to state 65
+    MAYORIGUALQ     shift and go to state 66
+    MENORIGUALQ     shift and go to state 67
 
 
-state 104
+state 103
 
     (45) exp_numerica -> ARRAY PARIZQ PARDER .
 
@@ -3974,7 +3963,7 @@ state 104
     PARDER          reduce using rule 45 (exp_numerica -> ARRAY PARIZQ PARDER .)
 
 
-state 105
+state 104
 
     (11) array_instr -> VAR indices IGUAL exp_numerica PTCOMA .
 
@@ -3987,7 +3976,7 @@ state 105
     $end            reduce using rule 11 (array_instr -> VAR indices IGUAL exp_numerica PTCOMA .)
 
 
-state 106
+state 105
 
     (49) print_instr -> PRINT PARIZQ exp_numerica PARDER PTCOMA .
 
@@ -4000,7 +3989,7 @@ state 106
     $end            reduce using rule 49 (print_instr -> PRINT PARIZQ exp_numerica PARDER PTCOMA .)
 
 
-state 107
+state 106
 
     (50) unset_instr -> UNSET PARIZQ exp_numerica PARDER PTCOMA .
 
@@ -4013,20 +4002,20 @@ state 107
     $end            reduce using rule 50 (unset_instr -> UNSET PARIZQ exp_numerica PARDER PTCOMA .)
 
 
+state 107
+
+    (51) if_instr -> IF PARIZQ exp_numerica PARDER goto_instr .
+
+    VAR             reduce using rule 51 (if_instr -> IF PARIZQ exp_numerica PARDER goto_instr .)
+    PRINT           reduce using rule 51 (if_instr -> IF PARIZQ exp_numerica PARDER goto_instr .)
+    UNSET           reduce using rule 51 (if_instr -> IF PARIZQ exp_numerica PARDER goto_instr .)
+    IF              reduce using rule 51 (if_instr -> IF PARIZQ exp_numerica PARDER goto_instr .)
+    ID              reduce using rule 51 (if_instr -> IF PARIZQ exp_numerica PARDER goto_instr .)
+    GOTO            reduce using rule 51 (if_instr -> IF PARIZQ exp_numerica PARDER goto_instr .)
+    $end            reduce using rule 51 (if_instr -> IF PARIZQ exp_numerica PARDER goto_instr .)
+
+
 state 108
-
-    (51) if_instr -> IF PARIZQ condicion_instr PARDER goto_instr .
-
-    VAR             reduce using rule 51 (if_instr -> IF PARIZQ condicion_instr PARDER goto_instr .)
-    PRINT           reduce using rule 51 (if_instr -> IF PARIZQ condicion_instr PARDER goto_instr .)
-    UNSET           reduce using rule 51 (if_instr -> IF PARIZQ condicion_instr PARDER goto_instr .)
-    IF              reduce using rule 51 (if_instr -> IF PARIZQ condicion_instr PARDER goto_instr .)
-    ID              reduce using rule 51 (if_instr -> IF PARIZQ condicion_instr PARDER goto_instr .)
-    GOTO            reduce using rule 51 (if_instr -> IF PARIZQ condicion_instr PARDER goto_instr .)
-    $end            reduce using rule 51 (if_instr -> IF PARIZQ condicion_instr PARDER goto_instr .)
-
-
-state 109
 
     (35) exp_numerica -> PARIZQ tipo_dato PARDER VAR .
 
@@ -4054,7 +4043,7 @@ state 109
     PARDER          reduce using rule 35 (exp_numerica -> PARIZQ tipo_dato PARDER VAR .)
 
 
-state 110
+state 109
 
     (39) exp_numerica -> ABS PARIZQ exp_numerica PARDER .
 

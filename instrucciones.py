@@ -86,6 +86,15 @@ class Imprimir(Instruccion):
     def __init__(self, exp):
         self.exp = exp
 
+    def graficar(self, id, idP, var):
+        nodo1 = var
+        grafo = ""
+        grafo += "nodo"+str(id+1)+"[label=\""+str(nodo1)+"\"];\n"
+        grafo += "p"+str(idP+1)+"[label=\"Print\"];\n"
+        grafo += "p"+str(idP+1)+"->nodo"+str(id+1)+";\n"
+        grafo += "nodo"+str(id+1)+"->nodo"+str(id)+";\n"
+        return grafo
+
 class Unset(Instruccion):
     '''Destruye las variables'''
 
@@ -94,3 +103,7 @@ class Unset(Instruccion):
 
 class If(Instruccion):
     ''' Instruccion If, codicion; lisaInstruccions'''
+
+    def __init__(self, expLogica, id):
+        self.expLogica = expLogica
+        self.id = id

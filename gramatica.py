@@ -1,3 +1,6 @@
+import ply.lex as lex
+import ply.yacc as yacc
+
 reserved = {
     'main' : 'MAIN',
     'goto' : 'GOTO',
@@ -136,12 +139,15 @@ def find_column(input, token):
      return (token.lexpos - line_start) + 1
     
 def t_error(t):
+    global entrada
     print("Illegal character '%s'" % t.value[0])
+    Diccionario = {'Error': str(t.value[0]), 'Tipo': 'Lexico', 'Fila': t.lineno, 'Columna': find_column(entrada,t)}
+    print(t.value)
+    errorLexicos.agregar(Diccionario)
     t.lexer.skip(1)
     
 # Construyendo el analizador léxico
 
-import ply.lex as lex
 lexer = lex.lex()
 
 # Asociación de operadores y precedencia
@@ -170,6 +176,7 @@ precedence = (
 from expresiones import *
 from instrucciones import *
 import pila as PILA
+import ply.lex as lex
 
 ambito = PILA.Pila()
 ambito.push('main')
@@ -330,15 +337,13 @@ def p_print(t):
     'print_instr            : PRINT PARIZQ exp_numerica PARDER PTCOMA'
     t[0] = Imprimir(t[3])
 
-def p_unse(t):
+def p_unset(t):
     'unset_instr            : UNSET PARIZQ exp_numerica PARDER PTCOMA'
     t[0] = Unset(t[3])
 
 def p_if(t):
-    'if_instr               : IF PARIZQ condicion_instr PARDER goto_instr'
-    
-def p_condicion(t):
-    'condicion_instr        : exp_numerica'
+    'if_instr               : IF PARIZQ exp_numerica PARDER goto_instr'
+    t[0] = If(t[3], t[5])
 
 def p_etiqueta(t):
     'etiqueta_instr         : ID DOSPUNTOS'
@@ -353,13 +358,56 @@ def p_goto(t):
     'goto_instr             : GOTO ID PTCOMA'
     t[0] = Goto(t[2])
 
-def p_error(t):
-    print("Error sintáctico en '%s'" % t.value)
+def p_error(p):
+    global entrada
+    if p:
+        print("Syntax error at token", p.type, "Fila: ", p.lineno+1, "Columna: ", find_column(entrada,p), "Valor: ", format(p.value))
+        Diccionario = {'Error': p.value, 'Tipo': 'Sintactico', 'Fila': p.lineno, 'Columna': find_column(entrada,p)}
+        errorLexicos.agregar(Diccionario)
+        # Just discard the token and tell the parser it's okay..
+        parser.errok()
+    else:
+        print("Syntax error at EOF")
 
-import ply.yacc as yacc
+'''METODO CON AYUDA DEL AUX
+def p_error(t):
+    global entrada
+    global parser
+    tok = parser.token()
+    while True:
+        if tok is not None:
+            if tok.value == ';':
+                print('here')
+                break
+            tok = parser.token()
+            print(tok.value)
+        else:
+            break
+    print('sale')
+    return tok.type
+'''
+''' METODO DE LA DOCUMENTACION DE PLY
+def p_error(p):
+    global entrada
+    global parser
+    # Read ahead looking for a terminating ";"
+    print(p)
+    while True:
+        tok = parser.token()             # Get the next token
+        if not tok or tok.type == 'PTCOMA': break
+    parser.errok()
+
+    # Return SEMI to the parser as the next lookahead token
+    return tok  
+'''
+
 parser = yacc.yacc()
+errorLexicos = PILA.Pila()
+erroresSintacticos = PILA.Pila()
 
 def parse(input):
+    global entrada
+    entrada = input
     #f = open("./entrada.txt", "r")
     #input = f.read()
     #prueba.Content.consola.setPlainText(input)
@@ -368,3 +416,5 @@ def parse(input):
     print(input)
     print("############")
     return parser.parse(input)
+
+entrada = ""
