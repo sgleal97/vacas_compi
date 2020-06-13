@@ -124,6 +124,7 @@ class Ui_MainWindow(object):
 
         self.actionReporte_gramatical = QtWidgets.QAction(MainWindow)
         self.actionReporte_gramatical.setObjectName("actionReporte_gramatical")
+        self.actionReporte_gramatical.triggered.connect(self.reporteGramatical)
 
         self.actionLexicos = QtWidgets.QAction(MainWindow)
         self.actionLexicos.setObjectName("actionLexicos")
@@ -136,6 +137,7 @@ class Ui_MainWindow(object):
 
         self.actionSemanticos = QtWidgets.QAction(MainWindow)
         self.actionSemanticos.setObjectName("actionSemanticos")
+
         self.actionPegar = QtWidgets.QAction(MainWindow)
         self.actionPegar.setObjectName("actionPegar")
         self.actionRun = QtWidgets.QAction(MainWindow)
@@ -238,14 +240,9 @@ class Ui_MainWindow(object):
         texto = items[3].toPlainText()
         #print(texto)
         #instrucciones = parse(texto)
-        analisisAsc = Main(texto)
+        analisisAsc = Main(texto, items[4])
         archivoAsc = astAsc()
         archivoTS = getTS()
-    
-    def setTextConsola(self, valor):
-        tab = self.tabWidget.widget(self.tabWidget.currentIndex())
-        items = tab.children()
-        items[4].setPlainText(valor)
 
     def openFile(self):                        
         dialog = QFileDialog()
@@ -298,7 +295,7 @@ class Ui_MainWindow(object):
         lex += "}\n"
         tab = self.tabWidget.widget(self.tabWidget.currentIndex())
         items = tab.children()
-        items[4].setPlainText("***********Se genero el reporte de errores lexicos***************")
+        items[4].append("***********Se genero el reporte de errores lexicos***************")
         f = open("lexicos.dot", "w")
         f.write(lex)
         f.close()
@@ -307,32 +304,68 @@ class Ui_MainWindow(object):
     def reporteErrorSintactico(self):
         sintactivos = PILA.Pila()
         sintactivos = g.erroresSintacticos
-        lex = " "
-        lex += "digraph H {\n"
-        lex += "aHtmlTable [\n"
-        lex += "shape=plaintext\n"
-        lex += "label=<\n"
-        lex += "<table border='1' cellborder='1'>\n"
-        lex += "<tr>\n"
-        lex += "<td>VALOR</td>\n"
-        lex += "<td>TIPO</td>\n"
-        lex += "<td>FILA</td>\n"
-        lex += "<td>COLUMNA</td>\n"
-        lex += "</tr>\n"
+        sintac = " "
+        sintac += "digraph H {\n"
+        sintac += "aHtmlTable [\n"
+        sintac += "shape=plaintext\n"
+        sintac += "label=<\n"
+        sintac += "<table border='1' cellborder='1'>\n"
+        sintac += "<tr>\n"
+        sintac += "<td>VALOR</td>\n"
+        sintac += "<td>TIPO</td>\n"
+        sintac += "<td>FILA</td>\n"
+        sintac += "<td>COLUMNA</td>\n"
+        sintac += "</tr>\n"
         while sintactivos.estaVacia() == False:
             Diccionario = sintactivos.pop()
-            lex+="<tr>\n"
-            lex += "<td>"+ str(Diccionario['Error']) + "</td>\n"
-            lex += "<td>"+ str(Diccionario['Tipo']) + "</td>\n"
-            lex += "<td>"+ str(Diccionario['Fila']) + "</td>\n"
-            lex += "<td>"+ str(Diccionario['Columna']) + "</td>\n"
-            lex += "</tr>\n"
-        lex += "</table>\n"
-        lex += ">];\n"
-        lex += "}\n"
+            sintac+="<tr>\n"
+            sintac += "<td>"+ str(Diccionario['Error']) + "</td>\n"
+            sintac += "<td>"+ str(Diccionario['Tipo']) + "</td>\n"
+            sintac += "<td>"+ str(Diccionario['Fila']) + "</td>\n"
+            sintac += "<td>"+ str(Diccionario['Columna']) + "</td>\n"
+            sintac += "</tr>\n"
+        sintac += "</table>\n"
+        sintac += ">];\n"
+        sintac += "}\n"
         tab = self.tabWidget.widget(self.tabWidget.currentIndex())
         items = tab.children()
-        items[4].setPlainText(lex)
+        items[4].append("***********Se genero el reporte de errores sintacticos***************")
+        f = open("sintacticos.dot", "w")
+        f.write(sintac)
+        f.close()
+        cmd("dot -Tpng sintacticos.dot -o sintactico.png")
+
+    def reporteGramatical(self):
+        gramatical = PILA.Pila()
+        gramatical = g.reporteGramatical
+        gram = " "
+        gram += "digraph H {\n"
+        gram += "aHtmlTable [\n"
+        gram += "shape=plaintext\n"
+        gram += "label=<\n"
+        gram += "<table border='1' cellborder='1'>\n"
+        gram += "<tr>\n"
+        gram += "<td>Produccion</td>\n"
+        gram += "<td>Derivacion</td>\n"
+        gram += "<td>Regla semantica</td>\n"
+        gram += "</tr>\n"
+        while gramatical.estaVacia() == False:
+            Diccionario = gramatical.pop()
+            gram+="<tr>\n"
+            gram += "<td>"+ str(Diccionario['produccion']) + "</td>\n"
+            gram += "<td>"+ str(Diccionario['regla']) + "</td>\n"
+            gram += "<td>"+ str(Diccionario['semantica']) + "</td>\n"
+            gram += "</tr>\n"
+        gram += "</table>\n"
+        gram += ">];\n"
+        gram += "}\n"
+        tab = self.tabWidget.widget(self.tabWidget.currentIndex())
+        items = tab.children()
+        items[4].append("***********Se genero el reporte gramatical***************")
+        f = open("gramatical.dot", "w")
+        f.write(gram)
+        f.close()
+        cmd("dot -Tpng gramatical.dot -o gramatical.png")
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

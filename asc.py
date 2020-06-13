@@ -61,51 +61,61 @@ def procesar_definicion_array(instr,ts):
         ts.agregar(simbolo)
 
 def procesar_asignacion_array(instr, ts):
+    global erroresSemanticos
     indices = PILA.Pila()
     flag = ts.buscar(instr.id)
     indice = None
     if flag == True:
+        print(str(instr.id))
         valorId = ts.obtener(instr.id).valor
-        valorNew = resolver_expresion_aritmetica(instr.expNumerica, ts)
-        ########## GET INDICES
-        for expArray in instr.posicion:
-            if isinstance(expArray, ExpresionArray):
-                print("Expresion Array Indice")
+        if isinstance(valorId,str):
+            print("String como arreglo")
+        else:
+            valorNew = resolver_expresion_aritmetica(instr.expNumerica, ts)
+            ########## GET INDICES
+            for expArray in instr.posicion:
+                if isinstance(expArray, ExpresionArray):
+                    print("Expresion Array Indice")
+                    val = resolver_indice_valor(instr.expNumerica, ts)
+                    if(val != None):
+                        indice.push(val)
+                    else: 
+                        print("ERROR: Array o Struct no exist")
+                        return
+                elif isinstance(expArray, ExpresionNumerica):
+                    val = resolver_expresion_aritmetica(expArray, ts)
+                    if val == "cadena":
+                        val = resolver_cadena(expArray, ts)
+                        indices.push(val)
+                    else:
+                        indices.push(val)
+
+            ########## GET VALOR
+            if (valorNew == "asignacionarray"):
+                print("Expresion Array Valor")
                 val = resolver_indice_valor(instr.expNumerica, ts)
                 if(val != None):
-                    indice.push(val)
-                else: 
-                    print("ERROR: Array o Struct no exist")
-                    return
-            elif isinstance(expArray, ExpresionNumerica):
-                val = resolver_expresion_aritmetica(expArray, ts)
-                if val == "cadena":
-                    val = resolver_cadena(expArray, ts)
-                    indices.push(val)
+                    valorNew = val
                 else:
-                    indices.push(val)
+                    print("ERROR: Array o Struct no exist")
+            elif (valorNew == "cadena"):
+                valorNew = resolver_cadena(instr.expNumerica, ts)
 
-        ########## GET VALOR
-        if (valorNew == "asignacionarray"):
-            print("Expresion Array Valor")
-            val = resolver_indice_valor(instr.expNumerica, ts)
-            if(val != None):
-                valorNew = val
-            else:
-                print("ERROR: Array o Struct no exist")
-        elif (valorNew == "cadena"):
-            valorNew = resolver_cadena(instr.expNumerica, ts)
-
-        ##################### DICCIONARIO = VALOR
-        valorAux = indices.pop()
-        Diccionario = {valorAux: valorNew}
-        while indices.estaVacia() == False:
+            ##################### DICCIONARIO = VALOR
             valorAux = indices.pop()
-            auxDiccionario = {valorAux:Diccionario}
-            Diccionario = auxDiccionario
-        valorFinal = update(copy.deepcopy(valorId), Diccionario)
-        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.STRUCT, valorFinal, instr.ambito)
-        ts.actualizar(simbolo)
+            Diccionario = {valorAux: valorNew}
+            while indices.estaVacia() == False:
+                valorAux = indices.pop()
+                auxDiccionario = {valorAux:Diccionario}
+                Diccionario = auxDiccionario
+            try:
+                valorFinal = update(copy.deepcopy(valorId), Diccionario)
+                simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.STRUCT, valorFinal, instr.ambito)
+                ts.actualizar(simbolo)
+            except:
+                Diccionario = {'Tipo':'Semantico','Error':str(valorNew),'Descripcion':'Indice ocupado'}
+                erroresSemanticos.agregar(Diccionario)
+                shell.append(">> Error Indice ocupado: "+str(valorId) +"\n No se puede ingresar el valor: "+str(valorNew))
     else:
         procesar_definicion_array(instr, ts)
         procesar_asignacion_array(instr, ts)
@@ -225,12 +235,26 @@ def procesar_goto(instr, instrucciones, ts):
         print("Error: la etiequeta ",str(instr.id), " no existe")
 
 def procesar_imprimir(expPrint, ts):
-    val = resolver_expresion_aritmetica(expPrint, ts)
-    if val == "cadena":
-        val = resolver_cadena(expPrint, ts)
-    elif val == "asignacionarray":
-        val = resolver_indice_valor(expPrint, ts)
-    print(">",val)
+    global erroresSemanticos
+    try:
+        val = resolver_expresion_aritmetica(expPrint, ts)
+        if val == "cadena":
+            val = resolver_cadena(expPrint, ts)
+            if val =="\\n":
+                val = ""
+        elif val == "asignacionarray":
+            val = resolver_indice_valor(expPrint, ts)
+            if val == None:
+                Diccionario = {'Tipo':'Semantico','Error':str(expPrint.id),'Descripcion':'Los indices no existen'}
+                erroresSemanticos.agregar(Diccionario)
+                val = "Error Los indices no existen: " + str(expPrint.id)
+        elif isinstance(val,dict):
+            Diccionario = {'Tipo':'Semantico','Error':str(expPrint.id),'Descripcion':'No se puede imprimir un objeto de tipo arreglo o struct'}
+            erroresSemanticos.agregar(Diccionario)
+            val = "Error no se puede imprimir un arreglo o struct: "+ str(expPrint.id)
+        shell.append(">>"+str(val))
+    except:
+        shell.append("Error:fatal en la impresion")
 
 def procesar_if(expIf, ts):
     print("IF:", str(expIf))
@@ -278,9 +302,19 @@ def resolver_indice_valor(expArray, ts):
                     cola.agregar(val)
                 else:
                     print("ERROR: Array o Struct no exist")
+            elif val == "asignacionarray":
+                val = resolver_indice_valor(expArreglo, ts)
+                if val != None:
+                    cola.agregar(val)
+                else:
+                    print("ERROR: Array o Struct no exist")
             else:
                 cola.agregar(val)
-        valorAux = valorId.get(cola.pop())
+        try:
+            valorAux = valorId.get(cola.pop())
+        except:
+            print("Error: estos indices no existen")
+            return None
         try:
             while cola.estaVacia() == False:
                 valorAux = valorAux.get(cola.pop())
@@ -662,9 +696,11 @@ def crearTS(tablaSimbolos):
     tsg += "}\n"
 
 
-def Main(input):
+def Main(input, consola):
     global archivoDot
     global tsg
+    global shell
+    shell = consola
     instrucciones = g.parse(input)
     ts_global = TS.TablaDeSimbolos()
     archivoDot += "Digraph{\n p0[label=\"Main\"];\n"
@@ -673,6 +709,8 @@ def Main(input):
     archivoDot+="}"
     crearTS(ts_global)
 
+erroresSemanticos = PILA.Pila()
+shell = None
 archivoDot = ""
 tsg = ""
 id = 0

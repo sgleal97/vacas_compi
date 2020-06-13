@@ -1,13 +1,12 @@
-digraph H {
+ digraph H {
 aHtmlTable [
 shape=plaintext
 label=<
 <table border='1' cellborder='1'>
 <tr>
-<td>VALOR</td>
-<td>TIPO</td>
-<td>FILA</td>
-<td>COLUMNA</td>
+<td>Produccion</td>
+<td>Derivacion</td>
+<td>Regla semantica</td>
 </tr>
 </table>
 >];
