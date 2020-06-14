@@ -264,6 +264,12 @@ def p_instruccion_goto(t):
     reporteGramatical.push(Diccionario)
     t[0] = t[1]
 
+def p_instruccion_exit(t):
+    'instruccion            : exit_instr'
+    Diccionario = {'produccion': 'instruccion', 'regla':'exit_instr', 'semantica':'instruccion.val = exit_instr.val'}
+    reporteGramatical.push(Diccionario)
+    t[0] = t[1]
+
 def p_array_instr(t):
     'array_instr            : VAR indices IGUAL exp_numerica PTCOMA'
     Diccionario = {'produccion': 'array_instr', 'regla':'VAR indices IGUAL exp_numerica PTCOMA', 
@@ -513,16 +519,22 @@ def p_etiqueta(t):
         ambito.push(t[1])
     t[0] = Etiqueta(t[1])
 
-def p_etiqueta_final(t):
-    'etiqueta_instr         : ID PTCOMA'
-    Diccionario = {'produccion': 'etiqueta_instr', 'regla':'ID DOSPUNTOS', 'semantica':'etiqueta_instr.val = ambito(ID)'}
+def p_exit(t):
+    'exit_instr             : EXIT PTCOMA'
+    Diccionario = {'produccion': 'exit_instr', 'regla':'EXIT PTCOMA', 'semantica':'exit_instr.val = Exit(EXIT)'}
     reporteGramatical.push(Diccionario)
-    if ambito.size() == 1:
-        ambito.push(t[1])
-    else:
-        ambito.pop()
-        ambito.push(t[1])
-    t[0] = Etiqueta(t[1])
+    t[0] = Exit("Exit")
+
+#def p_etiqueta_final(t):
+#    'etiqueta_instr         : ID PTCOMA'
+#    Diccionario = {'produccion': 'etiqueta_instr', 'regla':'ID DOSPUNTOS', 'semantica':'etiqueta_instr.val = ambito(ID)'}
+#    reporteGramatical.push(Diccionario)
+#    if ambito.size() == 1:
+#        ambito.push(t[1])
+#    else:
+#        ambito.pop()
+#        ambito.push(t[1])
+#    t[0] = Etiqueta(t[1])
 
 def p_goto(t):
     'goto_instr             : GOTO ID PTCOMA'

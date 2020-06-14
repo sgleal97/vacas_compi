@@ -116,8 +116,10 @@ class Ui_MainWindow(object):
         self.actionQuitar_numero_de_lineas.setObjectName("actionQuitar_numero_de_lineas")
         self.actionAcerca_de = QtWidgets.QAction(MainWindow)
         self.actionAcerca_de.setObjectName("actionAcerca_de")
+
         self.actionTabla_de_simbolos = QtWidgets.QAction(MainWindow)
         self.actionTabla_de_simbolos.setObjectName("actionTabla_de_simbolos")
+        self.actionTabla_de_simbolos.triggered.connect(self.reporteTS)
 
         self.actionAST = QtWidgets.QAction(MainWindow)
         self.actionAST.setObjectName("actionAST")
@@ -154,8 +156,11 @@ class Ui_MainWindow(object):
         self.actionAcerca_de_2.setObjectName("actionAcerca_de_2")
         self.actionAscendente = QtWidgets.QAction(MainWindow)
         self.actionAscendente.setObjectName("actionAscendente")
+        
         self.actionDescendente = QtWidgets.QAction(MainWindow)
         self.actionDescendente.setObjectName("actionDescendente")
+        self.actionDescendente.triggered.connect(self.reporteASTASC)
+
         self.menuArchivo.addAction(self.actionNuevo)
         self.menuArchivo.addAction(self.actionAbrir)
         self.menuArchivo.addAction(self.actionGuardar)
@@ -238,11 +243,7 @@ class Ui_MainWindow(object):
         tab = self.tabWidget.widget(self.tabWidget.currentIndex())
         items = tab.children()
         texto = items[3].toPlainText()
-        #print(texto)
-        #instrucciones = parse(texto)
         analisisAsc = Main(texto, items[4])
-        archivoAsc = astAsc()
-        archivoTS = getTS()
 
     def openFile(self):                        
         dialog = QFileDialog()
@@ -293,13 +294,13 @@ class Ui_MainWindow(object):
         lex += "</table>\n"
         lex += ">];\n"
         lex += "}\n"
-        tab = self.tabWidget.widget(self.tabWidget.currentIndex())
-        items = tab.children()
-        items[4].append("***********Se genero el reporte de errores lexicos***************")
         f = open("lexicos.dot", "w")
         f.write(lex)
         f.close()
         cmd("dot -Tpng lexicos.dot -o lexicos.png")
+        tab = self.tabWidget.widget(self.tabWidget.currentIndex())
+        items = tab.children()
+        items[4].append("***********Se genero el reporte de errores lexicos***************")
     
     def reporteErrorSintactico(self):
         sintactivos = PILA.Pila()
@@ -327,13 +328,13 @@ class Ui_MainWindow(object):
         sintac += "</table>\n"
         sintac += ">];\n"
         sintac += "}\n"
-        tab = self.tabWidget.widget(self.tabWidget.currentIndex())
-        items = tab.children()
-        items[4].append("***********Se genero el reporte de errores sintacticos***************")
         f = open("sintacticos.dot", "w")
         f.write(sintac)
         f.close()
         cmd("dot -Tpng sintacticos.dot -o sintactico.png")
+        tab = self.tabWidget.widget(self.tabWidget.currentIndex())
+        items = tab.children()
+        items[4].append("***********Se genero el reporte de errores sintacticos***************")
 
     def reporteGramatical(self):
         gramatical = PILA.Pila()
@@ -359,13 +360,26 @@ class Ui_MainWindow(object):
         gram += "</table>\n"
         gram += ">];\n"
         gram += "}\n"
-        tab = self.tabWidget.widget(self.tabWidget.currentIndex())
-        items = tab.children()
-        items[4].append("***********Se genero el reporte gramatical***************")
         f = open("gramatical.dot", "w")
         f.write(gram)
         f.close()
         cmd("dot -Tpng gramatical.dot -o gramatical.png")
+        tab = self.tabWidget.widget(self.tabWidget.currentIndex())
+        items = tab.children()
+        items[4].append("***********Se genero el reporte gramatical***************")
+
+    def reporteASTASC(self):
+        astAsc()
+        cmd("dot -Tpng asc.dot -o asc.png")
+        tab = self.tabWidget.widget(self.tabWidget.currentIndex())
+        items = tab.children()
+        items[4].append("***********Se genero el reporte el arbol ast***************")
+
+    def reporteTS(self):
+        cmd("dot -Tpng tsg.dot -o tsg.png")
+        tab = self.tabWidget.widget(self.tabWidget.currentIndex())
+        items = tab.children()
+        items[4].append("***********Se genero el reporte de la tabla de simbolos***************")
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

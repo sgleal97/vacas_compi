@@ -38,6 +38,8 @@ def procesar_asignacion(instr, ts) :
             procesar_indice_valor(instr,ts)
         elif(val == "declaracionarray"):
             procesar_definicion_array(instr,ts)
+        elif(val == "conversion"):
+            procesar_conversion(instr, ts)
         else:
             flag = ts.buscar(instr.id)
             simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NUMERO, val, instr.ambito)
@@ -48,6 +50,48 @@ def procesar_asignacion(instr, ts) :
                 ts.actualizar(simbolo)
     else:
         print("Error: No se puede declarar esta variable por tipo de dato")
+
+def procesar_unset(instr, ts):
+    flag = ts.buscar(instr.exp.id)
+    if flag == True:
+        ts.borrar(instr.exp.id)
+
+def procesar_conversion(instr, ts):
+    val = resolver_expresion_aritmetica(instr.expNumerica.id, ts)
+    tipoVal = ts.obtener(instr.expNumerica.id).valor
+    newVal= None
+    simbolo = None
+    if instr.expNumerica.tipo == "int":
+        if type(tipoVal) == int:
+            newVal = int(tipoVal)
+        elif type(tipoVal) == float:
+            newVal = int(tipoVal)
+        elif type(tipoVal) == str:
+            newVal = ord(tipoVal[0])
+        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NUMERO, newVal, instr.ambito)
+    elif instr.expNumerica.tipo == "float":
+        if type(tipoVal) == int:
+            newVal = float(tipoVal)
+        elif type(tipoVal) == float:
+            newVal = float(tipoVal)
+        elif type(tipoVal) == str:
+            tipoVal = ord(tipoVal[0])
+            newVal = float(tipoVal)
+        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NUMERO, newVal, instr.ambito)
+    elif instr.expNumerica.tipo == "char":
+        if type(tipoVal) == int:
+            newVal = chr(tipoVal)
+        elif type(tipoVal) == float:
+            tipoVal = int(tipoVal)
+            newVal = chr(tipoVal)
+        elif type(tipoVal) == str:
+            newVal = tipoVal[0]
+        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CADENA, newVal, instr.ambito)
+    elif isinstance(tipoVal, dict):
+        print("Arreglo")
+    else:
+        print(tipoVal,"--------",instr.expNumerica.id)
+    #ts.agregar(simbolo)
 
 def procesar_definicion_array(instr,ts):
     flag = ts.buscar(instr.id)
@@ -487,6 +531,8 @@ def resolver_expresion_aritmetica(expNum, ts) :
         return "asignacionarray"
     elif isinstance(expNum, ExpresionDeclaracionArray):
         return "declaracionarray"
+    elif isinstance(expNum, ExpresionConversion):
+        return "conversion"
 
 def graficar_expresion_aritmetica(expNum, ts) :
     global id
@@ -586,44 +632,65 @@ def getIndiceArray(expNum, ts):
 
 def procesar_instrucciones(instrucciones, indice, ts) :
     ## lista de instrucciones recolectadas
+    while indice < len(instrucciones):
+        instr = instrucciones[indice]
+        if isinstance(instr, Imprimir) : 
+            procesar_imprimir(instr.exp, ts)
+        elif isinstance(instr, Asignacion):
+            procesar_asignacion(instr, ts)
+        elif isinstance(instr, AsignacionPosicionArray):
+            procesar_asignacion_array(instr, ts)
+        elif isinstance(instr, Etiqueta):
+            pass
+        elif isinstance(instr, Goto):
+            procesar_goto(instr, instrucciones, ts)
+            break
+        elif isinstance(instr, If) :
+            condicion = procesar_if(instr, ts)
+            if condicion == 1:
+                procesar_goto(instr.id, instrucciones, ts)
+                break
+        elif isinstance(instr, Unset):
+            procesar_unset(instr,ts)
+        elif isinstance(instr, Exit):
+            return
+        else : print('Error: instrucción no válida')
+        indice += 1
+
+def graficar_procesar_instrucciones(instrucciones, indice, ts):
     global archivoDot
     global id
     global idP
     #for instr in instrucciones:
     while indice < len(instrucciones):
         instr = instrucciones[indice]
-        if isinstance(instr, Imprimir) : 
-            procesar_imprimir(instr.exp, ts)
-            print("IMPRIMIR", str(instr.exp))
-        #elif isinstance(instr, Definicion) : procesar_definicion(instr, ts)
+        if isinstance(instr, Imprimir) :
+            graficar_expresion_aritmetica(instr.exp,ts)
+            archivoDot+=instr.graficar(id, idP)
         elif isinstance(instr, Asignacion):
-            procesar_asignacion(instr, ts)
             graficar_expresion_aritmetica(instr.expNumerica, ts)
             archivoDot+=instr.graficar(id, idP, instr.id)
-            id+=1
-            idP += 1
         elif isinstance(instr, AsignacionPosicionArray):
-            print("Asignacion Array")
-            procesar_asignacion_array(instr, ts)
             graficar_expresion_aritmetica(instr.expNumerica, ts)
             txt = getIndiceArray(instr.posicion, ts)
             archivoDot += instr.graficar(id, idP, instr.id, txt)
-            id+=1
-            idP+=1
         elif isinstance(instr, Etiqueta):
-            print("Etiqueta")
+            archivoDot += instr.graficar(id, idP, instr.id)
         elif isinstance(instr, Goto):
-            procesar_goto(instr, instrucciones, ts)
-            break
-        #elif isinstance(instr, Mientras) : procesar_mientras(instr, ts)
+            archivoDot += instr.graficar(id, idP, instr.id)
         elif isinstance(instr, If) :
-            condicion = procesar_if(instr, ts)
-            if condicion == 1:
-                procesar_goto(instr.id, instrucciones, ts)
-                break
-        #elif isinstance(instr, IfElse) : procesar_if_else(instr, ts)
+            graficar_expresion_aritmetica(instr.expLogica, ts)
+            archivoDot += instr.graficar(id, idP, instr.id.id)
+            print(instr.id.id)
+        elif isinstance(instr, Unset):
+            graficar_expresion_aritmetica(instr.exp, ts)
+            archivoDot+= instr.graficar(id, idP)
+        elif isinstance(instr, Exit):
+            archivoDot += instr.graficar(id, idP)
         else : print('Error: instrucción no válida')
         indice += 1
+        id+=1
+        idP+=1
 
 def graficar_expresion_binaria(expG,ts, operador):
     global id
@@ -652,27 +719,20 @@ def graficar_expresion_unaria(expGU, ts, operador):
 def contadorPadre():
     global idP
     global archivoDot
-    archivoDot += "p0->" + "p"+str(idP)+";\n"
-    while idP >= 2:
-        archivoDot += "p"+str(idP)+"->p"+str(idP-1)+";\n"
-        idP-=1
+    #archivoDot += "p0->" + "p"+str(idP)+";\n"
+    contador = 0
+    while contador < idP:
+        archivoDot += "p"+str(contador)+"->p"+str(contador+1)+";\n"
+        contador+=1
     
 def astAsc():
     global archivoDot
     f = open("asc.dot", "w")
     f.write(archivoDot)
     f.close()
-    return archivoDot
-
-def getTS():
-    global tsg
-    f = open("tsg.dot","w")
-    f.write(tsg)
-    f.close()
-    return tsg
 
 def crearTS(tablaSimbolos):
-    global tsg
+    tsg = ""
     tsg += "digraph H {\n"
     tsg += "aHtmlTable [\n"
     tsg += "shape=plaintext\n"
@@ -694,17 +754,23 @@ def crearTS(tablaSimbolos):
     tsg += "</table>\n"
     tsg += ">];\n"
     tsg += "}\n"
+    f = open("tsg.dot","w")
+    f.write(tsg)
+    f.close()
 
 
 def Main(input, consola):
     global archivoDot
-    global tsg
+    global idP
+    archivoDot = ""
+    idP=0
     global shell
     shell = consola
     instrucciones = g.parse(input)
     ts_global = TS.TablaDeSimbolos()
-    archivoDot += "Digraph{\n p0[label=\"Main\"];\n"
     procesar_instrucciones(instrucciones, 0, ts_global)
+    archivoDot += "Digraph{\n p0[label=\"Main\"];\n"
+    graficar_procesar_instrucciones(instrucciones, 0, ts_global)
     contadorPadre()
     archivoDot+="}"
     crearTS(ts_global)
@@ -712,7 +778,6 @@ def Main(input, consola):
 erroresSemanticos = PILA.Pila()
 shell = None
 archivoDot = ""
-tsg = ""
 id = 0
 idP = 0
 

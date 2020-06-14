@@ -42,3 +42,6 @@ class TablaDeSimbolos():
             print('Error: variable ', id, ' no definida.')
             return False
         return True
+
+    def borrar(self, id):
+        del self.simbolos[id]

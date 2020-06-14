@@ -53,10 +53,7 @@ class Etiqueta(Instruccion):
     def graficar(self, id, idP, var):
         nodo1 = var
         grafo = ""
-        grafo += "nodo"+str(id+1)+"[label=\""+str(nodo1)+"\"];\n"
-        grafo += "p"+str(idP+1)+"[label=\"Etiqueta\"];\n"
-        grafo += "p"+str(idP+1)+"->nodo"+str(id+1)+";\n"
-        grafo += "nodo"+str(id+1)+"->nodo"+str(id)+";\n"
+        grafo += "p"+str(idP+1)+"[label=\"Etiqueta("+str(nodo1)+")\"];\n"
         return grafo
 
 class Goto(Instruccion):
@@ -67,10 +64,7 @@ class Goto(Instruccion):
     def graficar(self, id, idP, var):
         nodo1 = var
         grafo = ""
-        grafo += "nodo"+str(id+1)+"[label=\""+str(nodo1)+"\"];\n"
-        grafo += "p"+str(idP+1)+"[label=\"Etiqueta\"];\n"
-        grafo += "p"+str(idP+1)+"->nodo"+str(id+1)+";\n"
-        grafo += "nodo"+str(id+1)+"->nodo"+str(id)+";\n"
+        grafo += "p"+str(idP+1)+"[label=\"goto "+str(nodo1)+"\"];\n"
         return grafo
 
 class AsignacionCadena(Instruccion):
@@ -86,13 +80,10 @@ class Imprimir(Instruccion):
     def __init__(self, exp):
         self.exp = exp
 
-    def graficar(self, id, idP, var):
-        nodo1 = var
+    def graficar(self, id, idP):
         grafo = ""
-        grafo += "nodo"+str(id+1)+"[label=\""+str(nodo1)+"\"];\n"
         grafo += "p"+str(idP+1)+"[label=\"Print\"];\n"
-        grafo += "p"+str(idP+1)+"->nodo"+str(id+1)+";\n"
-        grafo += "nodo"+str(id+1)+"->nodo"+str(id)+";\n"
+        grafo += "p"+str(idP+1)+"->nodo"+str(id)+";\n"
         return grafo
 
 class Unset(Instruccion):
@@ -101,9 +92,34 @@ class Unset(Instruccion):
     def __init__(self, exp):
         self.exp = exp
 
+    def graficar(self, id, idP):
+        grafo = ""
+        grafo += "p"+str(idP+1)+"[label=\"Unset \"];\n"
+        grafo += "p"+str(idP+1)+"->nodo"+str(id)+";\n"
+        return grafo
+
 class If(Instruccion):
     ''' Instruccion If, codicion; lisaInstruccions'''
 
     def __init__(self, expLogica, id):
         self.expLogica = expLogica
         self.id = id
+
+    def graficar(self, id, idP, var):
+        nodo1 = var
+        grafo = ""
+        grafo += "nodo"+str(id+1)+"[label=\"goto "+str(nodo1)+"\"];\n"
+        grafo += "p"+str(idP+1)+"[label=\"if\"];\n"
+        grafo += "p"+str(idP+1)+"->nodo"+str(id)+";\n"
+        grafo += "p"+str(idP+1)+"->nodo"+str(id+1)+";\n"
+        return grafo
+
+class Exit(Instruccion):
+
+    def __init__(self, id=""):
+        self.id = id
+
+    def graficar(self, id, idP):
+        grafo = ""
+        grafo += "p"+str(idP+1)+"[label=\"exit\"];\n"
+        return grafo
