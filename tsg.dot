@@ -8,36 +8,91 @@ label=<
 <td>VALOR</td>
 <td>TIPO</td>
 <td>AMBITO</td>
-</tr>
+<td>DIMENSION</td><td>REGISTRO/VARIABLE</td></tr>
 <tr>
-<td>$tserie</td>
-<td>10</td>
-<td>1</td>
+<td>$t1</td>
+<td>pola</td>
+<td>TIPO_DATO.CADENA</td>
 <td>main</td>
+<td> </td><td>temporal</td>
 </tr>
 <tr>
-<td>$tnum1</td>
-<td>55</td>
-<td>1</td>
-<td>fibonacci</td>
+<td>$s0</td>
+<td>{0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0}</td>
+<td>TIPO_DATO.STRUCT</td>
+<td>ret1</td>
+<td>8</td>
+<td>Pila</td>
 </tr>
 <tr>
-<td>$tnum2</td>
-<td>89</td>
-<td>1</td>
-<td>fibonacci</td>
+<td>$sp</td>
+<td>-1</td>
+<td>TIPO_DATO.NUMERO</td>
+<td>ack</td>
+<td> </td><td>Puntero Pila</td>
 </tr>
 <tr>
-<td>$tsuma</td>
-<td>89</td>
-<td>1</td>
-<td>fibonacci</td>
+<td>$a0</td>
+<td>0</td>
+<td>TIPO_DATO.NUMERO</td>
+<td>ack</td>
+<td> </td><td>parametro</td>
 </tr>
 <tr>
-<td>$ti</td>
-<td>11</td>
+<td>$a1</td>
+<td>9</td>
+<td>TIPO_DATO.NUMERO</td>
+<td>ack</td>
+<td> </td><td>parametro</td>
+</tr>
+<tr>
+<td>ack</td>
+<td>9</td>
+<td>TIPO_DATO.CONSTANTE</td>
+<td>Main</td>
+<td> </td><td>etiqueta</td>
+</tr>
+<tr>
+<td>ret1</td>
+<td>17</td>
+<td>TIPO_DATO.CONSTANTE</td>
+<td>Main</td>
+<td> </td><td>etiqueta</td>
+</tr>
+<tr>
+<td>ret2</td>
+<td>24</td>
+<td>TIPO_DATO.CONSTANTE</td>
+<td>Main</td>
+<td> </td><td>etiqueta</td>
+</tr>
+<tr>
+<td>$t4</td>
 <td>1</td>
-<td>fibonacci</td>
+<td>TIPO_DATO.NUMERO</td>
+<td>ack</td>
+<td> </td><td>temporal</td>
+</tr>
+<tr>
+<td>ret3</td>
+<td>33</td>
+<td>TIPO_DATO.CONSTANTE</td>
+<td>Main</td>
+<td> </td><td>etiqueta</td>
+</tr>
+<tr>
+<td>$v0</td>
+<td>9</td>
+<td>TIPO_DATO.NUMERO</td>
+<td>ret3</td>
+<td> </td><td>valores devueltos por funciones</td>
+</tr>
+<tr>
+<td>ret0</td>
+<td>36</td>
+<td>TIPO_DATO.CONSTANTE</td>
+<td>Main</td>
+<td> </td><td>etiqueta</td>
 </tr>
 </table>
 >];

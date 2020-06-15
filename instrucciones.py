@@ -123,3 +123,11 @@ class Exit(Instruccion):
         grafo = ""
         grafo += "p"+str(idP+1)+"[label=\"exit\"];\n"
         return grafo
+
+class Read(Instruccion):
+
+    def __init__(self, id, valor):
+        self.id = id
+        self.valor = valor
+
+    

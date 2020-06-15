@@ -7,6 +7,7 @@ class TIPO_DATO(Enum):
     BIT = 4
     ARRAY = 5
     STRUCT = 6
+    CONSTANTE = 7
 
 class Simbolo():
     #Clase que representa un simbolo en la TS

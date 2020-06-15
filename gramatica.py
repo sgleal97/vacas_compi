@@ -114,7 +114,7 @@ def t_VAR(t):
     return t
 
 def t_CADENA(t):
-    r'\".*?\"'
+    r'\".*?\"|\'.*?\''
     t.value = t.value[1:-1] # remuevo las comillas
     return t 
 
@@ -297,10 +297,16 @@ def p_indice(t):
     t[0] = t[2]
 
 def p_asignacion(t):
-    'asignacion             : VAR IGUAL exp_numerica PTCOMA'
-    Diccionario = {'produccion': 'asignacion', 'regla':'VAR IGUAL exp_numerica PTCOMA', 'semantica':'asignacion.val = Asignacion(VAR.val, exp_numerica.val)'}
-    reporteGramatical.push(Diccionario)
-    t[0] = Asignacion(t[1], t[3], ambito.inspeccionar())
+    '''asignacion           : VAR IGUAL exp_numerica PTCOMA
+                            | VAR IGUAL READ PARIZQ  PARDER PTCOMA'''
+    if t[3] == 'read':
+        t[0] = Read(t[1], 0)
+        Diccionario = {'produccion': 'asignacion', 'regla':'VAR IGUAL READ PARIZQ PARDER PTCOMA', 'semantica':'asignacion.val = Asignacion(VAR.val, exp_numerica.val)'}
+        reporteGramatical.push(Diccionario)
+    else:
+        Diccionario = {'produccion': 'asignacion', 'regla':'VAR IGUAL exp_numerica PTCOMA', 'semantica':'asignacion.val = Asignacion(VAR.val, exp_numerica.val)'}
+        reporteGramatical.push(Diccionario)
+        t[0] = Asignacion(t[1], t[3], ambito.inspeccionar())
 
 def p_exp_numerica_binaria(t):
     '''exp_numerica         : exp_numerica MAS exp_numerica

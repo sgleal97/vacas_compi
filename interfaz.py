@@ -15,8 +15,9 @@ import pila as PILA
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.Qt import QDir, QFileDialog
-
 contador = 1
+
+import threading, time
 
 def cmd(commando):
     subprocess.run(commando, shell=True)
@@ -58,6 +59,11 @@ class Ui_MainWindow(object):
         self.textEdit_2.setGeometry(QtCore.QRect(30, 540, 1081, 191))
         self.textEdit_2.setObjectName("textEdit_2")
         self.tabWidget.addTab(self.tab, "")
+
+        #self.textEdit_2.returnPressed.connect(self.obtenerTexto)
+        #self.textEdit_2.textChanged.connect(self.cambioTexto)
+        #self.textEdit_2.keyPressEvent = self.keyPressEvent
+
 
         self.btn_mas = QtWidgets.QPushButton(self.centralwidget)
         self.btn_mas.setGeometry(QtCore.QRect(1070, 10, 21, 21))
@@ -198,6 +204,8 @@ class Ui_MainWindow(object):
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+    
+
     def newTab(self):
         global contador
         contador  = contador + 1
@@ -267,6 +275,16 @@ class Ui_MainWindow(object):
                     f.close
             else:
                 pass
+
+    def cambioTexto(self):
+        tab = self.tabWidget.widget(self.tabWidget.currentIndex())
+        items = tab.children()
+        if(items[4].hasFocus()):
+            print("Cambio de texto en textEdit")
+            print( self.textEdit_2.toPlainText())
+
+    #def keyPressEvent(self, event):
+    #        return QtWidgets.QTextEdit.keyPressEvent(self.textEdit_2, event)
 
     def reporteErrorLexico(self):
         lexicos = PILA.Pila()

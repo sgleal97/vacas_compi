@@ -6,6 +6,7 @@ from instrucciones import *
 import pila as PILA
 import copy
 import collections
+import time
 
 def update(dict1, dict2):
     for key, value in dict2.items():
@@ -52,15 +53,19 @@ def procesar_asignacion(instr, ts) :
         print("Error: No se puede declarar esta variable por tipo de dato")
 
 def procesar_unset(instr, ts):
-    flag = ts.buscar(instr.exp.id)
-    if flag == True:
-        ts.borrar(instr.exp.id)
+    global erroresSemanticos
+    if isinstance(instr.exp, ExpresionIdentificador):
+        if ts.buscar(instr.exp.id):
+            ts.borrar(instr.exp.id)
+    else:
+        Diccionario = {'Tipo':'Semantico','Error':str(instr.exp),'Descripcion':'Expresion a eliminar incompatible'}
+        erroresSemanticos.agregar(Diccionario)
+        shell.append(">> Error unset: "+str(instr.exp) +"\n Expresion a eliminar incompatible")
 
 def procesar_conversion(instr, ts):
     val = resolver_expresion_aritmetica(instr.expNumerica.id, ts)
     tipoVal = ts.obtener(instr.expNumerica.id).valor
-    newVal= None
-    simbolo = None
+    newVal= ""
     if instr.expNumerica.tipo == "int":
         if type(tipoVal) == int:
             newVal = int(tipoVal)
@@ -69,6 +74,10 @@ def procesar_conversion(instr, ts):
         elif type(tipoVal) == str:
             newVal = ord(tipoVal[0])
         simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NUMERO, newVal, instr.ambito)
+        if ts.buscar(instr.id):
+            ts.actualizar(simbolo)
+        else:
+            ts.agregar(simbolo)
     elif instr.expNumerica.tipo == "float":
         if type(tipoVal) == int:
             newVal = float(tipoVal)
@@ -78,6 +87,10 @@ def procesar_conversion(instr, ts):
             tipoVal = ord(tipoVal[0])
             newVal = float(tipoVal)
         simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NUMERO, newVal, instr.ambito)
+        if ts.buscar(instr.id):
+            ts.actualizar(simbolo)
+        else:
+            ts.agregar(simbolo)
     elif instr.expNumerica.tipo == "char":
         if type(tipoVal) == int:
             newVal = chr(tipoVal)
@@ -87,6 +100,10 @@ def procesar_conversion(instr, ts):
         elif type(tipoVal) == str:
             newVal = tipoVal[0]
         simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CADENA, newVal, instr.ambito)
+        if ts.buscar(instr.id):
+            ts.actualizar(simbolo)
+        else:
+            ts.agregar(simbolo)
     elif isinstance(tipoVal, dict):
         print("Arreglo")
     else:
@@ -107,13 +124,52 @@ def procesar_definicion_array(instr,ts):
 def procesar_asignacion_array(instr, ts):
     global erroresSemanticos
     indices = PILA.Pila()
+    bkindices = PILA.Pila()
+    indicesCopia = []
     flag = ts.buscar(instr.id)
-    indice = None
     if flag == True:
-        print(str(instr.id))
+        print("************ ",str(instr.id), " ***************")
         valorId = ts.obtener(instr.id).valor
         if isinstance(valorId,str):
-            print("String como arreglo")
+            valorNew = resolver_expresion_aritmetica(instr.expNumerica, ts)
+            ########## GET INDICES
+            for expArray in instr.posicion:
+                if isinstance(expArray, ExpresionArray):
+                    print("Expresion Array Indice")
+                    val = resolver_indice_valor(instr.expNumerica, ts)
+                    if(val != None):
+                        indicesCopia.append(val)
+                    else: 
+                        print("ERROR: Array o Struct no exist")
+                        return
+                elif isinstance(expArray, ExpresionNumerica):
+                    val = resolver_expresion_aritmetica(expArray, ts)
+                    if val == "cadena":
+                        val = resolver_cadena(expArray, ts)
+                        indicesCopia.append(val)
+                    else:
+                        indicesCopia.append(val)
+            if valorNew == "cadena":
+                valorNew = resolver_cadena(instr.expNumerica, ts)
+            if indicesCopia[0] < len(valorId):
+                arregloCadena = list(valorId)
+                arregloCadena[indicesCopia[0]] = str(valorNew)
+                cadena = "".join(arregloCadena)
+                simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CADENA, cadena, instr.ambito)
+                ts.actualizar(simbolo)
+            else:
+                arregloCadena = list(valorId)
+                i = 0
+                while True:
+                    if(i == indicesCopia[0]):
+                        arregloCadena.append(str(valorNew))
+                        break
+                    elif(i>=len(valorId)):
+                        arregloCadena.append(" ")
+                    i+=1
+                cadena = "".join(arregloCadena)
+                simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CADENA, cadena, instr.ambito)
+                ts.actualizar(simbolo)
         else:
             valorNew = resolver_expresion_aritmetica(instr.expNumerica, ts)
             ########## GET INDICES
@@ -122,7 +178,9 @@ def procesar_asignacion_array(instr, ts):
                     print("Expresion Array Indice")
                     val = resolver_indice_valor(instr.expNumerica, ts)
                     if(val != None):
-                        indice.push(val)
+                        indices.push(val)
+                        bkindices.push(val)
+                        indicesCopia.append(val)
                     else: 
                         print("ERROR: Array o Struct no exist")
                         return
@@ -131,9 +189,12 @@ def procesar_asignacion_array(instr, ts):
                     if val == "cadena":
                         val = resolver_cadena(expArray, ts)
                         indices.push(val)
+                        bkindices.push(val)
+                        indicesCopia.append(val)
                     else:
                         indices.push(val)
-
+                        bkindices.push(val)
+                        indicesCopia.append(val)
             ########## GET VALOR
             if (valorNew == "asignacionarray"):
                 print("Expresion Array Valor")
@@ -157,9 +218,43 @@ def procesar_asignacion_array(instr, ts):
                 simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.STRUCT, valorFinal, instr.ambito)
                 ts.actualizar(simbolo)
             except:
-                Diccionario = {'Tipo':'Semantico','Error':str(valorNew),'Descripcion':'Indice ocupado'}
-                erroresSemanticos.agregar(Diccionario)
-                shell.append(">> Error Indice ocupado: "+str(valorId) +"\n No se puede ingresar el valor: "+str(valorNew))
+                if type(valorId[indicesCopia[len(indicesCopia)-2]]) == str and type(indicesCopia[len(indicesCopia)-1]) == int:
+                    if type(valorNew) == str:
+                        cadena = valorId[indicesCopia[len(indicesCopia)-2]]
+                        arregloCadena = list(cadena)
+                        tamanio = len(arregloCadena) - int(indicesCopia[len(indicesCopia)-1])
+                        if tamanio >= 0:
+                            arregloCadena[indicesCopia[len(indicesCopia)-1]] = valorNew
+                            cadena = "".join(arregloCadena)
+                            bkindices.pop()
+                            valorAux = bkindices.pop()
+                            Diccionario = {valorAux: cadena}
+                            while bkindices.estaVacia() == False:
+                                valorAux = bkindices.pop()
+                                auxDiccionario = {valorAux:Diccionario}
+                                Diccionario = auxDiccionario
+                            try:
+                                #print("Nuevo valor: ",str(Diccionario))
+                                #print("Valor de ts: ",str(valorId))
+                                valorFinal = update(copy.deepcopy(valorId), Diccionario)
+                                simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.STRUCT, valorFinal, instr.ambito)
+                                ts.actualizar(simbolo)
+                            except:
+                                Diccionario = {'Tipo':'Semantico','Error':str(valorNew),'Descripcion':'Indice ocupado'}
+                                erroresSemanticos.agregar(Diccionario)
+                                shell.append(">> Error Indice ocupado: "+str(valorId) +"\n No se puede ingresar el valor: "+str(valorNew))
+                        else:
+                            Diccionario = {'Tipo':'Semantico','Error':str(valorNew),'Descripcion':'Indice ocupado'}
+                            erroresSemanticos.agregar(Diccionario)
+                            shell.append(">> Error Indice ocupado: "+str(valorId) +"\n No se puede ingresar el valor: "+str(valorNew))
+                    else:
+                        Diccionario = {'Tipo':'Semantico','Error':str(valorNew),'Descripcion':'Indice ocupado'}
+                        erroresSemanticos.agregar(Diccionario)
+                        shell.append(">> Error Indice ocupado: "+str(valorId) +"\n No se puede ingresar el valor: "+str(valorNew))
+                else:
+                    Diccionario = {'Tipo':'Semantico','Error':str(valorNew),'Descripcion':'Indice ocupado'}
+                    erroresSemanticos.agregar(Diccionario)
+                    shell.append(">> Error Indice ocupado: "+str(valorId) +"\n No se puede ingresar el valor: "+str(valorNew))
     else:
         procesar_definicion_array(instr, ts)
         procesar_asignacion_array(instr, ts)
@@ -354,18 +449,23 @@ def resolver_indice_valor(expArray, ts):
                     print("ERROR: Array o Struct no exist")
             else:
                 cola.agregar(val)
-        try:
-            valorAux = valorId.get(cola.pop())
-        except:
-            print("Error: estos indices no existen")
-            return None
-        try:
-            while cola.estaVacia() == False:
-                valorAux = valorAux.get(cola.pop())
-        except:
-            print("Error: estos indices no existen")
-            valorAux = None
-        return valorAux
+        if type(valorId) == str:
+            valorAux = valorId[cola.pop()]
+            print("voy aqui y retornaer", valorAux)
+            return valorAux
+        else:
+            try:
+                valorAux = valorId.get(cola.pop())
+            except:
+                print("Error: estos indices no existen")
+                return None
+            try:
+                while cola.estaVacia() == False:
+                    valorAux = valorAux.get(cola.pop())
+            except:
+                print("Error: estos indices no existen")
+                valorAux = None
+            return valorAux
     else:
         print("Error: Este arreglo o struct no existe")
     
@@ -641,6 +741,10 @@ def procesar_instrucciones(instrucciones, indice, ts) :
         elif isinstance(instr, AsignacionPosicionArray):
             procesar_asignacion_array(instr, ts)
         elif isinstance(instr, Etiqueta):
+            flag = ts.buscar(instr.id)
+            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CONSTANTE, indice, "Main")
+            if flag: ts.actualizar(simbolo)
+            else: ts.agregar(simbolo)
             pass
         elif isinstance(instr, Goto):
             procesar_goto(instr, instrucciones, ts)
@@ -654,6 +758,8 @@ def procesar_instrucciones(instrucciones, indice, ts) :
             procesar_unset(instr,ts)
         elif isinstance(instr, Exit):
             return
+        elif isinstance(instr, Read):
+            print('Read')
         else : print('Error: instrucción no válida')
         indice += 1
 
@@ -743,13 +849,20 @@ def crearTS(tablaSimbolos):
     tsg += "<td>VALOR</td>\n"
     tsg += "<td>TIPO</td>\n"
     tsg += "<td>AMBITO</td>\n"
+    tsg += "<td>DIMENSION</td>"
+    tsg += "<td>REGISTRO/VARIABLE</td>"
     tsg += "</tr>\n"
     for x in tablaSimbolos.simbolos:
-        tsg+="<tr>\n"
+        tsg +="<tr>\n"
         tsg += "<td>"+ str(tablaSimbolos.simbolos[x].id) + "</td>\n"
         tsg += "<td>"+ str(tablaSimbolos.simbolos[x].valor) + "</td>\n"
-        tsg += "<td>"+ str(tablaSimbolos.simbolos[x].tipo.value) + "</td>\n"
+        tsg += "<td>"+ str(tablaSimbolos.simbolos[x].tipo) + "</td>\n"
         tsg += "<td>"+ str(tablaSimbolos.simbolos[x].ambito) + "</td>\n"
+        if type(tablaSimbolos.simbolos[x].valor) == dict:
+            tsg += "<td>"+ str(len(tablaSimbolos.simbolos[x].valor)) + "</td>\n"
+        else:
+            tsg += "<td> </td>"
+        tsg += "<td>"+ registroVar(tablaSimbolos.simbolos[x].id) + "</td>\n"
         tsg += "</tr>\n"
     tsg += "</table>\n"
     tsg += ">];\n"
@@ -757,6 +870,16 @@ def crearTS(tablaSimbolos):
     f = open("tsg.dot","w")
     f.write(tsg)
     f.close()
+
+def registroVar(id):
+    if id == "$sp" : return "Puntero Pila"
+    elif id == "$ra": return "Simulador direccion"
+    elif id[1] == "t": return "temporal"
+    elif id[1] == "a": return "parametro"
+    elif id[1] == "v": return "valores devueltos por funciones"
+    elif id[1] == "s": return "Pila"
+    else: return "etiqueta"
+    
 
 
 def Main(input, consola):
