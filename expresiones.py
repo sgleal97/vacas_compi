@@ -262,6 +262,12 @@ class ExpresionDeclaracionArray(ExpresionNumerica):
         grafo += "nodo"+str(id+1)+"[label=\""+str(nodo1)+"\"];\n"
         return grafo
 
+class ExpresionApuntador(ExpresionNumerica):
+
+    def __init__(self, exp1, exp2):
+        self.exp1 = exp1
+        self.exp2 = exp2
+
 class ExpresionCadena:
     '''Clase abstracta de una cadena'''
 

@@ -18,7 +18,6 @@ reserved = {
 }
 
 tokens  = [
-    'REVALUAR',
     'PARIZQ',
     'PARDER',
     'CORIZQ',
@@ -55,7 +54,6 @@ tokens  = [
 ] + list(reserved.values())
 
 # Tokens
-t_REVALUAR  = r'Evaluar'
 t_PARIZQ    = r'\('
 t_PARDER    = r'\)'
 t_CORIZQ    = r'\['
@@ -176,7 +174,6 @@ precedence = (
 from expresiones import *
 from instrucciones import *
 import pila as PILA
-import ply.lex as lex
 
 ambito = PILA.Pila()
 ambito.push('main')
@@ -186,29 +183,7 @@ def p_init(t):
     Diccionario = {'produccion': 'init', 'regla':'MAIN DOSPUNTOS instrucciones', 'semantica': 'init.val = instrucciones.val'}
     reporteGramatical.push(Diccionario)
     t[0] = t[3]
-#
-#def p_lista_cuerpo(t):
-#    'cuerpo                 : instrucciones labels'
-#    t[1]+=t[2]
-#    t[0]=t[1]
-#
-#def p_cuerpo(t):
-#    'cuerpo                 : labels'
-#    t[0]=t[1]
-#
-#def p_lista_label(t):
-#    'labels                 : labels label'
-#    t[1]+=t[2]
-#    t[0]=t[1]
-#
-#def p_label_instrucion(t):
-#    'labels                 : label'
-#    t[0]=t[1]
-#
-#def p_label(t):
-#    'label                  : ID DOSPUNTOS instrucciones'
-#    t[0]=t[3]
-#
+
 def p_lista_instrucciones(t):
     'instrucciones          : instrucciones instruccion'
     Diccionario = {'produccion': 'instrucciones', 'regla':'instrucciones instruccion', 'semantica':'instrucciones1.val.append(instruccion.val)\ninstrucciones.val=instrucciones1.val'}
@@ -298,11 +273,16 @@ def p_indice(t):
 
 def p_asignacion(t):
     '''asignacion           : VAR IGUAL exp_numerica PTCOMA
-                            | VAR IGUAL READ PARIZQ  PARDER PTCOMA'''
+                            | VAR IGUAL READ PARIZQ  PARDER PTCOMA
+                            | VAR IGUAL BAND VAR PTCOMA'''
     if t[3] == 'read':
         t[0] = Read(t[1], 0)
         Diccionario = {'produccion': 'asignacion', 'regla':'VAR IGUAL READ PARIZQ PARDER PTCOMA', 'semantica':'asignacion.val = Asignacion(VAR.val, exp_numerica.val)'}
         reporteGramatical.push(Diccionario)
+    elif t[3] == '&':
+        Diccionario = {'produccion': 'asignacion', 'regla':'VAR IGUAL BAND VAR', 'semantica':'Asignacion.val = ExpresionApuntador(VAR1.val, VAR2.val)'}
+        reporteGramatical.push(Diccionario)
+        t[0] = ExpresionApuntador(t[1], t[4])#ARREGLAR
     else:
         Diccionario = {'produccion': 'asignacion', 'regla':'VAR IGUAL exp_numerica PTCOMA', 'semantica':'asignacion.val = Asignacion(VAR.val, exp_numerica.val)'}
         reporteGramatical.push(Diccionario)
@@ -531,23 +511,11 @@ def p_exit(t):
     reporteGramatical.push(Diccionario)
     t[0] = Exit("Exit")
 
-#def p_etiqueta_final(t):
-#    'etiqueta_instr         : ID PTCOMA'
-#    Diccionario = {'produccion': 'etiqueta_instr', 'regla':'ID DOSPUNTOS', 'semantica':'etiqueta_instr.val = ambito(ID)'}
-#    reporteGramatical.push(Diccionario)
-#    if ambito.size() == 1:
-#        ambito.push(t[1])
-#    else:
-#        ambito.pop()
-#        ambito.push(t[1])
-#    t[0] = Etiqueta(t[1])
-
 def p_goto(t):
     'goto_instr             : GOTO ID PTCOMA'
     Diccionario = {'produccion': 'goto_instr', 'regla':'GOTO ID PTCOMA', 'semantica':'goto_instr.val = Goto(ID)'}
     reporteGramatical.push(Diccionario)
     t[0] = Goto(t[2])
-
 
 def p_error(p):
     global entrada
@@ -559,38 +527,6 @@ def p_error(p):
         parser.errok()
     else:
         print("Syntax error at EOF")
-
-'''METODO CON AYUDA DEL AUX
-def p_error(t):
-    global entrada
-    global parser
-    tok = parser.token()
-    while True:
-        if tok is not None:
-            if tok.value == ';':
-                print('here')
-                break
-            tok = parser.token()
-            print(tok.value)
-        else:
-            break
-    print('sale')
-    return tok.type
-'''
-''' METODO DE LA DOCUMENTACION DE PLY
-def p_error(p):
-    global entrada
-    global parser
-    # Read ahead looking for a terminating ";"
-    print(p)
-    while True:
-        tok = parser.token()             # Get the next token
-        if not tok or tok.type == 'PTCOMA': break
-    parser.errok()
-
-    # Return SEMI to the parser as the next lookahead token
-    return tok  
-'''
 
 parser = yacc.yacc()
 errorLexicos = PILA.Pila()

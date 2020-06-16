@@ -1,4 +1,5 @@
 import gramatica as g
+import gramatica2 as g2
 import ts as TS
 from interfaz import *
 from expresiones import *
@@ -21,6 +22,7 @@ def procesar_definicion(instr, ts) :
     ts.agregar(simbolo)
 
 def procesar_asignacion(instr, ts) :
+    global erroresSemanticos
     val = resolver_expresion_aritmetica(instr.expNumerica, ts)
     if(val!=None):
         if(val=="cadena"):
@@ -50,6 +52,8 @@ def procesar_asignacion(instr, ts) :
                 procesar_definicion(instr, ts)
                 ts.actualizar(simbolo)
     else:
+        Diccionario = {'Tipo':'Semantico','Error':str(val),'Descripcion':'No se puede declarar este tipo de variable'}
+        erroresSemanticos.agregar(Diccionario)
         print("Error: No se puede declarar esta variable por tipo de dato")
 
 def procesar_unset(instr, ts):
@@ -140,6 +144,8 @@ def procesar_asignacion_array(instr, ts):
                     if(val != None):
                         indicesCopia.append(val)
                     else: 
+                        Diccionario = {'Tipo':'Semantico','Error':str(instr.id),'Descripcion':'Indices inexistentes'}
+                        erroresSemanticos.agregar(Diccionario)
                         print("ERROR: Array o Struct no exist")
                         return
                 elif isinstance(expArray, ExpresionNumerica):
@@ -183,6 +189,8 @@ def procesar_asignacion_array(instr, ts):
                         indicesCopia.append(val)
                     else: 
                         print("ERROR: Array o Struct no exist")
+                        Diccionario = {'Tipo':'Semantico','Error':str(instr.id),'Descripcion':'Array o Struct inexistente'}
+                        erroresSemanticos.agregar(Diccionario)
                         return
                 elif isinstance(expArray, ExpresionNumerica):
                     val = resolver_expresion_aritmetica(expArray, ts)
@@ -203,6 +211,9 @@ def procesar_asignacion_array(instr, ts):
                     valorNew = val
                 else:
                     print("ERROR: Array o Struct no exist")
+                    Diccionario = {'Tipo':'Semantico','Error':str(instr.id),'Descripcion':'Array o Struct inexistente'}
+                    erroresSemanticos.agregar(Diccionario)
+                    return
             elif (valorNew == "cadena"):
                 valorNew = resolver_cadena(instr.expNumerica, ts)
 
@@ -360,6 +371,7 @@ def procesar_asignacion_relacional(instr, ts):
         ts.agregar(simbolo)
 
 def procesar_goto(instr, instrucciones, ts):
+    global erroresSemanticos
     indice = 0
     flag = False
     while indice < len(instrucciones):
@@ -371,6 +383,8 @@ def procesar_goto(instr, instrucciones, ts):
                 break
         indice += 1
     if flag == False:
+        Diccionario = {'Tipo':'Semantico','Error':str(instr.id),'Descripcion':'Etiqueta no encontrada'}
+        erroresSemanticos.agregar(Diccionario)
         print("Error: la etiequeta ",str(instr.id), " no existe")
 
 def procesar_imprimir(expPrint, ts):
@@ -393,9 +407,12 @@ def procesar_imprimir(expPrint, ts):
             val = "Error no se puede imprimir un arreglo o struct: "+ str(expPrint.id)
         shell.append(">>"+str(val))
     except:
+        Diccionario = {'Tipo':'Semantico','Error':'Error Impresion','Descripcion':'Error faltal en la impresion'}
+        erroresSemanticos.agregar(Diccionario)
         shell.append("Error:fatal en la impresion")
 
 def procesar_if(expIf, ts):
+    global erroresSemanticos
     print("IF:", str(expIf))
     val = resolver_expresion_aritmetica(expIf.expLogica, ts)
     if(val!=None):
@@ -422,10 +439,13 @@ def procesar_if(expIf, ts):
         else:
             return None
     else:
+        Diccionario = {'Tipo':'Semantico','Error':'If','Descripcion':'Condicional incorrecta'}
+        erroresSemanticos.agregar(Diccionario)
         print("Error: Condicional incorrecta ",str(val))
 
 
 def resolver_indice_valor(expArray, ts):
+    global erroresSemanticos
     flag = ts.buscar(expArray.id)
     if flag == True:
         valorId = ts.obtener(expArray.id).valor
@@ -440,51 +460,56 @@ def resolver_indice_valor(expArray, ts):
                 if val != None:
                     cola.agregar(val)
                 else:
+                    Diccionario = {'Tipo':'Semantico','Error':str(expArray.id),'Descripcion':'Array o Struct inexistente'}
+                    erroresSemanticos.agregar(Diccionario)
                     print("ERROR: Array o Struct no exist")
             elif val == "asignacionarray":
                 val = resolver_indice_valor(expArreglo, ts)
                 if val != None:
                     cola.agregar(val)
                 else:
+                    Diccionario = {'Tipo':'Semantico','Error':str(expArray.id),'Descripcion':'Array o Struct inexistente'}
+                    erroresSemanticos.agregar(Diccionario)
                     print("ERROR: Array o Struct no exist")
             else:
                 cola.agregar(val)
         if type(valorId) == str:
             valorAux = valorId[cola.pop()]
-            print("voy aqui y retornaer", valorAux)
             return valorAux
         else:
             try:
                 valorAux = valorId.get(cola.pop())
             except:
+                Diccionario = {'Tipo':'Semantico','Error':str(expArray.id),'Descripcion':'Indices inexistentes'}
+                erroresSemanticos.agregar(Diccionario)
                 print("Error: estos indices no existen")
                 return None
             try:
                 while cola.estaVacia() == False:
                     valorAux = valorAux.get(cola.pop())
             except:
+                Diccionario = {'Tipo':'Semantico','Error':str(expArray.id),'Descripcion':'Indices inexistentes'}
+                erroresSemanticos.agregar(Diccionario)
                 print("Error: estos indices no existen")
                 valorAux = None
             return valorAux
     else:
+        Diccionario = {'Tipo':'Semantico','Error':str(expArray.id),'Descripcion':'Esta arreglo o struct no existe'}
+        erroresSemanticos.agregar(Diccionario)
         print("Error: Este arreglo o struct no existe")
     
 
 def resolver_cadena(expCad, ts) :
-    #if isinstance(expCad, ExpresionConcatenar) :
-    #    exp1 = resolver_cadena(expCad.exp1, ts)
-    #    exp2 = resolver_cadena(expCad.exp2, ts)
-    #    return exp1 + exp2
+    global erroresSemanticos
     if isinstance(expCad, ExpresionString):
         return expCad.val
-    #elif isinstance(expCad, ExpresionCadenaNumerico) :
-    #    return str(resolver_expresion_aritmetica(expCad.exp, ts))
     else :
+        Diccionario = {'Tipo':'Semantico','Error':str(expCad),'Descripcion':'Expresion cadena invalida'}
+        erroresSemanticos.agregar(Diccionario)
         print('Error: Expresión cadena no válida')
 
 def resolver_expresion_binaria_logica(expLog, ts) :
-    global id
-    global archivoDot
+    global erroresSemanticos
     exp1 = resolver_expresion_aritmetica(expLog.exp1, ts)
     exp2 = resolver_expresion_aritmetica(expLog.exp2, ts)
     print(expLog.exp1,"----",expLog.exp2)
@@ -494,41 +519,51 @@ def resolver_expresion_binaria_logica(expLog, ts) :
             return exp1 and exp2
         else:
             print("error AND-",exp1,"-",exp2)
+            aux = str(exp1)+", "+str(exp2)
+            Diccionario = {'Tipo':'Semantico','Error': aux,'Descripcion':'AND: Datos incompatibles con expresion logica'}
+            erroresSemanticos.agregar(Diccionario)
     elif expLog.operador == OPERACION_LOGICA.OR :
         if (exp1 == 1 or exp1==0) and (exp2 == 1 or exp2==0):
             return exp1 or exp2
         else:
+            aux = str(exp1)+", "+str(exp2)
+            Diccionario = {'Tipo':'Semantico','Error': aux,'Descripcion':'OR: Datos incompatibles con expresion logica'}
+            erroresSemanticos.agregar(Diccionario)
             print("error OR-",exp1,"-",exp2)
     elif expLog.operador == OPERACION_LOGICA.XOR :
         if (exp1 == 1 or exp1==0) and (exp2 == 1 or exp2==0):
             return exp1 ^ exp2
         else:
+            aux = str(exp1)+", "+str(exp2)
+            Diccionario = {'Tipo':'Semantico','Error': aux,'Descripcion':'XOR Datos incompatibles con expresion logica'}
+            erroresSemanticos.agregar(Diccionario)
             print("error xor-",exp1,"-",exp2)
     else:
+        Diccionario = {'Tipo':'Semantico','Error': str(expLog.operador),'Descripcion':'Operador incorrecto'}
+        erroresSemanticos.agregar(Diccionario)
         print("Error: datos no booleanos")
 
 def resolver_expresion_unitaria_logica(expLog, ts):
+    global erroresSemanticos
     exp = resolver_expresion_aritmetica(expLog.exp, ts)
     if exp == 1:
         return 0
     elif exp == 0:
         return 1
     else:
+        Diccionario = {'Tipo':'Semantico','Error': str(exp),'Descripcion':'Error expresion logica unitaria, numero invalido'}
+        erroresSemanticos.agregar(Diccionario)
         print("Error: LogicaUnitaria numero")
 
 def graficar_expresion_unitaria_logica(expLog, ts):
     exp = resolver_expresion_aritmetica(expLog.exp, ts)
-    graficar_expresion_unaria(expLog, ts, "!")
     if exp == 1:
         return 0
     elif exp == 0:
         return 1
-    else:
-        print("Error: LogicaUnitaria numero")
 
 def resolver_expresion_binaria_bit(expBit, ts):
-    global id
-    global archivoDot
+    global erroresSemanticos
     exp1 = resolver_expresion_aritmetica(expBit.exp1, ts)
     exp2 = resolver_expresion_aritmetica(expBit.exp2, ts)
     if type(exp1) == int and type(exp2) == int:
@@ -542,56 +577,70 @@ def resolver_expresion_binaria_bit(expBit, ts):
             return exp1 << exp2
         elif expBit.operador == OPERACION_BIT.SHIFTD:
             return exp1 >> exp2
+        else:
+            Diccionario = {'Tipo':'Semantico','Error': str(expBit.operador),'Descripcion':'Operador invalido'}
+            erroresSemanticos.agregar(Diccionario)
     else:
-        print("Error bit a bit: tipo de dato no entero")
+        aux = str(exp1)+", "+str(exp2)
+        Diccionario = {'Tipo':'Semantico','Error': aux,'Descripcion':'Datos incompatibles en operacion bit a bit'}
+        erroresSemanticos.agregar(Diccionario)
 
 def resolver_expresion_unitaria_bit(expBit, ts):
+    global erroresSemanticos
     exp = resolver_expresion_aritmetica(expBit.exp,ts)
     if type(exp) == int:
         return ~exp
     else:
+        Diccionario = {'Tipo':'Semantico','Error': str(exp),'Descripcion':'Tipo de dato no int'}
+        erroresSemanticos.agregar(Diccionario)
         print("Error: tipo de dato no int")
 
 def resolver_expresion_binaria_relacional(expRel, ts):
-    global id
-    global archivoDot
+    global erroresSemanticos
     exp1 = resolver_expresion_aritmetica(expRel.exp1, ts)
     exp2 = resolver_expresion_aritmetica(expRel.exp2, ts)
     #Expresiones relacionales, True = 1, False = 0; Si el valor es distinto ERROR solo puede retornar 0 o 1
-    if expRel.operador == OPERACION_RELACIONAL.IGUAL :
-        if exp1 == exp2:
-            return 1
-        else:
-            return 0
-    elif expRel.operador == OPERACION_RELACIONAL.DIFERENTE :
-        if exp1 != exp2:
-            return 1
-        else:
-            return 0
-    elif expRel.operador == OPERACION_RELACIONAL.MAYOR_QUE :
-        if exp1 > exp2:
-            return 1
-        else:
-            return 0
-    elif expRel.operador == OPERACION_RELACIONAL.MENOR_QUE:
-        if exp1 < exp2:
-            return 1
-        else:
-            return 0
-    elif expRel.operador == OPERACION_RELACIONAL.MAYORIGUAL_QUE:
-        if exp1 >= exp2:
-            return 1
-        else:
-            return 0
-    elif expRel.operador == OPERACION_RELACIONAL.MENORIGUAL_QUE:
-        if exp1 <= exp2:
-            return 1
-        else:
-            return 0
+    try:
+        if expRel.operador == OPERACION_RELACIONAL.IGUAL :
+            if exp1 == exp2:
+                return 1
+            else:
+                return 0
+        elif expRel.operador == OPERACION_RELACIONAL.DIFERENTE :
+            if exp1 != exp2:
+                return 1
+            else:
+                return 0
+        elif expRel.operador == OPERACION_RELACIONAL.MAYOR_QUE :
+            if exp1 > exp2:
+                return 1
+            else:
+                return 0
+        elif expRel.operador == OPERACION_RELACIONAL.MENOR_QUE:
+            if exp1 < exp2:
+                return 1
+            else:
+                return 0
+        elif expRel.operador == OPERACION_RELACIONAL.MAYORIGUAL_QUE:
+            if exp1 >= exp2:
+                return 1
+            else:
+                return 0
+        elif expRel.operador == OPERACION_RELACIONAL.MENORIGUAL_QUE:
+            if exp1 <= exp2:
+                return 1
+            else:
+                return 0
+    except:
+        print("ERROR FATAL: ", str(exp1), str(exp2))
     else:
+        aux = str(exp1)+", "+str(exp2)
+        Diccionario = {'Tipo':'Semantico','Error': aux,'Descripcion':'Operador invalido'}
+        erroresSemanticos.agregar(Diccionario)
         print("Error: expresion realacional")
 
 def resolver_expresion_aritmetica(expNum, ts) :
+    global erroresSemanticos
     if isinstance(expNum, ExpresionBinaria) :
         exp1 = resolver_expresion_aritmetica(expNum.exp1, ts)
         exp2 = resolver_expresion_aritmetica(expNum.exp2, ts)
@@ -633,6 +682,9 @@ def resolver_expresion_aritmetica(expNum, ts) :
         return "declaracionarray"
     elif isinstance(expNum, ExpresionConversion):
         return "conversion"
+    else:
+        Diccionario = {'Tipo':'Semantico','Error': str(expNum),'Descripcion':'Expresion invalida'}
+        erroresSemanticos.agregar(Diccionario)
 
 def graficar_expresion_aritmetica(expNum, ts) :
     global id
@@ -760,7 +812,9 @@ def procesar_instrucciones(instrucciones, indice, ts) :
             return
         elif isinstance(instr, Read):
             print('Read')
-        else : print('Error: instrucción no válida')
+        else : 
+            Diccionario = {'Tipo':'Semantico','Error': "Instruccion",'Descripcion':'Instruccion invalida'}
+            erroresSemanticos.agregar(Diccionario)
         indice += 1
 
 def graficar_procesar_instrucciones(instrucciones, indice, ts):
@@ -793,10 +847,48 @@ def graficar_procesar_instrucciones(instrucciones, indice, ts):
             archivoDot+= instr.graficar(id, idP)
         elif isinstance(instr, Exit):
             archivoDot += instr.graficar(id, idP)
-        else : print('Error: instrucción no válida')
         indice += 1
         id+=1
         idP+=1
+
+def procesar_instrucciones2(instrucciones, indice, ts) :
+    ## lista de instrucciones recolectadas
+    indice = len(instrucciones)-1
+    print(indice)
+    while indice >= 0:
+        instr = instrucciones[indice]
+        if isinstance(instr, Imprimir) : 
+            print(str(instr))
+            #procesar_imprimir(instr.exp, ts)
+        elif isinstance(instr, Asignacion):
+            procesar_asignacion(instr, ts)
+        elif isinstance(instr, AsignacionPosicionArray):
+            print(str(instr.posicion))
+            procesar_asignacion_array(instr, ts)
+        #elif isinstance(instr, Etiqueta):
+        #    flag = ts.buscar(instr.id)
+        #    simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CONSTANTE, indice, "Main")
+        #    if flag: ts.actualizar(simbolo)
+        #    else: ts.agregar(simbolo)
+        #    pass
+        #elif isinstance(instr, Goto):
+        #    procesar_goto(instr, instrucciones, ts)
+        #    break
+        #elif isinstance(instr, If) :
+        #    condicion = procesar_if(instr, ts)
+        #    if condicion == 1:
+        #        procesar_goto(instr.id, instrucciones, ts)
+        #        break
+        #elif isinstance(instr, Unset):
+        #    procesar_unset(instr,ts)
+        #elif isinstance(instr, Exit):
+        #    return
+        #elif isinstance(instr, Read):
+        #    print('Read')
+        #else : 
+        #    Diccionario = {'Tipo':'Semantico','Error': "Instruccion",'Descripcion':'Instruccion invalida'}
+        #    erroresSemanticos.agregar(Diccionario)
+        indice -= 1
 
 def graficar_expresion_binaria(expG,ts, operador):
     global id
@@ -835,6 +927,32 @@ def astAsc():
     global archivoDot
     f = open("asc.dot", "w")
     f.write(archivoDot)
+    f.close()
+
+def reporteSemantico():
+    global erroresSemanticos
+    semanticos = ""
+    semanticos += "digraph H {\n"
+    semanticos += "aHtmlTable [\n"
+    semanticos += "shape=plaintext\n"
+    semanticos += "label=<\n"
+    semanticos += "<table border='1' cellborder='1'>\n"
+    semanticos += "<tr>\n"
+    semanticos += "<td>TIPO</td>\n"
+    semanticos += "<td>ERROR</td>\n"
+    semanticos += "<td>DESCRIPCION</td>\n"
+    semanticos += "</tr>\n"
+    for x in erroresSemanticos:
+        semanticos +="<tr>\n"
+        semanticos += "<td>"+ str(erroresSemanticos['tipo']) + "</td>\n"
+        semanticos += "<td>"+ str(erroresSemanticos['error']) + "</td>\n"
+        semanticos += "<td>"+ str(erroresSemanticos['descripcion']) + "</td>\n"
+        semanticos += "</tr>\n"
+    semanticos += "</table>\n"
+    semanticos += ">];\n"
+    semanticos += "}\n"
+    f = open("semanticos.dot","w")
+    f.write(semanticos)
     f.close()
 
 def crearTS(tablaSimbolos):
@@ -892,6 +1010,22 @@ def Main(input, consola):
     instrucciones = g.parse(input)
     ts_global = TS.TablaDeSimbolos()
     procesar_instrucciones(instrucciones, 0, ts_global)
+    archivoDot += "Digraph{\n p0[label=\"Main\"];\n"
+    graficar_procesar_instrucciones(instrucciones, 0, ts_global)
+    contadorPadre()
+    archivoDot+="}"
+    crearTS(ts_global)
+
+def Main2(input, consola):
+    global archivoDot
+    global idP
+    archivoDot = ""
+    idP=0
+    #global shell
+    #shell = consola
+    instrucciones = g2.parse(input)
+    ts_global = TS.TablaDeSimbolos()
+    procesar_instrucciones2(instrucciones, 0, ts_global)
     archivoDot += "Digraph{\n p0[label=\"Main\"];\n"
     graficar_procesar_instrucciones(instrucciones, 0, ts_global)
     contadorPadre()

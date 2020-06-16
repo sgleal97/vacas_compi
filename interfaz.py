@@ -49,6 +49,8 @@ class Ui_MainWindow(object):
         self.btn_desc = QtWidgets.QPushButton(self.tab)
         self.btn_desc.setGeometry(QtCore.QRect(100, 20, 75, 23))
         self.btn_desc.setObjectName("btn_desc")
+        self.btn_desc.clicked.connect(self.analisisDescendente)
+
         self.btn_debu = QtWidgets.QPushButton(self.tab)
         self.btn_debu.setGeometry(QtCore.QRect(180, 20, 75, 23))
         self.btn_debu.setObjectName("btn_debu")
@@ -203,7 +205,6 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
     
 
     def newTab(self):
@@ -252,6 +253,12 @@ class Ui_MainWindow(object):
         items = tab.children()
         texto = items[3].toPlainText()
         analisisAsc = Main(texto, items[4])
+
+    def analisisDescendente(self):
+        tab = self.tabWidget.widget(self.tabWidget.currentIndex())
+        items = tab.children()
+        texto = items[3].toPlainText()
+        analisisDesc = Main2(texto, items[4])
 
     def openFile(self):                        
         dialog = QFileDialog()
