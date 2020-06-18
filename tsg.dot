@@ -10,43 +10,121 @@ label=<
 <td>AMBITO</td>
 <td>DIMENSION</td><td>REGISTRO/VARIABLE</td></tr>
 <tr>
-<td>$t1</td>
-<td>1</td>
-<td>TIPO_DATO.NUMERO</td>
-<td>main</td>
-<td> </td><td>temporal</td>
+<td>$s0</td>
+<td>{0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0}</td>
+<td>TIPO_DATO.STRUCT</td>
+<td>ret1</td>
+<td>8</td>
+<td>Pila</td>
 </tr>
 <tr>
-<td>$t2</td>
-<td>1</td>
+<td>$sp</td>
+<td>-1</td>
 <td>TIPO_DATO.NUMERO</td>
-<td>main</td>
-<td> </td><td>temporal</td>
+<td>ack</td>
+<td> </td><td>Puntero Pila</td>
 </tr>
 <tr>
-<td>$t3</td>
-<td>1.0</td>
+<td>$a0</td>
+<td>6</td>
 <td>TIPO_DATO.NUMERO</td>
-<td>main</td>
-<td> </td><td>temporal</td>
+<td>ret11</td>
+<td> </td><td>parametro</td>
+</tr>
+<tr>
+<td>$a1</td>
+<td>9</td>
+<td>TIPO_DATO.NUMERO</td>
+<td>ack</td>
+<td> </td><td>parametro</td>
+</tr>
+<tr>
+<td>ack</td>
+<td>12</td>
+<td>TIPO_DATO.CONSTANTE</td>
+<td>Main</td>
+<td> </td><td>etiqueta</td>
+</tr>
+<tr>
+<td>ret1</td>
+<td>20</td>
+<td>TIPO_DATO.CONSTANTE</td>
+<td>Main</td>
+<td> </td><td>etiqueta</td>
+</tr>
+<tr>
+<td>ret2</td>
+<td>27</td>
+<td>TIPO_DATO.CONSTANTE</td>
+<td>Main</td>
+<td> </td><td>etiqueta</td>
 </tr>
 <tr>
 <td>$t4</td>
-<td>1.0</td>
+<td>1</td>
 <td>TIPO_DATO.NUMERO</td>
-<td>main</td>
+<td>ack</td>
 <td> </td><td>temporal</td>
 </tr>
 <tr>
-<td>$t5</td>
-<td>2.0</td>
-<td>TIPO_DATO.NUMERO</td>
-<td>main</td>
-<td> </td><td>temporal</td>
+<td>ret3</td>
+<td>36</td>
+<td>TIPO_DATO.CONSTANTE</td>
+<td>Main</td>
+<td> </td><td>etiqueta</td>
 </tr>
 <tr>
-<td>error</td>
-<td>2</td>
+<td>$v0</td>
+<td>720</td>
+<td>TIPO_DATO.NUMERO</td>
+<td>ret11</td>
+<td> </td><td>valores devueltos por funciones</td>
+</tr>
+<tr>
+<td>ret0</td>
+<td>7</td>
+<td>TIPO_DATO.CONSTANTE</td>
+<td>Main</td>
+<td> </td><td>etiqueta</td>
+</tr>
+<tr>
+<td>factorial</td>
+<td>39</td>
+<td>TIPO_DATO.CONSTANTE</td>
+<td>Main</td>
+<td> </td><td>parametro</td>
+</tr>
+<tr>
+<td>$ra</td>
+<td>0</td>
+<td>TIPO_DATO.NUMERO</td>
+<td>ret11</td>
+<td> </td><td>Simulador direccion</td>
+</tr>
+<tr>
+<td>fact</td>
+<td>47</td>
+<td>TIPO_DATO.CONSTANTE</td>
+<td>Main</td>
+<td> </td><td>parametro</td>
+</tr>
+<tr>
+<td>sino</td>
+<td>53</td>
+<td>TIPO_DATO.CONSTANTE</td>
+<td>Main</td>
+<td> </td><td>etiqueta</td>
+</tr>
+<tr>
+<td>ret11</td>
+<td>57</td>
+<td>TIPO_DATO.CONSTANTE</td>
+<td>Main</td>
+<td> </td><td>etiqueta</td>
+</tr>
+<tr>
+<td>ret01</td>
+<td>43</td>
 <td>TIPO_DATO.CONSTANTE</td>
 <td>Main</td>
 <td> </td><td>etiqueta</td>

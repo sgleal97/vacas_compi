@@ -24,16 +24,16 @@ consola = None
 def cmd(commando):
     subprocess.run(commando, shell=True)
 
-class PlainTextEdit(QtWidgets.QTextEdit):
-
-    def keyPressEvent(self, event):
-        global consola
-        if event.key() == QtCore.Qt.Key_Return:
-            salida = self.toPlainText()
-            linea = salida.split("\n")
-            consola.setText(linea[len(linea)-1])
-            consola.setState(True)
-        super(PlainTextEdit, self).keyPressEvent(event)
+#class PlainTextEdit(QtWidgets.QTextEdit):
+#
+#    def keyPressEvent(self, event):
+#        global consola
+#        if event.key() == QtCore.Qt.Key_Return:
+#            salida = self.toPlainText()
+#            linea = salida.split("\n")
+#            consola.setText(linea[len(linea)-1])
+#            consola.setState(True)
+#        super(PlainTextEdit, self).keyPressEvent(event)
 
 class Ui_MainWindow(object):#Ui_MainWindows
     def setupUi(self, MainWindow):
@@ -123,6 +123,8 @@ class Ui_MainWindow(object):#Ui_MainWindows
         self.actionGuardar.setObjectName("actionGuardar")
         self.actionGuardar_como = QtWidgets.QAction(MainWindow)
         self.actionGuardar_como.setObjectName("actionGuardar_como")
+        self.actionGuardar_como.triggered.connect(self.saveFile)
+
         self.actionCerrar = QtWidgets.QAction(MainWindow)
         self.actionCerrar.setObjectName("actionCerrar")
         self.actionSalir = QtWidgets.QAction(MainWindow)
@@ -294,6 +296,13 @@ class Ui_MainWindow(object):#Ui_MainWindows
                     f.close
             else:
                 pass
+
+    def saveFile(self):
+        tab = self.tabWidget.widget(self.tabWidget.currentIndex())
+        items = tab.children()
+        dialog = QFileDialog.Options()
+        dialog = QFileDialog.DontUseNativeDialog
+        file = QFileDialog.getSaveFileName(items[3], "Save file windows title", "default.txt", " All Files (*)", options=dialog)
 
     def reporteErrorLexico(self):
         lexicos = PILA.Pila()

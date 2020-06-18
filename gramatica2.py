@@ -597,8 +597,8 @@ def p_empty(t):
 
 def p_error(p):
     global input
-    print("Syntax error at token", p.type, "Fila: ", p.lineno+1, "Columna: ", find_column(entrada,p), "Valor: ", format(p.value))
-    Diccionario = {'Error': p.value, 'Tipo': 'Sintactico', 'Fila': p.lineno, 'Columna': find_column(entrada,p)}
+    print("Syntax error at token", p.type, "Fila: ", p.lineno+1, "Columna: ", find_column(input,p), "Valor: ", format(p.value))
+    Diccionario = {'Error': p.value, 'Tipo': 'Sintactico', 'Fila': p.lineno, 'Columna': find_column(input,p)}
     erroresSintacticos.agregar(Diccionario)
     print("Error sintáctico en '%s'" % p.value)
 
