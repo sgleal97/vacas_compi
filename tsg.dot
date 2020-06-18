@@ -11,18 +11,45 @@ label=<
 <td>DIMENSION</td><td>REGISTRO/VARIABLE</td></tr>
 <tr>
 <td>$t1</td>
-<td>{'nombre': {0: 'Hugo', 1: 'Paco', 2: 'Luis', 3: 'Peter Parker'}, 'direccion': {0: 'zona 4', 1: 'zona 8, villa nueva', 2: 'zona 1, San Jose Pinula ', 3: 'Petapolis'}, 0: {'telefono': {0: 45784565, 1: 45784125, 2: 45784125, 3: 45124125}}}</td>
-<td>TIPO_DATO.STRUCT</td>
+<td>1</td>
+<td>TIPO_DATO.NUMERO</td>
 <td>main</td>
-<td>3</td>
-<td>temporal</td>
+<td> </td><td>temporal</td>
 </tr>
 <tr>
 <td>$t2</td>
 <td>1</td>
 <td>TIPO_DATO.NUMERO</td>
-<td>while0</td>
+<td>main</td>
 <td> </td><td>temporal</td>
+</tr>
+<tr>
+<td>$t3</td>
+<td>1.0</td>
+<td>TIPO_DATO.NUMERO</td>
+<td>main</td>
+<td> </td><td>temporal</td>
+</tr>
+<tr>
+<td>$t4</td>
+<td>1.0</td>
+<td>TIPO_DATO.NUMERO</td>
+<td>main</td>
+<td> </td><td>temporal</td>
+</tr>
+<tr>
+<td>$t5</td>
+<td>2.0</td>
+<td>TIPO_DATO.NUMERO</td>
+<td>main</td>
+<td> </td><td>temporal</td>
+</tr>
+<tr>
+<td>error</td>
+<td>2</td>
+<td>TIPO_DATO.CONSTANTE</td>
+<td>Main</td>
+<td> </td><td>etiqueta</td>
 </tr>
 </table>
 >];

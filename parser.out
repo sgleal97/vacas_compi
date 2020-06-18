@@ -15,130 +15,132 @@ Rule 9     instruccion -> if_instr
 Rule 10    instruccion -> etiqueta_instr
 Rule 11    instruccion -> goto_instr
 Rule 12    instruccion -> exit_instr
-Rule 13    asignacion -> VAR IGUAL exp_numerica PTCOMA
-Rule 14    asignacion -> VAR IGUAL READ PARIZQ PARDER PTCOMA
-Rule 15    asignacion -> VAR IGUAL BAND VAR PTCOMA
-Rule 16    array_instr -> VAR indices IGUAL exp_numerica PTCOMA
-Rule 17    print_instr -> PRINT PARIZQ exp_numerica PARDER PTCOMA
-Rule 18    unset_instr -> UNSET PARIZQ exp_numerica PARDER PTCOMA
-Rule 19    if_instr -> IF PARIZQ exp_numerica PARDER goto_instr
-Rule 20    etiqueta_instr -> ID DOSPUNTOS
-Rule 21    goto_instr -> GOTO ID PTCOMA
-Rule 22    exit_instr -> EXIT PTCOMA
-Rule 23    exp_numerica -> valores exp_numerica2
-Rule 24    exp_numerica -> BNOT valores
-Rule 25    exp_numerica -> MENOS valores
-Rule 26    exp_numerica -> NOT valores
-Rule 27    exp_numerica -> ARRAY PARIZQ PARDER
-Rule 28    exp_numerica -> ABS PARIZQ valores PARDER
-Rule 29    exp_numerica -> PARIZQ tipo_dato PARDER VAR
-Rule 30    exp_numerica2 -> signo valores
-Rule 31    exp_numerica2 -> empty
-Rule 32    indices -> indice indices2
-Rule 33    indices2 -> indice indices2
-Rule 34    indices2 -> empty
-Rule 35    indice -> CORIZQ exp_numerica CORDER
-Rule 36    valores -> ENTERO
-Rule 37    valores -> DECIMAL
-Rule 38    valores -> VAR
-Rule 39    valores -> VAR indices
-Rule 40    valores -> CADENA
-Rule 41    signo -> MAS
-Rule 42    signo -> MENOS
-Rule 43    signo -> POR
-Rule 44    signo -> DIVIDIDO
-Rule 45    signo -> RESIDUO
-Rule 46    signo -> AND
-Rule 47    signo -> OR
-Rule 48    signo -> XOR
-Rule 49    signo -> BAND
-Rule 50    signo -> BOR
-Rule 51    signo -> BXOR
-Rule 52    signo -> SHIFTI
-Rule 53    signo -> SHIFTD
-Rule 54    signo -> IGUALQ
-Rule 55    signo -> NIGUALQ
-Rule 56    signo -> MAYORQ
-Rule 57    signo -> MENORQ
-Rule 58    signo -> MAYORIGUALQ
-Rule 59    signo -> MENORIGUALQ
-Rule 60    tipo_dato -> INT
-Rule 61    tipo_dato -> FLOAT
-Rule 62    tipo_dato -> CHAR
-Rule 63    empty -> <empty>
+Rule 13    instruccion -> error PTCOMA
+Rule 14    instruccion -> error DOSPUNTOS
+Rule 15    asignacion -> VAR IGUAL exp_numerica PTCOMA
+Rule 16    asignacion -> VAR IGUAL READ PARIZQ PARDER PTCOMA
+Rule 17    asignacion -> VAR IGUAL BAND VAR PTCOMA
+Rule 18    array_instr -> VAR indices IGUAL exp_numerica PTCOMA
+Rule 19    print_instr -> PRINT PARIZQ exp_numerica PARDER PTCOMA
+Rule 20    unset_instr -> UNSET PARIZQ exp_numerica PARDER PTCOMA
+Rule 21    if_instr -> IF PARIZQ exp_numerica PARDER goto_instr
+Rule 22    etiqueta_instr -> ID DOSPUNTOS
+Rule 23    goto_instr -> GOTO ID PTCOMA
+Rule 24    exit_instr -> EXIT PTCOMA
+Rule 25    exp_numerica -> valores exp_numerica2
+Rule 26    exp_numerica -> BNOT valores
+Rule 27    exp_numerica -> MENOS valores
+Rule 28    exp_numerica -> NOT valores
+Rule 29    exp_numerica -> ARRAY PARIZQ PARDER
+Rule 30    exp_numerica -> ABS PARIZQ valores PARDER
+Rule 31    exp_numerica -> PARIZQ tipo_dato PARDER VAR
+Rule 32    exp_numerica2 -> signo valores
+Rule 33    exp_numerica2 -> empty
+Rule 34    indices -> indice indices2
+Rule 35    indices2 -> indice indices2
+Rule 36    indices2 -> empty
+Rule 37    indice -> CORIZQ exp_numerica CORDER
+Rule 38    valores -> ENTERO
+Rule 39    valores -> DECIMAL
+Rule 40    valores -> VAR
+Rule 41    valores -> VAR indices
+Rule 42    valores -> CADENA
+Rule 43    signo -> MAS
+Rule 44    signo -> MENOS
+Rule 45    signo -> POR
+Rule 46    signo -> DIVIDIDO
+Rule 47    signo -> RESIDUO
+Rule 48    signo -> AND
+Rule 49    signo -> OR
+Rule 50    signo -> XOR
+Rule 51    signo -> BAND
+Rule 52    signo -> BOR
+Rule 53    signo -> BXOR
+Rule 54    signo -> SHIFTI
+Rule 55    signo -> SHIFTD
+Rule 56    signo -> IGUALQ
+Rule 57    signo -> NIGUALQ
+Rule 58    signo -> MAYORQ
+Rule 59    signo -> MENORQ
+Rule 60    signo -> MAYORIGUALQ
+Rule 61    signo -> MENORIGUALQ
+Rule 62    tipo_dato -> INT
+Rule 63    tipo_dato -> FLOAT
+Rule 64    tipo_dato -> CHAR
+Rule 65    empty -> <empty>
 
 Terminals, with rules where they appear
 
-ABS                  : 28
-AND                  : 46
-ARRAY                : 27
-BAND                 : 15 49
-BNOT                 : 24
-BOR                  : 50
-BXOR                 : 51
-CADENA               : 40
-CHAR                 : 62
-CORDER               : 35
-CORIZQ               : 35
-DECIMAL              : 37
-DIVIDIDO             : 44
-DOSPUNTOS            : 1 20
-ENTERO               : 36
-EXIT                 : 22
-FLOAT                : 61
-GOTO                 : 21
-ID                   : 20 21
-IF                   : 19
-IGUAL                : 13 14 15 16
-IGUALQ               : 54
-INT                  : 60
+ABS                  : 30
+AND                  : 48
+ARRAY                : 29
+BAND                 : 17 51
+BNOT                 : 26
+BOR                  : 52
+BXOR                 : 53
+CADENA               : 42
+CHAR                 : 64
+CORDER               : 37
+CORIZQ               : 37
+DECIMAL              : 39
+DIVIDIDO             : 46
+DOSPUNTOS            : 1 14 22
+ENTERO               : 38
+EXIT                 : 24
+FLOAT                : 63
+GOTO                 : 23
+ID                   : 22 23
+IF                   : 21
+IGUAL                : 15 16 17 18
+IGUALQ               : 56
+INT                  : 62
 MAIN                 : 1
-MAS                  : 41
-MAYORIGUALQ          : 58
-MAYORQ               : 56
-MENORIGUALQ          : 59
-MENORQ               : 57
-MENOS                : 25 42
-NIGUALQ              : 55
-NOT                  : 26
-OR                   : 47
-PARDER               : 14 17 18 19 27 28 29
-PARIZQ               : 14 17 18 19 27 28 29
-POR                  : 43
-PRINT                : 17
-PTCOMA               : 13 14 15 16 17 18 21 22
-READ                 : 14
-RESIDUO              : 45
-SHIFTD               : 53
-SHIFTI               : 52
-UNSET                : 18
-VAR                  : 13 14 15 15 16 29 38 39
-XOR                  : 48
-error                : 
+MAS                  : 43
+MAYORIGUALQ          : 60
+MAYORQ               : 58
+MENORIGUALQ          : 61
+MENORQ               : 59
+MENOS                : 27 44
+NIGUALQ              : 57
+NOT                  : 28
+OR                   : 49
+PARDER               : 16 19 20 21 29 30 31
+PARIZQ               : 16 19 20 21 29 30 31
+POR                  : 45
+PRINT                : 19
+PTCOMA               : 13 15 16 17 18 19 20 23 24
+READ                 : 16
+RESIDUO              : 47
+SHIFTD               : 55
+SHIFTI               : 54
+UNSET                : 20
+VAR                  : 15 16 17 17 18 31 40 41
+XOR                  : 50
+error                : 13 14
 
 Nonterminals, with rules where they appear
 
 array_instr          : 6
 asignacion           : 5
-empty                : 4 31 34
+empty                : 4 33 36
 etiqueta_instr       : 10
 exit_instr           : 12
-exp_numerica         : 13 16 17 18 19 35
-exp_numerica2        : 23
-goto_instr           : 11 19
+exp_numerica         : 15 18 19 20 21 37
+exp_numerica2        : 25
+goto_instr           : 11 21
 if_instr             : 9
-indice               : 32 33
-indices              : 16 39
-indices2             : 32 33
+indice               : 34 35
+indices              : 18 41
+indices2             : 34 35
 init                 : 0
 instruccion          : 2 3
 instrucciones        : 1
 instrucciones2       : 2 3
 print_instr          : 8
-signo                : 30
-tipo_dato            : 29
+signo                : 32
+tipo_dato            : 31
 unset_instr          : 7
-valores              : 23 24 25 26 28 30
+valores              : 25 26 27 28 30 32
 
 Parsing method: LALR
 
@@ -176,24 +178,27 @@ state 3
     (10) instruccion -> . etiqueta_instr
     (11) instruccion -> . goto_instr
     (12) instruccion -> . exit_instr
-    (13) asignacion -> . VAR IGUAL exp_numerica PTCOMA
-    (14) asignacion -> . VAR IGUAL READ PARIZQ PARDER PTCOMA
-    (15) asignacion -> . VAR IGUAL BAND VAR PTCOMA
-    (16) array_instr -> . VAR indices IGUAL exp_numerica PTCOMA
-    (18) unset_instr -> . UNSET PARIZQ exp_numerica PARDER PTCOMA
-    (17) print_instr -> . PRINT PARIZQ exp_numerica PARDER PTCOMA
-    (19) if_instr -> . IF PARIZQ exp_numerica PARDER goto_instr
-    (20) etiqueta_instr -> . ID DOSPUNTOS
-    (21) goto_instr -> . GOTO ID PTCOMA
-    (22) exit_instr -> . EXIT PTCOMA
+    (13) instruccion -> . error PTCOMA
+    (14) instruccion -> . error DOSPUNTOS
+    (15) asignacion -> . VAR IGUAL exp_numerica PTCOMA
+    (16) asignacion -> . VAR IGUAL READ PARIZQ PARDER PTCOMA
+    (17) asignacion -> . VAR IGUAL BAND VAR PTCOMA
+    (18) array_instr -> . VAR indices IGUAL exp_numerica PTCOMA
+    (20) unset_instr -> . UNSET PARIZQ exp_numerica PARDER PTCOMA
+    (19) print_instr -> . PRINT PARIZQ exp_numerica PARDER PTCOMA
+    (21) if_instr -> . IF PARIZQ exp_numerica PARDER goto_instr
+    (22) etiqueta_instr -> . ID DOSPUNTOS
+    (23) goto_instr -> . GOTO ID PTCOMA
+    (24) exit_instr -> . EXIT PTCOMA
 
-    VAR             shift and go to state 14
-    UNSET           shift and go to state 15
-    PRINT           shift and go to state 16
-    IF              shift and go to state 17
-    ID              shift and go to state 18
-    GOTO            shift and go to state 19
-    EXIT            shift and go to state 20
+    error           shift and go to state 14
+    VAR             shift and go to state 15
+    UNSET           shift and go to state 16
+    PRINT           shift and go to state 17
+    IF              shift and go to state 18
+    ID              shift and go to state 19
+    GOTO            shift and go to state 20
+    EXIT            shift and go to state 21
 
     instrucciones                  shift and go to state 4
     instruccion                    shift and go to state 5
@@ -226,30 +231,33 @@ state 5
     (10) instruccion -> . etiqueta_instr
     (11) instruccion -> . goto_instr
     (12) instruccion -> . exit_instr
-    (63) empty -> .
-    (13) asignacion -> . VAR IGUAL exp_numerica PTCOMA
-    (14) asignacion -> . VAR IGUAL READ PARIZQ PARDER PTCOMA
-    (15) asignacion -> . VAR IGUAL BAND VAR PTCOMA
-    (16) array_instr -> . VAR indices IGUAL exp_numerica PTCOMA
-    (18) unset_instr -> . UNSET PARIZQ exp_numerica PARDER PTCOMA
-    (17) print_instr -> . PRINT PARIZQ exp_numerica PARDER PTCOMA
-    (19) if_instr -> . IF PARIZQ exp_numerica PARDER goto_instr
-    (20) etiqueta_instr -> . ID DOSPUNTOS
-    (21) goto_instr -> . GOTO ID PTCOMA
-    (22) exit_instr -> . EXIT PTCOMA
+    (13) instruccion -> . error PTCOMA
+    (14) instruccion -> . error DOSPUNTOS
+    (65) empty -> .
+    (15) asignacion -> . VAR IGUAL exp_numerica PTCOMA
+    (16) asignacion -> . VAR IGUAL READ PARIZQ PARDER PTCOMA
+    (17) asignacion -> . VAR IGUAL BAND VAR PTCOMA
+    (18) array_instr -> . VAR indices IGUAL exp_numerica PTCOMA
+    (20) unset_instr -> . UNSET PARIZQ exp_numerica PARDER PTCOMA
+    (19) print_instr -> . PRINT PARIZQ exp_numerica PARDER PTCOMA
+    (21) if_instr -> . IF PARIZQ exp_numerica PARDER goto_instr
+    (22) etiqueta_instr -> . ID DOSPUNTOS
+    (23) goto_instr -> . GOTO ID PTCOMA
+    (24) exit_instr -> . EXIT PTCOMA
 
-    $end            reduce using rule 63 (empty -> .)
-    VAR             shift and go to state 14
-    UNSET           shift and go to state 15
-    PRINT           shift and go to state 16
-    IF              shift and go to state 17
-    ID              shift and go to state 18
-    GOTO            shift and go to state 19
-    EXIT            shift and go to state 20
+    error           shift and go to state 14
+    $end            reduce using rule 65 (empty -> .)
+    VAR             shift and go to state 15
+    UNSET           shift and go to state 16
+    PRINT           shift and go to state 17
+    IF              shift and go to state 18
+    ID              shift and go to state 19
+    GOTO            shift and go to state 20
+    EXIT            shift and go to state 21
 
-    instruccion                    shift and go to state 21
-    instrucciones2                 shift and go to state 22
-    empty                          shift and go to state 23
+    instruccion                    shift and go to state 22
+    instrucciones2                 shift and go to state 23
+    empty                          shift and go to state 24
     asignacion                     shift and go to state 6
     array_instr                    shift and go to state 7
     unset_instr                    shift and go to state 8
@@ -263,6 +271,7 @@ state 6
 
     (5) instruccion -> asignacion .
 
+    error           reduce using rule 5 (instruccion -> asignacion .)
     VAR             reduce using rule 5 (instruccion -> asignacion .)
     UNSET           reduce using rule 5 (instruccion -> asignacion .)
     PRINT           reduce using rule 5 (instruccion -> asignacion .)
@@ -277,6 +286,7 @@ state 7
 
     (6) instruccion -> array_instr .
 
+    error           reduce using rule 6 (instruccion -> array_instr .)
     VAR             reduce using rule 6 (instruccion -> array_instr .)
     UNSET           reduce using rule 6 (instruccion -> array_instr .)
     PRINT           reduce using rule 6 (instruccion -> array_instr .)
@@ -291,6 +301,7 @@ state 8
 
     (7) instruccion -> unset_instr .
 
+    error           reduce using rule 7 (instruccion -> unset_instr .)
     VAR             reduce using rule 7 (instruccion -> unset_instr .)
     UNSET           reduce using rule 7 (instruccion -> unset_instr .)
     PRINT           reduce using rule 7 (instruccion -> unset_instr .)
@@ -305,6 +316,7 @@ state 9
 
     (8) instruccion -> print_instr .
 
+    error           reduce using rule 8 (instruccion -> print_instr .)
     VAR             reduce using rule 8 (instruccion -> print_instr .)
     UNSET           reduce using rule 8 (instruccion -> print_instr .)
     PRINT           reduce using rule 8 (instruccion -> print_instr .)
@@ -319,6 +331,7 @@ state 10
 
     (9) instruccion -> if_instr .
 
+    error           reduce using rule 9 (instruccion -> if_instr .)
     VAR             reduce using rule 9 (instruccion -> if_instr .)
     UNSET           reduce using rule 9 (instruccion -> if_instr .)
     PRINT           reduce using rule 9 (instruccion -> if_instr .)
@@ -333,6 +346,7 @@ state 11
 
     (10) instruccion -> etiqueta_instr .
 
+    error           reduce using rule 10 (instruccion -> etiqueta_instr .)
     VAR             reduce using rule 10 (instruccion -> etiqueta_instr .)
     UNSET           reduce using rule 10 (instruccion -> etiqueta_instr .)
     PRINT           reduce using rule 10 (instruccion -> etiqueta_instr .)
@@ -347,6 +361,7 @@ state 12
 
     (11) instruccion -> goto_instr .
 
+    error           reduce using rule 11 (instruccion -> goto_instr .)
     VAR             reduce using rule 11 (instruccion -> goto_instr .)
     UNSET           reduce using rule 11 (instruccion -> goto_instr .)
     PRINT           reduce using rule 11 (instruccion -> goto_instr .)
@@ -361,6 +376,7 @@ state 13
 
     (12) instruccion -> exit_instr .
 
+    error           reduce using rule 12 (instruccion -> exit_instr .)
     VAR             reduce using rule 12 (instruccion -> exit_instr .)
     UNSET           reduce using rule 12 (instruccion -> exit_instr .)
     PRINT           reduce using rule 12 (instruccion -> exit_instr .)
@@ -373,62 +389,71 @@ state 13
 
 state 14
 
-    (13) asignacion -> VAR . IGUAL exp_numerica PTCOMA
-    (14) asignacion -> VAR . IGUAL READ PARIZQ PARDER PTCOMA
-    (15) asignacion -> VAR . IGUAL BAND VAR PTCOMA
-    (16) array_instr -> VAR . indices IGUAL exp_numerica PTCOMA
-    (32) indices -> . indice indices2
-    (35) indice -> . CORIZQ exp_numerica CORDER
+    (13) instruccion -> error . PTCOMA
+    (14) instruccion -> error . DOSPUNTOS
 
-    IGUAL           shift and go to state 24
-    CORIZQ          shift and go to state 27
+    PTCOMA          shift and go to state 25
+    DOSPUNTOS       shift and go to state 26
 
-    indices                        shift and go to state 25
-    indice                         shift and go to state 26
 
 state 15
 
-    (18) unset_instr -> UNSET . PARIZQ exp_numerica PARDER PTCOMA
+    (15) asignacion -> VAR . IGUAL exp_numerica PTCOMA
+    (16) asignacion -> VAR . IGUAL READ PARIZQ PARDER PTCOMA
+    (17) asignacion -> VAR . IGUAL BAND VAR PTCOMA
+    (18) array_instr -> VAR . indices IGUAL exp_numerica PTCOMA
+    (34) indices -> . indice indices2
+    (37) indice -> . CORIZQ exp_numerica CORDER
 
-    PARIZQ          shift and go to state 28
+    IGUAL           shift and go to state 27
+    CORIZQ          shift and go to state 30
 
+    indices                        shift and go to state 28
+    indice                         shift and go to state 29
 
 state 16
 
-    (17) print_instr -> PRINT . PARIZQ exp_numerica PARDER PTCOMA
+    (20) unset_instr -> UNSET . PARIZQ exp_numerica PARDER PTCOMA
 
-    PARIZQ          shift and go to state 29
+    PARIZQ          shift and go to state 31
 
 
 state 17
 
-    (19) if_instr -> IF . PARIZQ exp_numerica PARDER goto_instr
+    (19) print_instr -> PRINT . PARIZQ exp_numerica PARDER PTCOMA
 
-    PARIZQ          shift and go to state 30
+    PARIZQ          shift and go to state 32
 
 
 state 18
 
-    (20) etiqueta_instr -> ID . DOSPUNTOS
+    (21) if_instr -> IF . PARIZQ exp_numerica PARDER goto_instr
 
-    DOSPUNTOS       shift and go to state 31
+    PARIZQ          shift and go to state 33
 
 
 state 19
 
-    (21) goto_instr -> GOTO . ID PTCOMA
+    (22) etiqueta_instr -> ID . DOSPUNTOS
 
-    ID              shift and go to state 32
+    DOSPUNTOS       shift and go to state 34
 
 
 state 20
 
-    (22) exit_instr -> EXIT . PTCOMA
+    (23) goto_instr -> GOTO . ID PTCOMA
 
-    PTCOMA          shift and go to state 33
+    ID              shift and go to state 35
 
 
 state 21
+
+    (24) exit_instr -> EXIT . PTCOMA
+
+    PTCOMA          shift and go to state 36
+
+
+state 22
 
     (3) instrucciones2 -> instruccion . instrucciones2
     (3) instrucciones2 -> . instruccion instrucciones2
@@ -441,30 +466,33 @@ state 21
     (10) instruccion -> . etiqueta_instr
     (11) instruccion -> . goto_instr
     (12) instruccion -> . exit_instr
-    (63) empty -> .
-    (13) asignacion -> . VAR IGUAL exp_numerica PTCOMA
-    (14) asignacion -> . VAR IGUAL READ PARIZQ PARDER PTCOMA
-    (15) asignacion -> . VAR IGUAL BAND VAR PTCOMA
-    (16) array_instr -> . VAR indices IGUAL exp_numerica PTCOMA
-    (18) unset_instr -> . UNSET PARIZQ exp_numerica PARDER PTCOMA
-    (17) print_instr -> . PRINT PARIZQ exp_numerica PARDER PTCOMA
-    (19) if_instr -> . IF PARIZQ exp_numerica PARDER goto_instr
-    (20) etiqueta_instr -> . ID DOSPUNTOS
-    (21) goto_instr -> . GOTO ID PTCOMA
-    (22) exit_instr -> . EXIT PTCOMA
+    (13) instruccion -> . error PTCOMA
+    (14) instruccion -> . error DOSPUNTOS
+    (65) empty -> .
+    (15) asignacion -> . VAR IGUAL exp_numerica PTCOMA
+    (16) asignacion -> . VAR IGUAL READ PARIZQ PARDER PTCOMA
+    (17) asignacion -> . VAR IGUAL BAND VAR PTCOMA
+    (18) array_instr -> . VAR indices IGUAL exp_numerica PTCOMA
+    (20) unset_instr -> . UNSET PARIZQ exp_numerica PARDER PTCOMA
+    (19) print_instr -> . PRINT PARIZQ exp_numerica PARDER PTCOMA
+    (21) if_instr -> . IF PARIZQ exp_numerica PARDER goto_instr
+    (22) etiqueta_instr -> . ID DOSPUNTOS
+    (23) goto_instr -> . GOTO ID PTCOMA
+    (24) exit_instr -> . EXIT PTCOMA
 
-    $end            reduce using rule 63 (empty -> .)
-    VAR             shift and go to state 14
-    UNSET           shift and go to state 15
-    PRINT           shift and go to state 16
-    IF              shift and go to state 17
-    ID              shift and go to state 18
-    GOTO            shift and go to state 19
-    EXIT            shift and go to state 20
+    error           shift and go to state 14
+    $end            reduce using rule 65 (empty -> .)
+    VAR             shift and go to state 15
+    UNSET           shift and go to state 16
+    PRINT           shift and go to state 17
+    IF              shift and go to state 18
+    ID              shift and go to state 19
+    GOTO            shift and go to state 20
+    EXIT            shift and go to state 21
 
-    instruccion                    shift and go to state 21
-    instrucciones2                 shift and go to state 34
-    empty                          shift and go to state 23
+    instruccion                    shift and go to state 22
+    instrucciones2                 shift and go to state 37
+    empty                          shift and go to state 24
     asignacion                     shift and go to state 6
     array_instr                    shift and go to state 7
     unset_instr                    shift and go to state 8
@@ -474,1278 +502,1318 @@ state 21
     goto_instr                     shift and go to state 12
     exit_instr                     shift and go to state 13
 
-state 22
+state 23
 
     (2) instrucciones -> instruccion instrucciones2 .
 
     $end            reduce using rule 2 (instrucciones -> instruccion instrucciones2 .)
 
 
-state 23
+state 24
 
     (4) instrucciones2 -> empty .
 
     $end            reduce using rule 4 (instrucciones2 -> empty .)
 
 
-state 24
-
-    (13) asignacion -> VAR IGUAL . exp_numerica PTCOMA
-    (14) asignacion -> VAR IGUAL . READ PARIZQ PARDER PTCOMA
-    (15) asignacion -> VAR IGUAL . BAND VAR PTCOMA
-    (23) exp_numerica -> . valores exp_numerica2
-    (24) exp_numerica -> . BNOT valores
-    (25) exp_numerica -> . MENOS valores
-    (26) exp_numerica -> . NOT valores
-    (27) exp_numerica -> . ARRAY PARIZQ PARDER
-    (28) exp_numerica -> . ABS PARIZQ valores PARDER
-    (29) exp_numerica -> . PARIZQ tipo_dato PARDER VAR
-    (36) valores -> . ENTERO
-    (37) valores -> . DECIMAL
-    (38) valores -> . VAR
-    (39) valores -> . VAR indices
-    (40) valores -> . CADENA
-
-    READ            shift and go to state 37
-    BAND            shift and go to state 39
-    BNOT            shift and go to state 41
-    MENOS           shift and go to state 42
-    NOT             shift and go to state 43
-    ARRAY           shift and go to state 44
-    ABS             shift and go to state 45
-    PARIZQ          shift and go to state 38
-    ENTERO          shift and go to state 46
-    DECIMAL         shift and go to state 47
-    VAR             shift and go to state 35
-    CADENA          shift and go to state 48
-
-    exp_numerica                   shift and go to state 36
-    valores                        shift and go to state 40
-
 state 25
 
-    (16) array_instr -> VAR indices . IGUAL exp_numerica PTCOMA
+    (13) instruccion -> error PTCOMA .
 
-    IGUAL           shift and go to state 49
+    error           reduce using rule 13 (instruccion -> error PTCOMA .)
+    VAR             reduce using rule 13 (instruccion -> error PTCOMA .)
+    UNSET           reduce using rule 13 (instruccion -> error PTCOMA .)
+    PRINT           reduce using rule 13 (instruccion -> error PTCOMA .)
+    IF              reduce using rule 13 (instruccion -> error PTCOMA .)
+    ID              reduce using rule 13 (instruccion -> error PTCOMA .)
+    GOTO            reduce using rule 13 (instruccion -> error PTCOMA .)
+    EXIT            reduce using rule 13 (instruccion -> error PTCOMA .)
+    $end            reduce using rule 13 (instruccion -> error PTCOMA .)
 
 
 state 26
 
-    (32) indices -> indice . indices2
-    (33) indices2 -> . indice indices2
-    (34) indices2 -> . empty
-    (35) indice -> . CORIZQ exp_numerica CORDER
-    (63) empty -> .
+    (14) instruccion -> error DOSPUNTOS .
 
-    CORIZQ          shift and go to state 27
-    IGUAL           reduce using rule 63 (empty -> .)
-    MAS             reduce using rule 63 (empty -> .)
-    MENOS           reduce using rule 63 (empty -> .)
-    POR             reduce using rule 63 (empty -> .)
-    DIVIDIDO        reduce using rule 63 (empty -> .)
-    RESIDUO         reduce using rule 63 (empty -> .)
-    AND             reduce using rule 63 (empty -> .)
-    OR              reduce using rule 63 (empty -> .)
-    XOR             reduce using rule 63 (empty -> .)
-    BAND            reduce using rule 63 (empty -> .)
-    BOR             reduce using rule 63 (empty -> .)
-    BXOR            reduce using rule 63 (empty -> .)
-    SHIFTI          reduce using rule 63 (empty -> .)
-    SHIFTD          reduce using rule 63 (empty -> .)
-    IGUALQ          reduce using rule 63 (empty -> .)
-    NIGUALQ         reduce using rule 63 (empty -> .)
-    MAYORQ          reduce using rule 63 (empty -> .)
-    MENORQ          reduce using rule 63 (empty -> .)
-    MAYORIGUALQ     reduce using rule 63 (empty -> .)
-    MENORIGUALQ     reduce using rule 63 (empty -> .)
-    PTCOMA          reduce using rule 63 (empty -> .)
-    CORDER          reduce using rule 63 (empty -> .)
-    PARDER          reduce using rule 63 (empty -> .)
+    error           reduce using rule 14 (instruccion -> error DOSPUNTOS .)
+    VAR             reduce using rule 14 (instruccion -> error DOSPUNTOS .)
+    UNSET           reduce using rule 14 (instruccion -> error DOSPUNTOS .)
+    PRINT           reduce using rule 14 (instruccion -> error DOSPUNTOS .)
+    IF              reduce using rule 14 (instruccion -> error DOSPUNTOS .)
+    ID              reduce using rule 14 (instruccion -> error DOSPUNTOS .)
+    GOTO            reduce using rule 14 (instruccion -> error DOSPUNTOS .)
+    EXIT            reduce using rule 14 (instruccion -> error DOSPUNTOS .)
+    $end            reduce using rule 14 (instruccion -> error DOSPUNTOS .)
 
-    indice                         shift and go to state 50
-    indices2                       shift and go to state 51
-    empty                          shift and go to state 52
 
 state 27
 
-    (35) indice -> CORIZQ . exp_numerica CORDER
-    (23) exp_numerica -> . valores exp_numerica2
-    (24) exp_numerica -> . BNOT valores
-    (25) exp_numerica -> . MENOS valores
-    (26) exp_numerica -> . NOT valores
-    (27) exp_numerica -> . ARRAY PARIZQ PARDER
-    (28) exp_numerica -> . ABS PARIZQ valores PARDER
-    (29) exp_numerica -> . PARIZQ tipo_dato PARDER VAR
-    (36) valores -> . ENTERO
-    (37) valores -> . DECIMAL
-    (38) valores -> . VAR
-    (39) valores -> . VAR indices
-    (40) valores -> . CADENA
+    (15) asignacion -> VAR IGUAL . exp_numerica PTCOMA
+    (16) asignacion -> VAR IGUAL . READ PARIZQ PARDER PTCOMA
+    (17) asignacion -> VAR IGUAL . BAND VAR PTCOMA
+    (25) exp_numerica -> . valores exp_numerica2
+    (26) exp_numerica -> . BNOT valores
+    (27) exp_numerica -> . MENOS valores
+    (28) exp_numerica -> . NOT valores
+    (29) exp_numerica -> . ARRAY PARIZQ PARDER
+    (30) exp_numerica -> . ABS PARIZQ valores PARDER
+    (31) exp_numerica -> . PARIZQ tipo_dato PARDER VAR
+    (38) valores -> . ENTERO
+    (39) valores -> . DECIMAL
+    (40) valores -> . VAR
+    (41) valores -> . VAR indices
+    (42) valores -> . CADENA
 
-    BNOT            shift and go to state 41
-    MENOS           shift and go to state 42
-    NOT             shift and go to state 43
-    ARRAY           shift and go to state 44
-    ABS             shift and go to state 45
-    PARIZQ          shift and go to state 38
-    ENTERO          shift and go to state 46
-    DECIMAL         shift and go to state 47
-    VAR             shift and go to state 35
-    CADENA          shift and go to state 48
+    READ            shift and go to state 40
+    BAND            shift and go to state 42
+    BNOT            shift and go to state 44
+    MENOS           shift and go to state 45
+    NOT             shift and go to state 46
+    ARRAY           shift and go to state 47
+    ABS             shift and go to state 48
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 49
+    DECIMAL         shift and go to state 50
+    VAR             shift and go to state 38
+    CADENA          shift and go to state 51
 
-    exp_numerica                   shift and go to state 53
-    valores                        shift and go to state 40
+    exp_numerica                   shift and go to state 39
+    valores                        shift and go to state 43
 
 state 28
 
-    (18) unset_instr -> UNSET PARIZQ . exp_numerica PARDER PTCOMA
-    (23) exp_numerica -> . valores exp_numerica2
-    (24) exp_numerica -> . BNOT valores
-    (25) exp_numerica -> . MENOS valores
-    (26) exp_numerica -> . NOT valores
-    (27) exp_numerica -> . ARRAY PARIZQ PARDER
-    (28) exp_numerica -> . ABS PARIZQ valores PARDER
-    (29) exp_numerica -> . PARIZQ tipo_dato PARDER VAR
-    (36) valores -> . ENTERO
-    (37) valores -> . DECIMAL
-    (38) valores -> . VAR
-    (39) valores -> . VAR indices
-    (40) valores -> . CADENA
+    (18) array_instr -> VAR indices . IGUAL exp_numerica PTCOMA
 
-    BNOT            shift and go to state 41
-    MENOS           shift and go to state 42
-    NOT             shift and go to state 43
-    ARRAY           shift and go to state 44
-    ABS             shift and go to state 45
-    PARIZQ          shift and go to state 38
-    ENTERO          shift and go to state 46
-    DECIMAL         shift and go to state 47
-    VAR             shift and go to state 35
-    CADENA          shift and go to state 48
+    IGUAL           shift and go to state 52
 
-    exp_numerica                   shift and go to state 54
-    valores                        shift and go to state 40
 
 state 29
 
-    (17) print_instr -> PRINT PARIZQ . exp_numerica PARDER PTCOMA
-    (23) exp_numerica -> . valores exp_numerica2
-    (24) exp_numerica -> . BNOT valores
-    (25) exp_numerica -> . MENOS valores
-    (26) exp_numerica -> . NOT valores
-    (27) exp_numerica -> . ARRAY PARIZQ PARDER
-    (28) exp_numerica -> . ABS PARIZQ valores PARDER
-    (29) exp_numerica -> . PARIZQ tipo_dato PARDER VAR
-    (36) valores -> . ENTERO
-    (37) valores -> . DECIMAL
-    (38) valores -> . VAR
-    (39) valores -> . VAR indices
-    (40) valores -> . CADENA
+    (34) indices -> indice . indices2
+    (35) indices2 -> . indice indices2
+    (36) indices2 -> . empty
+    (37) indice -> . CORIZQ exp_numerica CORDER
+    (65) empty -> .
 
-    BNOT            shift and go to state 41
-    MENOS           shift and go to state 42
-    NOT             shift and go to state 43
-    ARRAY           shift and go to state 44
-    ABS             shift and go to state 45
-    PARIZQ          shift and go to state 38
-    ENTERO          shift and go to state 46
-    DECIMAL         shift and go to state 47
-    VAR             shift and go to state 35
-    CADENA          shift and go to state 48
+    CORIZQ          shift and go to state 30
+    IGUAL           reduce using rule 65 (empty -> .)
+    MAS             reduce using rule 65 (empty -> .)
+    MENOS           reduce using rule 65 (empty -> .)
+    POR             reduce using rule 65 (empty -> .)
+    DIVIDIDO        reduce using rule 65 (empty -> .)
+    RESIDUO         reduce using rule 65 (empty -> .)
+    AND             reduce using rule 65 (empty -> .)
+    OR              reduce using rule 65 (empty -> .)
+    XOR             reduce using rule 65 (empty -> .)
+    BAND            reduce using rule 65 (empty -> .)
+    BOR             reduce using rule 65 (empty -> .)
+    BXOR            reduce using rule 65 (empty -> .)
+    SHIFTI          reduce using rule 65 (empty -> .)
+    SHIFTD          reduce using rule 65 (empty -> .)
+    IGUALQ          reduce using rule 65 (empty -> .)
+    NIGUALQ         reduce using rule 65 (empty -> .)
+    MAYORQ          reduce using rule 65 (empty -> .)
+    MENORQ          reduce using rule 65 (empty -> .)
+    MAYORIGUALQ     reduce using rule 65 (empty -> .)
+    MENORIGUALQ     reduce using rule 65 (empty -> .)
+    PTCOMA          reduce using rule 65 (empty -> .)
+    CORDER          reduce using rule 65 (empty -> .)
+    PARDER          reduce using rule 65 (empty -> .)
 
-    exp_numerica                   shift and go to state 55
-    valores                        shift and go to state 40
+    indice                         shift and go to state 53
+    indices2                       shift and go to state 54
+    empty                          shift and go to state 55
 
 state 30
 
-    (19) if_instr -> IF PARIZQ . exp_numerica PARDER goto_instr
-    (23) exp_numerica -> . valores exp_numerica2
-    (24) exp_numerica -> . BNOT valores
-    (25) exp_numerica -> . MENOS valores
-    (26) exp_numerica -> . NOT valores
-    (27) exp_numerica -> . ARRAY PARIZQ PARDER
-    (28) exp_numerica -> . ABS PARIZQ valores PARDER
-    (29) exp_numerica -> . PARIZQ tipo_dato PARDER VAR
-    (36) valores -> . ENTERO
-    (37) valores -> . DECIMAL
-    (38) valores -> . VAR
-    (39) valores -> . VAR indices
-    (40) valores -> . CADENA
+    (37) indice -> CORIZQ . exp_numerica CORDER
+    (25) exp_numerica -> . valores exp_numerica2
+    (26) exp_numerica -> . BNOT valores
+    (27) exp_numerica -> . MENOS valores
+    (28) exp_numerica -> . NOT valores
+    (29) exp_numerica -> . ARRAY PARIZQ PARDER
+    (30) exp_numerica -> . ABS PARIZQ valores PARDER
+    (31) exp_numerica -> . PARIZQ tipo_dato PARDER VAR
+    (38) valores -> . ENTERO
+    (39) valores -> . DECIMAL
+    (40) valores -> . VAR
+    (41) valores -> . VAR indices
+    (42) valores -> . CADENA
 
-    BNOT            shift and go to state 41
-    MENOS           shift and go to state 42
-    NOT             shift and go to state 43
-    ARRAY           shift and go to state 44
-    ABS             shift and go to state 45
-    PARIZQ          shift and go to state 38
-    ENTERO          shift and go to state 46
-    DECIMAL         shift and go to state 47
-    VAR             shift and go to state 35
-    CADENA          shift and go to state 48
+    BNOT            shift and go to state 44
+    MENOS           shift and go to state 45
+    NOT             shift and go to state 46
+    ARRAY           shift and go to state 47
+    ABS             shift and go to state 48
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 49
+    DECIMAL         shift and go to state 50
+    VAR             shift and go to state 38
+    CADENA          shift and go to state 51
 
     exp_numerica                   shift and go to state 56
-    valores                        shift and go to state 40
+    valores                        shift and go to state 43
 
 state 31
 
-    (20) etiqueta_instr -> ID DOSPUNTOS .
+    (20) unset_instr -> UNSET PARIZQ . exp_numerica PARDER PTCOMA
+    (25) exp_numerica -> . valores exp_numerica2
+    (26) exp_numerica -> . BNOT valores
+    (27) exp_numerica -> . MENOS valores
+    (28) exp_numerica -> . NOT valores
+    (29) exp_numerica -> . ARRAY PARIZQ PARDER
+    (30) exp_numerica -> . ABS PARIZQ valores PARDER
+    (31) exp_numerica -> . PARIZQ tipo_dato PARDER VAR
+    (38) valores -> . ENTERO
+    (39) valores -> . DECIMAL
+    (40) valores -> . VAR
+    (41) valores -> . VAR indices
+    (42) valores -> . CADENA
 
-    VAR             reduce using rule 20 (etiqueta_instr -> ID DOSPUNTOS .)
-    UNSET           reduce using rule 20 (etiqueta_instr -> ID DOSPUNTOS .)
-    PRINT           reduce using rule 20 (etiqueta_instr -> ID DOSPUNTOS .)
-    IF              reduce using rule 20 (etiqueta_instr -> ID DOSPUNTOS .)
-    ID              reduce using rule 20 (etiqueta_instr -> ID DOSPUNTOS .)
-    GOTO            reduce using rule 20 (etiqueta_instr -> ID DOSPUNTOS .)
-    EXIT            reduce using rule 20 (etiqueta_instr -> ID DOSPUNTOS .)
-    $end            reduce using rule 20 (etiqueta_instr -> ID DOSPUNTOS .)
+    BNOT            shift and go to state 44
+    MENOS           shift and go to state 45
+    NOT             shift and go to state 46
+    ARRAY           shift and go to state 47
+    ABS             shift and go to state 48
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 49
+    DECIMAL         shift and go to state 50
+    VAR             shift and go to state 38
+    CADENA          shift and go to state 51
 
+    exp_numerica                   shift and go to state 57
+    valores                        shift and go to state 43
 
 state 32
 
-    (21) goto_instr -> GOTO ID . PTCOMA
+    (19) print_instr -> PRINT PARIZQ . exp_numerica PARDER PTCOMA
+    (25) exp_numerica -> . valores exp_numerica2
+    (26) exp_numerica -> . BNOT valores
+    (27) exp_numerica -> . MENOS valores
+    (28) exp_numerica -> . NOT valores
+    (29) exp_numerica -> . ARRAY PARIZQ PARDER
+    (30) exp_numerica -> . ABS PARIZQ valores PARDER
+    (31) exp_numerica -> . PARIZQ tipo_dato PARDER VAR
+    (38) valores -> . ENTERO
+    (39) valores -> . DECIMAL
+    (40) valores -> . VAR
+    (41) valores -> . VAR indices
+    (42) valores -> . CADENA
 
-    PTCOMA          shift and go to state 57
+    BNOT            shift and go to state 44
+    MENOS           shift and go to state 45
+    NOT             shift and go to state 46
+    ARRAY           shift and go to state 47
+    ABS             shift and go to state 48
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 49
+    DECIMAL         shift and go to state 50
+    VAR             shift and go to state 38
+    CADENA          shift and go to state 51
 
+    exp_numerica                   shift and go to state 58
+    valores                        shift and go to state 43
 
 state 33
 
-    (22) exit_instr -> EXIT PTCOMA .
+    (21) if_instr -> IF PARIZQ . exp_numerica PARDER goto_instr
+    (25) exp_numerica -> . valores exp_numerica2
+    (26) exp_numerica -> . BNOT valores
+    (27) exp_numerica -> . MENOS valores
+    (28) exp_numerica -> . NOT valores
+    (29) exp_numerica -> . ARRAY PARIZQ PARDER
+    (30) exp_numerica -> . ABS PARIZQ valores PARDER
+    (31) exp_numerica -> . PARIZQ tipo_dato PARDER VAR
+    (38) valores -> . ENTERO
+    (39) valores -> . DECIMAL
+    (40) valores -> . VAR
+    (41) valores -> . VAR indices
+    (42) valores -> . CADENA
 
-    VAR             reduce using rule 22 (exit_instr -> EXIT PTCOMA .)
-    UNSET           reduce using rule 22 (exit_instr -> EXIT PTCOMA .)
-    PRINT           reduce using rule 22 (exit_instr -> EXIT PTCOMA .)
-    IF              reduce using rule 22 (exit_instr -> EXIT PTCOMA .)
-    ID              reduce using rule 22 (exit_instr -> EXIT PTCOMA .)
-    GOTO            reduce using rule 22 (exit_instr -> EXIT PTCOMA .)
-    EXIT            reduce using rule 22 (exit_instr -> EXIT PTCOMA .)
-    $end            reduce using rule 22 (exit_instr -> EXIT PTCOMA .)
+    BNOT            shift and go to state 44
+    MENOS           shift and go to state 45
+    NOT             shift and go to state 46
+    ARRAY           shift and go to state 47
+    ABS             shift and go to state 48
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 49
+    DECIMAL         shift and go to state 50
+    VAR             shift and go to state 38
+    CADENA          shift and go to state 51
 
+    exp_numerica                   shift and go to state 59
+    valores                        shift and go to state 43
 
 state 34
+
+    (22) etiqueta_instr -> ID DOSPUNTOS .
+
+    error           reduce using rule 22 (etiqueta_instr -> ID DOSPUNTOS .)
+    VAR             reduce using rule 22 (etiqueta_instr -> ID DOSPUNTOS .)
+    UNSET           reduce using rule 22 (etiqueta_instr -> ID DOSPUNTOS .)
+    PRINT           reduce using rule 22 (etiqueta_instr -> ID DOSPUNTOS .)
+    IF              reduce using rule 22 (etiqueta_instr -> ID DOSPUNTOS .)
+    ID              reduce using rule 22 (etiqueta_instr -> ID DOSPUNTOS .)
+    GOTO            reduce using rule 22 (etiqueta_instr -> ID DOSPUNTOS .)
+    EXIT            reduce using rule 22 (etiqueta_instr -> ID DOSPUNTOS .)
+    $end            reduce using rule 22 (etiqueta_instr -> ID DOSPUNTOS .)
+
+
+state 35
+
+    (23) goto_instr -> GOTO ID . PTCOMA
+
+    PTCOMA          shift and go to state 60
+
+
+state 36
+
+    (24) exit_instr -> EXIT PTCOMA .
+
+    error           reduce using rule 24 (exit_instr -> EXIT PTCOMA .)
+    VAR             reduce using rule 24 (exit_instr -> EXIT PTCOMA .)
+    UNSET           reduce using rule 24 (exit_instr -> EXIT PTCOMA .)
+    PRINT           reduce using rule 24 (exit_instr -> EXIT PTCOMA .)
+    IF              reduce using rule 24 (exit_instr -> EXIT PTCOMA .)
+    ID              reduce using rule 24 (exit_instr -> EXIT PTCOMA .)
+    GOTO            reduce using rule 24 (exit_instr -> EXIT PTCOMA .)
+    EXIT            reduce using rule 24 (exit_instr -> EXIT PTCOMA .)
+    $end            reduce using rule 24 (exit_instr -> EXIT PTCOMA .)
+
+
+state 37
 
     (3) instrucciones2 -> instruccion instrucciones2 .
 
     $end            reduce using rule 3 (instrucciones2 -> instruccion instrucciones2 .)
 
 
-state 35
-
-    (38) valores -> VAR .
-    (39) valores -> VAR . indices
-    (32) indices -> . indice indices2
-    (35) indice -> . CORIZQ exp_numerica CORDER
-
-    MAS             reduce using rule 38 (valores -> VAR .)
-    MENOS           reduce using rule 38 (valores -> VAR .)
-    POR             reduce using rule 38 (valores -> VAR .)
-    DIVIDIDO        reduce using rule 38 (valores -> VAR .)
-    RESIDUO         reduce using rule 38 (valores -> VAR .)
-    AND             reduce using rule 38 (valores -> VAR .)
-    OR              reduce using rule 38 (valores -> VAR .)
-    XOR             reduce using rule 38 (valores -> VAR .)
-    BAND            reduce using rule 38 (valores -> VAR .)
-    BOR             reduce using rule 38 (valores -> VAR .)
-    BXOR            reduce using rule 38 (valores -> VAR .)
-    SHIFTI          reduce using rule 38 (valores -> VAR .)
-    SHIFTD          reduce using rule 38 (valores -> VAR .)
-    IGUALQ          reduce using rule 38 (valores -> VAR .)
-    NIGUALQ         reduce using rule 38 (valores -> VAR .)
-    MAYORQ          reduce using rule 38 (valores -> VAR .)
-    MENORQ          reduce using rule 38 (valores -> VAR .)
-    MAYORIGUALQ     reduce using rule 38 (valores -> VAR .)
-    MENORIGUALQ     reduce using rule 38 (valores -> VAR .)
-    PTCOMA          reduce using rule 38 (valores -> VAR .)
-    CORDER          reduce using rule 38 (valores -> VAR .)
-    PARDER          reduce using rule 38 (valores -> VAR .)
-    CORIZQ          shift and go to state 27
-
-    indices                        shift and go to state 58
-    indice                         shift and go to state 26
-
-state 36
-
-    (13) asignacion -> VAR IGUAL exp_numerica . PTCOMA
-
-    PTCOMA          shift and go to state 59
-
-
-state 37
-
-    (14) asignacion -> VAR IGUAL READ . PARIZQ PARDER PTCOMA
-
-    PARIZQ          shift and go to state 60
-
-
 state 38
 
-    (29) exp_numerica -> PARIZQ . tipo_dato PARDER VAR
-    (60) tipo_dato -> . INT
-    (61) tipo_dato -> . FLOAT
-    (62) tipo_dato -> . CHAR
+    (40) valores -> VAR .
+    (41) valores -> VAR . indices
+    (34) indices -> . indice indices2
+    (37) indice -> . CORIZQ exp_numerica CORDER
 
-    INT             shift and go to state 62
-    FLOAT           shift and go to state 63
-    CHAR            shift and go to state 64
+    MAS             reduce using rule 40 (valores -> VAR .)
+    MENOS           reduce using rule 40 (valores -> VAR .)
+    POR             reduce using rule 40 (valores -> VAR .)
+    DIVIDIDO        reduce using rule 40 (valores -> VAR .)
+    RESIDUO         reduce using rule 40 (valores -> VAR .)
+    AND             reduce using rule 40 (valores -> VAR .)
+    OR              reduce using rule 40 (valores -> VAR .)
+    XOR             reduce using rule 40 (valores -> VAR .)
+    BAND            reduce using rule 40 (valores -> VAR .)
+    BOR             reduce using rule 40 (valores -> VAR .)
+    BXOR            reduce using rule 40 (valores -> VAR .)
+    SHIFTI          reduce using rule 40 (valores -> VAR .)
+    SHIFTD          reduce using rule 40 (valores -> VAR .)
+    IGUALQ          reduce using rule 40 (valores -> VAR .)
+    NIGUALQ         reduce using rule 40 (valores -> VAR .)
+    MAYORQ          reduce using rule 40 (valores -> VAR .)
+    MENORQ          reduce using rule 40 (valores -> VAR .)
+    MAYORIGUALQ     reduce using rule 40 (valores -> VAR .)
+    MENORIGUALQ     reduce using rule 40 (valores -> VAR .)
+    PTCOMA          reduce using rule 40 (valores -> VAR .)
+    CORDER          reduce using rule 40 (valores -> VAR .)
+    PARDER          reduce using rule 40 (valores -> VAR .)
+    CORIZQ          shift and go to state 30
 
-    tipo_dato                      shift and go to state 61
+    indices                        shift and go to state 61
+    indice                         shift and go to state 29
 
 state 39
 
-    (15) asignacion -> VAR IGUAL BAND . VAR PTCOMA
+    (15) asignacion -> VAR IGUAL exp_numerica . PTCOMA
 
-    VAR             shift and go to state 65
+    PTCOMA          shift and go to state 62
 
 
 state 40
 
-    (23) exp_numerica -> valores . exp_numerica2
-    (30) exp_numerica2 -> . signo valores
-    (31) exp_numerica2 -> . empty
-    (41) signo -> . MAS
-    (42) signo -> . MENOS
-    (43) signo -> . POR
-    (44) signo -> . DIVIDIDO
-    (45) signo -> . RESIDUO
-    (46) signo -> . AND
-    (47) signo -> . OR
-    (48) signo -> . XOR
-    (49) signo -> . BAND
-    (50) signo -> . BOR
-    (51) signo -> . BXOR
-    (52) signo -> . SHIFTI
-    (53) signo -> . SHIFTD
-    (54) signo -> . IGUALQ
-    (55) signo -> . NIGUALQ
-    (56) signo -> . MAYORQ
-    (57) signo -> . MENORQ
-    (58) signo -> . MAYORIGUALQ
-    (59) signo -> . MENORIGUALQ
-    (63) empty -> .
+    (16) asignacion -> VAR IGUAL READ . PARIZQ PARDER PTCOMA
 
-    MAS             shift and go to state 69
-    MENOS           shift and go to state 70
-    POR             shift and go to state 71
-    DIVIDIDO        shift and go to state 72
-    RESIDUO         shift and go to state 73
-    AND             shift and go to state 74
-    OR              shift and go to state 75
-    XOR             shift and go to state 76
-    BAND            shift and go to state 77
-    BOR             shift and go to state 78
-    BXOR            shift and go to state 79
-    SHIFTI          shift and go to state 80
-    SHIFTD          shift and go to state 81
-    IGUALQ          shift and go to state 82
-    NIGUALQ         shift and go to state 83
-    MAYORQ          shift and go to state 84
-    MENORQ          shift and go to state 85
-    MAYORIGUALQ     shift and go to state 86
-    MENORIGUALQ     shift and go to state 87
-    PTCOMA          reduce using rule 63 (empty -> .)
-    CORDER          reduce using rule 63 (empty -> .)
-    PARDER          reduce using rule 63 (empty -> .)
+    PARIZQ          shift and go to state 63
 
-    exp_numerica2                  shift and go to state 66
-    signo                          shift and go to state 67
-    empty                          shift and go to state 68
 
 state 41
 
-    (24) exp_numerica -> BNOT . valores
-    (36) valores -> . ENTERO
-    (37) valores -> . DECIMAL
-    (38) valores -> . VAR
-    (39) valores -> . VAR indices
-    (40) valores -> . CADENA
+    (31) exp_numerica -> PARIZQ . tipo_dato PARDER VAR
+    (62) tipo_dato -> . INT
+    (63) tipo_dato -> . FLOAT
+    (64) tipo_dato -> . CHAR
 
-    ENTERO          shift and go to state 46
-    DECIMAL         shift and go to state 47
-    VAR             shift and go to state 35
-    CADENA          shift and go to state 48
+    INT             shift and go to state 65
+    FLOAT           shift and go to state 66
+    CHAR            shift and go to state 67
 
-    valores                        shift and go to state 88
+    tipo_dato                      shift and go to state 64
 
 state 42
 
-    (25) exp_numerica -> MENOS . valores
-    (36) valores -> . ENTERO
-    (37) valores -> . DECIMAL
-    (38) valores -> . VAR
-    (39) valores -> . VAR indices
-    (40) valores -> . CADENA
+    (17) asignacion -> VAR IGUAL BAND . VAR PTCOMA
 
-    ENTERO          shift and go to state 46
-    DECIMAL         shift and go to state 47
-    VAR             shift and go to state 35
-    CADENA          shift and go to state 48
+    VAR             shift and go to state 68
 
-    valores                        shift and go to state 89
 
 state 43
 
-    (26) exp_numerica -> NOT . valores
-    (36) valores -> . ENTERO
-    (37) valores -> . DECIMAL
-    (38) valores -> . VAR
-    (39) valores -> . VAR indices
-    (40) valores -> . CADENA
+    (25) exp_numerica -> valores . exp_numerica2
+    (32) exp_numerica2 -> . signo valores
+    (33) exp_numerica2 -> . empty
+    (43) signo -> . MAS
+    (44) signo -> . MENOS
+    (45) signo -> . POR
+    (46) signo -> . DIVIDIDO
+    (47) signo -> . RESIDUO
+    (48) signo -> . AND
+    (49) signo -> . OR
+    (50) signo -> . XOR
+    (51) signo -> . BAND
+    (52) signo -> . BOR
+    (53) signo -> . BXOR
+    (54) signo -> . SHIFTI
+    (55) signo -> . SHIFTD
+    (56) signo -> . IGUALQ
+    (57) signo -> . NIGUALQ
+    (58) signo -> . MAYORQ
+    (59) signo -> . MENORQ
+    (60) signo -> . MAYORIGUALQ
+    (61) signo -> . MENORIGUALQ
+    (65) empty -> .
 
-    ENTERO          shift and go to state 46
-    DECIMAL         shift and go to state 47
-    VAR             shift and go to state 35
-    CADENA          shift and go to state 48
+    MAS             shift and go to state 72
+    MENOS           shift and go to state 73
+    POR             shift and go to state 74
+    DIVIDIDO        shift and go to state 75
+    RESIDUO         shift and go to state 76
+    AND             shift and go to state 77
+    OR              shift and go to state 78
+    XOR             shift and go to state 79
+    BAND            shift and go to state 80
+    BOR             shift and go to state 81
+    BXOR            shift and go to state 82
+    SHIFTI          shift and go to state 83
+    SHIFTD          shift and go to state 84
+    IGUALQ          shift and go to state 85
+    NIGUALQ         shift and go to state 86
+    MAYORQ          shift and go to state 87
+    MENORQ          shift and go to state 88
+    MAYORIGUALQ     shift and go to state 89
+    MENORIGUALQ     shift and go to state 90
+    PTCOMA          reduce using rule 65 (empty -> .)
+    CORDER          reduce using rule 65 (empty -> .)
+    PARDER          reduce using rule 65 (empty -> .)
 
-    valores                        shift and go to state 90
+    exp_numerica2                  shift and go to state 69
+    signo                          shift and go to state 70
+    empty                          shift and go to state 71
 
 state 44
 
-    (27) exp_numerica -> ARRAY . PARIZQ PARDER
+    (26) exp_numerica -> BNOT . valores
+    (38) valores -> . ENTERO
+    (39) valores -> . DECIMAL
+    (40) valores -> . VAR
+    (41) valores -> . VAR indices
+    (42) valores -> . CADENA
 
-    PARIZQ          shift and go to state 91
+    ENTERO          shift and go to state 49
+    DECIMAL         shift and go to state 50
+    VAR             shift and go to state 38
+    CADENA          shift and go to state 51
 
+    valores                        shift and go to state 91
 
 state 45
 
-    (28) exp_numerica -> ABS . PARIZQ valores PARDER
+    (27) exp_numerica -> MENOS . valores
+    (38) valores -> . ENTERO
+    (39) valores -> . DECIMAL
+    (40) valores -> . VAR
+    (41) valores -> . VAR indices
+    (42) valores -> . CADENA
 
-    PARIZQ          shift and go to state 92
+    ENTERO          shift and go to state 49
+    DECIMAL         shift and go to state 50
+    VAR             shift and go to state 38
+    CADENA          shift and go to state 51
 
+    valores                        shift and go to state 92
 
 state 46
 
-    (36) valores -> ENTERO .
+    (28) exp_numerica -> NOT . valores
+    (38) valores -> . ENTERO
+    (39) valores -> . DECIMAL
+    (40) valores -> . VAR
+    (41) valores -> . VAR indices
+    (42) valores -> . CADENA
 
-    MAS             reduce using rule 36 (valores -> ENTERO .)
-    MENOS           reduce using rule 36 (valores -> ENTERO .)
-    POR             reduce using rule 36 (valores -> ENTERO .)
-    DIVIDIDO        reduce using rule 36 (valores -> ENTERO .)
-    RESIDUO         reduce using rule 36 (valores -> ENTERO .)
-    AND             reduce using rule 36 (valores -> ENTERO .)
-    OR              reduce using rule 36 (valores -> ENTERO .)
-    XOR             reduce using rule 36 (valores -> ENTERO .)
-    BAND            reduce using rule 36 (valores -> ENTERO .)
-    BOR             reduce using rule 36 (valores -> ENTERO .)
-    BXOR            reduce using rule 36 (valores -> ENTERO .)
-    SHIFTI          reduce using rule 36 (valores -> ENTERO .)
-    SHIFTD          reduce using rule 36 (valores -> ENTERO .)
-    IGUALQ          reduce using rule 36 (valores -> ENTERO .)
-    NIGUALQ         reduce using rule 36 (valores -> ENTERO .)
-    MAYORQ          reduce using rule 36 (valores -> ENTERO .)
-    MENORQ          reduce using rule 36 (valores -> ENTERO .)
-    MAYORIGUALQ     reduce using rule 36 (valores -> ENTERO .)
-    MENORIGUALQ     reduce using rule 36 (valores -> ENTERO .)
-    PTCOMA          reduce using rule 36 (valores -> ENTERO .)
-    CORDER          reduce using rule 36 (valores -> ENTERO .)
-    PARDER          reduce using rule 36 (valores -> ENTERO .)
+    ENTERO          shift and go to state 49
+    DECIMAL         shift and go to state 50
+    VAR             shift and go to state 38
+    CADENA          shift and go to state 51
 
+    valores                        shift and go to state 93
 
 state 47
 
-    (37) valores -> DECIMAL .
+    (29) exp_numerica -> ARRAY . PARIZQ PARDER
 
-    MAS             reduce using rule 37 (valores -> DECIMAL .)
-    MENOS           reduce using rule 37 (valores -> DECIMAL .)
-    POR             reduce using rule 37 (valores -> DECIMAL .)
-    DIVIDIDO        reduce using rule 37 (valores -> DECIMAL .)
-    RESIDUO         reduce using rule 37 (valores -> DECIMAL .)
-    AND             reduce using rule 37 (valores -> DECIMAL .)
-    OR              reduce using rule 37 (valores -> DECIMAL .)
-    XOR             reduce using rule 37 (valores -> DECIMAL .)
-    BAND            reduce using rule 37 (valores -> DECIMAL .)
-    BOR             reduce using rule 37 (valores -> DECIMAL .)
-    BXOR            reduce using rule 37 (valores -> DECIMAL .)
-    SHIFTI          reduce using rule 37 (valores -> DECIMAL .)
-    SHIFTD          reduce using rule 37 (valores -> DECIMAL .)
-    IGUALQ          reduce using rule 37 (valores -> DECIMAL .)
-    NIGUALQ         reduce using rule 37 (valores -> DECIMAL .)
-    MAYORQ          reduce using rule 37 (valores -> DECIMAL .)
-    MENORQ          reduce using rule 37 (valores -> DECIMAL .)
-    MAYORIGUALQ     reduce using rule 37 (valores -> DECIMAL .)
-    MENORIGUALQ     reduce using rule 37 (valores -> DECIMAL .)
-    PTCOMA          reduce using rule 37 (valores -> DECIMAL .)
-    CORDER          reduce using rule 37 (valores -> DECIMAL .)
-    PARDER          reduce using rule 37 (valores -> DECIMAL .)
+    PARIZQ          shift and go to state 94
 
 
 state 48
 
-    (40) valores -> CADENA .
+    (30) exp_numerica -> ABS . PARIZQ valores PARDER
 
-    MAS             reduce using rule 40 (valores -> CADENA .)
-    MENOS           reduce using rule 40 (valores -> CADENA .)
-    POR             reduce using rule 40 (valores -> CADENA .)
-    DIVIDIDO        reduce using rule 40 (valores -> CADENA .)
-    RESIDUO         reduce using rule 40 (valores -> CADENA .)
-    AND             reduce using rule 40 (valores -> CADENA .)
-    OR              reduce using rule 40 (valores -> CADENA .)
-    XOR             reduce using rule 40 (valores -> CADENA .)
-    BAND            reduce using rule 40 (valores -> CADENA .)
-    BOR             reduce using rule 40 (valores -> CADENA .)
-    BXOR            reduce using rule 40 (valores -> CADENA .)
-    SHIFTI          reduce using rule 40 (valores -> CADENA .)
-    SHIFTD          reduce using rule 40 (valores -> CADENA .)
-    IGUALQ          reduce using rule 40 (valores -> CADENA .)
-    NIGUALQ         reduce using rule 40 (valores -> CADENA .)
-    MAYORQ          reduce using rule 40 (valores -> CADENA .)
-    MENORQ          reduce using rule 40 (valores -> CADENA .)
-    MAYORIGUALQ     reduce using rule 40 (valores -> CADENA .)
-    MENORIGUALQ     reduce using rule 40 (valores -> CADENA .)
-    PTCOMA          reduce using rule 40 (valores -> CADENA .)
-    CORDER          reduce using rule 40 (valores -> CADENA .)
-    PARDER          reduce using rule 40 (valores -> CADENA .)
+    PARIZQ          shift and go to state 95
 
 
 state 49
 
-    (16) array_instr -> VAR indices IGUAL . exp_numerica PTCOMA
-    (23) exp_numerica -> . valores exp_numerica2
-    (24) exp_numerica -> . BNOT valores
-    (25) exp_numerica -> . MENOS valores
-    (26) exp_numerica -> . NOT valores
-    (27) exp_numerica -> . ARRAY PARIZQ PARDER
-    (28) exp_numerica -> . ABS PARIZQ valores PARDER
-    (29) exp_numerica -> . PARIZQ tipo_dato PARDER VAR
-    (36) valores -> . ENTERO
-    (37) valores -> . DECIMAL
-    (38) valores -> . VAR
-    (39) valores -> . VAR indices
-    (40) valores -> . CADENA
+    (38) valores -> ENTERO .
 
-    BNOT            shift and go to state 41
-    MENOS           shift and go to state 42
-    NOT             shift and go to state 43
-    ARRAY           shift and go to state 44
-    ABS             shift and go to state 45
-    PARIZQ          shift and go to state 38
-    ENTERO          shift and go to state 46
-    DECIMAL         shift and go to state 47
-    VAR             shift and go to state 35
-    CADENA          shift and go to state 48
+    MAS             reduce using rule 38 (valores -> ENTERO .)
+    MENOS           reduce using rule 38 (valores -> ENTERO .)
+    POR             reduce using rule 38 (valores -> ENTERO .)
+    DIVIDIDO        reduce using rule 38 (valores -> ENTERO .)
+    RESIDUO         reduce using rule 38 (valores -> ENTERO .)
+    AND             reduce using rule 38 (valores -> ENTERO .)
+    OR              reduce using rule 38 (valores -> ENTERO .)
+    XOR             reduce using rule 38 (valores -> ENTERO .)
+    BAND            reduce using rule 38 (valores -> ENTERO .)
+    BOR             reduce using rule 38 (valores -> ENTERO .)
+    BXOR            reduce using rule 38 (valores -> ENTERO .)
+    SHIFTI          reduce using rule 38 (valores -> ENTERO .)
+    SHIFTD          reduce using rule 38 (valores -> ENTERO .)
+    IGUALQ          reduce using rule 38 (valores -> ENTERO .)
+    NIGUALQ         reduce using rule 38 (valores -> ENTERO .)
+    MAYORQ          reduce using rule 38 (valores -> ENTERO .)
+    MENORQ          reduce using rule 38 (valores -> ENTERO .)
+    MAYORIGUALQ     reduce using rule 38 (valores -> ENTERO .)
+    MENORIGUALQ     reduce using rule 38 (valores -> ENTERO .)
+    PTCOMA          reduce using rule 38 (valores -> ENTERO .)
+    CORDER          reduce using rule 38 (valores -> ENTERO .)
+    PARDER          reduce using rule 38 (valores -> ENTERO .)
 
-    exp_numerica                   shift and go to state 93
-    valores                        shift and go to state 40
 
 state 50
 
-    (33) indices2 -> indice . indices2
-    (33) indices2 -> . indice indices2
-    (34) indices2 -> . empty
-    (35) indice -> . CORIZQ exp_numerica CORDER
-    (63) empty -> .
+    (39) valores -> DECIMAL .
 
-    CORIZQ          shift and go to state 27
-    IGUAL           reduce using rule 63 (empty -> .)
-    MAS             reduce using rule 63 (empty -> .)
-    MENOS           reduce using rule 63 (empty -> .)
-    POR             reduce using rule 63 (empty -> .)
-    DIVIDIDO        reduce using rule 63 (empty -> .)
-    RESIDUO         reduce using rule 63 (empty -> .)
-    AND             reduce using rule 63 (empty -> .)
-    OR              reduce using rule 63 (empty -> .)
-    XOR             reduce using rule 63 (empty -> .)
-    BAND            reduce using rule 63 (empty -> .)
-    BOR             reduce using rule 63 (empty -> .)
-    BXOR            reduce using rule 63 (empty -> .)
-    SHIFTI          reduce using rule 63 (empty -> .)
-    SHIFTD          reduce using rule 63 (empty -> .)
-    IGUALQ          reduce using rule 63 (empty -> .)
-    NIGUALQ         reduce using rule 63 (empty -> .)
-    MAYORQ          reduce using rule 63 (empty -> .)
-    MENORQ          reduce using rule 63 (empty -> .)
-    MAYORIGUALQ     reduce using rule 63 (empty -> .)
-    MENORIGUALQ     reduce using rule 63 (empty -> .)
-    PTCOMA          reduce using rule 63 (empty -> .)
-    CORDER          reduce using rule 63 (empty -> .)
-    PARDER          reduce using rule 63 (empty -> .)
+    MAS             reduce using rule 39 (valores -> DECIMAL .)
+    MENOS           reduce using rule 39 (valores -> DECIMAL .)
+    POR             reduce using rule 39 (valores -> DECIMAL .)
+    DIVIDIDO        reduce using rule 39 (valores -> DECIMAL .)
+    RESIDUO         reduce using rule 39 (valores -> DECIMAL .)
+    AND             reduce using rule 39 (valores -> DECIMAL .)
+    OR              reduce using rule 39 (valores -> DECIMAL .)
+    XOR             reduce using rule 39 (valores -> DECIMAL .)
+    BAND            reduce using rule 39 (valores -> DECIMAL .)
+    BOR             reduce using rule 39 (valores -> DECIMAL .)
+    BXOR            reduce using rule 39 (valores -> DECIMAL .)
+    SHIFTI          reduce using rule 39 (valores -> DECIMAL .)
+    SHIFTD          reduce using rule 39 (valores -> DECIMAL .)
+    IGUALQ          reduce using rule 39 (valores -> DECIMAL .)
+    NIGUALQ         reduce using rule 39 (valores -> DECIMAL .)
+    MAYORQ          reduce using rule 39 (valores -> DECIMAL .)
+    MENORQ          reduce using rule 39 (valores -> DECIMAL .)
+    MAYORIGUALQ     reduce using rule 39 (valores -> DECIMAL .)
+    MENORIGUALQ     reduce using rule 39 (valores -> DECIMAL .)
+    PTCOMA          reduce using rule 39 (valores -> DECIMAL .)
+    CORDER          reduce using rule 39 (valores -> DECIMAL .)
+    PARDER          reduce using rule 39 (valores -> DECIMAL .)
 
-    indice                         shift and go to state 50
-    indices2                       shift and go to state 94
-    empty                          shift and go to state 52
 
 state 51
 
-    (32) indices -> indice indices2 .
+    (42) valores -> CADENA .
 
-    IGUAL           reduce using rule 32 (indices -> indice indices2 .)
-    MAS             reduce using rule 32 (indices -> indice indices2 .)
-    MENOS           reduce using rule 32 (indices -> indice indices2 .)
-    POR             reduce using rule 32 (indices -> indice indices2 .)
-    DIVIDIDO        reduce using rule 32 (indices -> indice indices2 .)
-    RESIDUO         reduce using rule 32 (indices -> indice indices2 .)
-    AND             reduce using rule 32 (indices -> indice indices2 .)
-    OR              reduce using rule 32 (indices -> indice indices2 .)
-    XOR             reduce using rule 32 (indices -> indice indices2 .)
-    BAND            reduce using rule 32 (indices -> indice indices2 .)
-    BOR             reduce using rule 32 (indices -> indice indices2 .)
-    BXOR            reduce using rule 32 (indices -> indice indices2 .)
-    SHIFTI          reduce using rule 32 (indices -> indice indices2 .)
-    SHIFTD          reduce using rule 32 (indices -> indice indices2 .)
-    IGUALQ          reduce using rule 32 (indices -> indice indices2 .)
-    NIGUALQ         reduce using rule 32 (indices -> indice indices2 .)
-    MAYORQ          reduce using rule 32 (indices -> indice indices2 .)
-    MENORQ          reduce using rule 32 (indices -> indice indices2 .)
-    MAYORIGUALQ     reduce using rule 32 (indices -> indice indices2 .)
-    MENORIGUALQ     reduce using rule 32 (indices -> indice indices2 .)
-    PTCOMA          reduce using rule 32 (indices -> indice indices2 .)
-    CORDER          reduce using rule 32 (indices -> indice indices2 .)
-    PARDER          reduce using rule 32 (indices -> indice indices2 .)
+    MAS             reduce using rule 42 (valores -> CADENA .)
+    MENOS           reduce using rule 42 (valores -> CADENA .)
+    POR             reduce using rule 42 (valores -> CADENA .)
+    DIVIDIDO        reduce using rule 42 (valores -> CADENA .)
+    RESIDUO         reduce using rule 42 (valores -> CADENA .)
+    AND             reduce using rule 42 (valores -> CADENA .)
+    OR              reduce using rule 42 (valores -> CADENA .)
+    XOR             reduce using rule 42 (valores -> CADENA .)
+    BAND            reduce using rule 42 (valores -> CADENA .)
+    BOR             reduce using rule 42 (valores -> CADENA .)
+    BXOR            reduce using rule 42 (valores -> CADENA .)
+    SHIFTI          reduce using rule 42 (valores -> CADENA .)
+    SHIFTD          reduce using rule 42 (valores -> CADENA .)
+    IGUALQ          reduce using rule 42 (valores -> CADENA .)
+    NIGUALQ         reduce using rule 42 (valores -> CADENA .)
+    MAYORQ          reduce using rule 42 (valores -> CADENA .)
+    MENORQ          reduce using rule 42 (valores -> CADENA .)
+    MAYORIGUALQ     reduce using rule 42 (valores -> CADENA .)
+    MENORIGUALQ     reduce using rule 42 (valores -> CADENA .)
+    PTCOMA          reduce using rule 42 (valores -> CADENA .)
+    CORDER          reduce using rule 42 (valores -> CADENA .)
+    PARDER          reduce using rule 42 (valores -> CADENA .)
 
 
 state 52
 
-    (34) indices2 -> empty .
+    (18) array_instr -> VAR indices IGUAL . exp_numerica PTCOMA
+    (25) exp_numerica -> . valores exp_numerica2
+    (26) exp_numerica -> . BNOT valores
+    (27) exp_numerica -> . MENOS valores
+    (28) exp_numerica -> . NOT valores
+    (29) exp_numerica -> . ARRAY PARIZQ PARDER
+    (30) exp_numerica -> . ABS PARIZQ valores PARDER
+    (31) exp_numerica -> . PARIZQ tipo_dato PARDER VAR
+    (38) valores -> . ENTERO
+    (39) valores -> . DECIMAL
+    (40) valores -> . VAR
+    (41) valores -> . VAR indices
+    (42) valores -> . CADENA
 
-    IGUAL           reduce using rule 34 (indices2 -> empty .)
-    MAS             reduce using rule 34 (indices2 -> empty .)
-    MENOS           reduce using rule 34 (indices2 -> empty .)
-    POR             reduce using rule 34 (indices2 -> empty .)
-    DIVIDIDO        reduce using rule 34 (indices2 -> empty .)
-    RESIDUO         reduce using rule 34 (indices2 -> empty .)
-    AND             reduce using rule 34 (indices2 -> empty .)
-    OR              reduce using rule 34 (indices2 -> empty .)
-    XOR             reduce using rule 34 (indices2 -> empty .)
-    BAND            reduce using rule 34 (indices2 -> empty .)
-    BOR             reduce using rule 34 (indices2 -> empty .)
-    BXOR            reduce using rule 34 (indices2 -> empty .)
-    SHIFTI          reduce using rule 34 (indices2 -> empty .)
-    SHIFTD          reduce using rule 34 (indices2 -> empty .)
-    IGUALQ          reduce using rule 34 (indices2 -> empty .)
-    NIGUALQ         reduce using rule 34 (indices2 -> empty .)
-    MAYORQ          reduce using rule 34 (indices2 -> empty .)
-    MENORQ          reduce using rule 34 (indices2 -> empty .)
-    MAYORIGUALQ     reduce using rule 34 (indices2 -> empty .)
-    MENORIGUALQ     reduce using rule 34 (indices2 -> empty .)
-    PTCOMA          reduce using rule 34 (indices2 -> empty .)
-    CORDER          reduce using rule 34 (indices2 -> empty .)
-    PARDER          reduce using rule 34 (indices2 -> empty .)
+    BNOT            shift and go to state 44
+    MENOS           shift and go to state 45
+    NOT             shift and go to state 46
+    ARRAY           shift and go to state 47
+    ABS             shift and go to state 48
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 49
+    DECIMAL         shift and go to state 50
+    VAR             shift and go to state 38
+    CADENA          shift and go to state 51
 
+    exp_numerica                   shift and go to state 96
+    valores                        shift and go to state 43
 
 state 53
 
-    (35) indice -> CORIZQ exp_numerica . CORDER
+    (35) indices2 -> indice . indices2
+    (35) indices2 -> . indice indices2
+    (36) indices2 -> . empty
+    (37) indice -> . CORIZQ exp_numerica CORDER
+    (65) empty -> .
 
-    CORDER          shift and go to state 95
+    CORIZQ          shift and go to state 30
+    IGUAL           reduce using rule 65 (empty -> .)
+    MAS             reduce using rule 65 (empty -> .)
+    MENOS           reduce using rule 65 (empty -> .)
+    POR             reduce using rule 65 (empty -> .)
+    DIVIDIDO        reduce using rule 65 (empty -> .)
+    RESIDUO         reduce using rule 65 (empty -> .)
+    AND             reduce using rule 65 (empty -> .)
+    OR              reduce using rule 65 (empty -> .)
+    XOR             reduce using rule 65 (empty -> .)
+    BAND            reduce using rule 65 (empty -> .)
+    BOR             reduce using rule 65 (empty -> .)
+    BXOR            reduce using rule 65 (empty -> .)
+    SHIFTI          reduce using rule 65 (empty -> .)
+    SHIFTD          reduce using rule 65 (empty -> .)
+    IGUALQ          reduce using rule 65 (empty -> .)
+    NIGUALQ         reduce using rule 65 (empty -> .)
+    MAYORQ          reduce using rule 65 (empty -> .)
+    MENORQ          reduce using rule 65 (empty -> .)
+    MAYORIGUALQ     reduce using rule 65 (empty -> .)
+    MENORIGUALQ     reduce using rule 65 (empty -> .)
+    PTCOMA          reduce using rule 65 (empty -> .)
+    CORDER          reduce using rule 65 (empty -> .)
+    PARDER          reduce using rule 65 (empty -> .)
 
+    indice                         shift and go to state 53
+    indices2                       shift and go to state 97
+    empty                          shift and go to state 55
 
 state 54
 
-    (18) unset_instr -> UNSET PARIZQ exp_numerica . PARDER PTCOMA
+    (34) indices -> indice indices2 .
 
-    PARDER          shift and go to state 96
+    IGUAL           reduce using rule 34 (indices -> indice indices2 .)
+    MAS             reduce using rule 34 (indices -> indice indices2 .)
+    MENOS           reduce using rule 34 (indices -> indice indices2 .)
+    POR             reduce using rule 34 (indices -> indice indices2 .)
+    DIVIDIDO        reduce using rule 34 (indices -> indice indices2 .)
+    RESIDUO         reduce using rule 34 (indices -> indice indices2 .)
+    AND             reduce using rule 34 (indices -> indice indices2 .)
+    OR              reduce using rule 34 (indices -> indice indices2 .)
+    XOR             reduce using rule 34 (indices -> indice indices2 .)
+    BAND            reduce using rule 34 (indices -> indice indices2 .)
+    BOR             reduce using rule 34 (indices -> indice indices2 .)
+    BXOR            reduce using rule 34 (indices -> indice indices2 .)
+    SHIFTI          reduce using rule 34 (indices -> indice indices2 .)
+    SHIFTD          reduce using rule 34 (indices -> indice indices2 .)
+    IGUALQ          reduce using rule 34 (indices -> indice indices2 .)
+    NIGUALQ         reduce using rule 34 (indices -> indice indices2 .)
+    MAYORQ          reduce using rule 34 (indices -> indice indices2 .)
+    MENORQ          reduce using rule 34 (indices -> indice indices2 .)
+    MAYORIGUALQ     reduce using rule 34 (indices -> indice indices2 .)
+    MENORIGUALQ     reduce using rule 34 (indices -> indice indices2 .)
+    PTCOMA          reduce using rule 34 (indices -> indice indices2 .)
+    CORDER          reduce using rule 34 (indices -> indice indices2 .)
+    PARDER          reduce using rule 34 (indices -> indice indices2 .)
 
 
 state 55
 
-    (17) print_instr -> PRINT PARIZQ exp_numerica . PARDER PTCOMA
+    (36) indices2 -> empty .
 
-    PARDER          shift and go to state 97
+    IGUAL           reduce using rule 36 (indices2 -> empty .)
+    MAS             reduce using rule 36 (indices2 -> empty .)
+    MENOS           reduce using rule 36 (indices2 -> empty .)
+    POR             reduce using rule 36 (indices2 -> empty .)
+    DIVIDIDO        reduce using rule 36 (indices2 -> empty .)
+    RESIDUO         reduce using rule 36 (indices2 -> empty .)
+    AND             reduce using rule 36 (indices2 -> empty .)
+    OR              reduce using rule 36 (indices2 -> empty .)
+    XOR             reduce using rule 36 (indices2 -> empty .)
+    BAND            reduce using rule 36 (indices2 -> empty .)
+    BOR             reduce using rule 36 (indices2 -> empty .)
+    BXOR            reduce using rule 36 (indices2 -> empty .)
+    SHIFTI          reduce using rule 36 (indices2 -> empty .)
+    SHIFTD          reduce using rule 36 (indices2 -> empty .)
+    IGUALQ          reduce using rule 36 (indices2 -> empty .)
+    NIGUALQ         reduce using rule 36 (indices2 -> empty .)
+    MAYORQ          reduce using rule 36 (indices2 -> empty .)
+    MENORQ          reduce using rule 36 (indices2 -> empty .)
+    MAYORIGUALQ     reduce using rule 36 (indices2 -> empty .)
+    MENORIGUALQ     reduce using rule 36 (indices2 -> empty .)
+    PTCOMA          reduce using rule 36 (indices2 -> empty .)
+    CORDER          reduce using rule 36 (indices2 -> empty .)
+    PARDER          reduce using rule 36 (indices2 -> empty .)
 
 
 state 56
 
-    (19) if_instr -> IF PARIZQ exp_numerica . PARDER goto_instr
+    (37) indice -> CORIZQ exp_numerica . CORDER
 
-    PARDER          shift and go to state 98
+    CORDER          shift and go to state 98
 
 
 state 57
 
-    (21) goto_instr -> GOTO ID PTCOMA .
-
-    VAR             reduce using rule 21 (goto_instr -> GOTO ID PTCOMA .)
-    UNSET           reduce using rule 21 (goto_instr -> GOTO ID PTCOMA .)
-    PRINT           reduce using rule 21 (goto_instr -> GOTO ID PTCOMA .)
-    IF              reduce using rule 21 (goto_instr -> GOTO ID PTCOMA .)
-    ID              reduce using rule 21 (goto_instr -> GOTO ID PTCOMA .)
-    GOTO            reduce using rule 21 (goto_instr -> GOTO ID PTCOMA .)
-    EXIT            reduce using rule 21 (goto_instr -> GOTO ID PTCOMA .)
-    $end            reduce using rule 21 (goto_instr -> GOTO ID PTCOMA .)
-
-
-state 58
-
-    (39) valores -> VAR indices .
-
-    MAS             reduce using rule 39 (valores -> VAR indices .)
-    MENOS           reduce using rule 39 (valores -> VAR indices .)
-    POR             reduce using rule 39 (valores -> VAR indices .)
-    DIVIDIDO        reduce using rule 39 (valores -> VAR indices .)
-    RESIDUO         reduce using rule 39 (valores -> VAR indices .)
-    AND             reduce using rule 39 (valores -> VAR indices .)
-    OR              reduce using rule 39 (valores -> VAR indices .)
-    XOR             reduce using rule 39 (valores -> VAR indices .)
-    BAND            reduce using rule 39 (valores -> VAR indices .)
-    BOR             reduce using rule 39 (valores -> VAR indices .)
-    BXOR            reduce using rule 39 (valores -> VAR indices .)
-    SHIFTI          reduce using rule 39 (valores -> VAR indices .)
-    SHIFTD          reduce using rule 39 (valores -> VAR indices .)
-    IGUALQ          reduce using rule 39 (valores -> VAR indices .)
-    NIGUALQ         reduce using rule 39 (valores -> VAR indices .)
-    MAYORQ          reduce using rule 39 (valores -> VAR indices .)
-    MENORQ          reduce using rule 39 (valores -> VAR indices .)
-    MAYORIGUALQ     reduce using rule 39 (valores -> VAR indices .)
-    MENORIGUALQ     reduce using rule 39 (valores -> VAR indices .)
-    PTCOMA          reduce using rule 39 (valores -> VAR indices .)
-    CORDER          reduce using rule 39 (valores -> VAR indices .)
-    PARDER          reduce using rule 39 (valores -> VAR indices .)
-
-
-state 59
-
-    (13) asignacion -> VAR IGUAL exp_numerica PTCOMA .
-
-    VAR             reduce using rule 13 (asignacion -> VAR IGUAL exp_numerica PTCOMA .)
-    UNSET           reduce using rule 13 (asignacion -> VAR IGUAL exp_numerica PTCOMA .)
-    PRINT           reduce using rule 13 (asignacion -> VAR IGUAL exp_numerica PTCOMA .)
-    IF              reduce using rule 13 (asignacion -> VAR IGUAL exp_numerica PTCOMA .)
-    ID              reduce using rule 13 (asignacion -> VAR IGUAL exp_numerica PTCOMA .)
-    GOTO            reduce using rule 13 (asignacion -> VAR IGUAL exp_numerica PTCOMA .)
-    EXIT            reduce using rule 13 (asignacion -> VAR IGUAL exp_numerica PTCOMA .)
-    $end            reduce using rule 13 (asignacion -> VAR IGUAL exp_numerica PTCOMA .)
-
-
-state 60
-
-    (14) asignacion -> VAR IGUAL READ PARIZQ . PARDER PTCOMA
+    (20) unset_instr -> UNSET PARIZQ exp_numerica . PARDER PTCOMA
 
     PARDER          shift and go to state 99
 
 
-state 61
+state 58
 
-    (29) exp_numerica -> PARIZQ tipo_dato . PARDER VAR
+    (19) print_instr -> PRINT PARIZQ exp_numerica . PARDER PTCOMA
 
     PARDER          shift and go to state 100
 
 
+state 59
+
+    (21) if_instr -> IF PARIZQ exp_numerica . PARDER goto_instr
+
+    PARDER          shift and go to state 101
+
+
+state 60
+
+    (23) goto_instr -> GOTO ID PTCOMA .
+
+    error           reduce using rule 23 (goto_instr -> GOTO ID PTCOMA .)
+    VAR             reduce using rule 23 (goto_instr -> GOTO ID PTCOMA .)
+    UNSET           reduce using rule 23 (goto_instr -> GOTO ID PTCOMA .)
+    PRINT           reduce using rule 23 (goto_instr -> GOTO ID PTCOMA .)
+    IF              reduce using rule 23 (goto_instr -> GOTO ID PTCOMA .)
+    ID              reduce using rule 23 (goto_instr -> GOTO ID PTCOMA .)
+    GOTO            reduce using rule 23 (goto_instr -> GOTO ID PTCOMA .)
+    EXIT            reduce using rule 23 (goto_instr -> GOTO ID PTCOMA .)
+    $end            reduce using rule 23 (goto_instr -> GOTO ID PTCOMA .)
+
+
+state 61
+
+    (41) valores -> VAR indices .
+
+    MAS             reduce using rule 41 (valores -> VAR indices .)
+    MENOS           reduce using rule 41 (valores -> VAR indices .)
+    POR             reduce using rule 41 (valores -> VAR indices .)
+    DIVIDIDO        reduce using rule 41 (valores -> VAR indices .)
+    RESIDUO         reduce using rule 41 (valores -> VAR indices .)
+    AND             reduce using rule 41 (valores -> VAR indices .)
+    OR              reduce using rule 41 (valores -> VAR indices .)
+    XOR             reduce using rule 41 (valores -> VAR indices .)
+    BAND            reduce using rule 41 (valores -> VAR indices .)
+    BOR             reduce using rule 41 (valores -> VAR indices .)
+    BXOR            reduce using rule 41 (valores -> VAR indices .)
+    SHIFTI          reduce using rule 41 (valores -> VAR indices .)
+    SHIFTD          reduce using rule 41 (valores -> VAR indices .)
+    IGUALQ          reduce using rule 41 (valores -> VAR indices .)
+    NIGUALQ         reduce using rule 41 (valores -> VAR indices .)
+    MAYORQ          reduce using rule 41 (valores -> VAR indices .)
+    MENORQ          reduce using rule 41 (valores -> VAR indices .)
+    MAYORIGUALQ     reduce using rule 41 (valores -> VAR indices .)
+    MENORIGUALQ     reduce using rule 41 (valores -> VAR indices .)
+    PTCOMA          reduce using rule 41 (valores -> VAR indices .)
+    CORDER          reduce using rule 41 (valores -> VAR indices .)
+    PARDER          reduce using rule 41 (valores -> VAR indices .)
+
+
 state 62
 
-    (60) tipo_dato -> INT .
+    (15) asignacion -> VAR IGUAL exp_numerica PTCOMA .
 
-    PARDER          reduce using rule 60 (tipo_dato -> INT .)
+    error           reduce using rule 15 (asignacion -> VAR IGUAL exp_numerica PTCOMA .)
+    VAR             reduce using rule 15 (asignacion -> VAR IGUAL exp_numerica PTCOMA .)
+    UNSET           reduce using rule 15 (asignacion -> VAR IGUAL exp_numerica PTCOMA .)
+    PRINT           reduce using rule 15 (asignacion -> VAR IGUAL exp_numerica PTCOMA .)
+    IF              reduce using rule 15 (asignacion -> VAR IGUAL exp_numerica PTCOMA .)
+    ID              reduce using rule 15 (asignacion -> VAR IGUAL exp_numerica PTCOMA .)
+    GOTO            reduce using rule 15 (asignacion -> VAR IGUAL exp_numerica PTCOMA .)
+    EXIT            reduce using rule 15 (asignacion -> VAR IGUAL exp_numerica PTCOMA .)
+    $end            reduce using rule 15 (asignacion -> VAR IGUAL exp_numerica PTCOMA .)
 
 
 state 63
 
-    (61) tipo_dato -> FLOAT .
+    (16) asignacion -> VAR IGUAL READ PARIZQ . PARDER PTCOMA
 
-    PARDER          reduce using rule 61 (tipo_dato -> FLOAT .)
+    PARDER          shift and go to state 102
 
 
 state 64
 
-    (62) tipo_dato -> CHAR .
-
-    PARDER          reduce using rule 62 (tipo_dato -> CHAR .)
-
-
-state 65
-
-    (15) asignacion -> VAR IGUAL BAND VAR . PTCOMA
-
-    PTCOMA          shift and go to state 101
-
-
-state 66
-
-    (23) exp_numerica -> valores exp_numerica2 .
-
-    PTCOMA          reduce using rule 23 (exp_numerica -> valores exp_numerica2 .)
-    CORDER          reduce using rule 23 (exp_numerica -> valores exp_numerica2 .)
-    PARDER          reduce using rule 23 (exp_numerica -> valores exp_numerica2 .)
-
-
-state 67
-
-    (30) exp_numerica2 -> signo . valores
-    (36) valores -> . ENTERO
-    (37) valores -> . DECIMAL
-    (38) valores -> . VAR
-    (39) valores -> . VAR indices
-    (40) valores -> . CADENA
-
-    ENTERO          shift and go to state 46
-    DECIMAL         shift and go to state 47
-    VAR             shift and go to state 35
-    CADENA          shift and go to state 48
-
-    valores                        shift and go to state 102
-
-state 68
-
-    (31) exp_numerica2 -> empty .
-
-    PTCOMA          reduce using rule 31 (exp_numerica2 -> empty .)
-    CORDER          reduce using rule 31 (exp_numerica2 -> empty .)
-    PARDER          reduce using rule 31 (exp_numerica2 -> empty .)
-
-
-state 69
-
-    (41) signo -> MAS .
-
-    ENTERO          reduce using rule 41 (signo -> MAS .)
-    DECIMAL         reduce using rule 41 (signo -> MAS .)
-    VAR             reduce using rule 41 (signo -> MAS .)
-    CADENA          reduce using rule 41 (signo -> MAS .)
-
-
-state 70
-
-    (42) signo -> MENOS .
-
-    ENTERO          reduce using rule 42 (signo -> MENOS .)
-    DECIMAL         reduce using rule 42 (signo -> MENOS .)
-    VAR             reduce using rule 42 (signo -> MENOS .)
-    CADENA          reduce using rule 42 (signo -> MENOS .)
-
-
-state 71
-
-    (43) signo -> POR .
-
-    ENTERO          reduce using rule 43 (signo -> POR .)
-    DECIMAL         reduce using rule 43 (signo -> POR .)
-    VAR             reduce using rule 43 (signo -> POR .)
-    CADENA          reduce using rule 43 (signo -> POR .)
-
-
-state 72
-
-    (44) signo -> DIVIDIDO .
-
-    ENTERO          reduce using rule 44 (signo -> DIVIDIDO .)
-    DECIMAL         reduce using rule 44 (signo -> DIVIDIDO .)
-    VAR             reduce using rule 44 (signo -> DIVIDIDO .)
-    CADENA          reduce using rule 44 (signo -> DIVIDIDO .)
-
-
-state 73
-
-    (45) signo -> RESIDUO .
-
-    ENTERO          reduce using rule 45 (signo -> RESIDUO .)
-    DECIMAL         reduce using rule 45 (signo -> RESIDUO .)
-    VAR             reduce using rule 45 (signo -> RESIDUO .)
-    CADENA          reduce using rule 45 (signo -> RESIDUO .)
-
-
-state 74
-
-    (46) signo -> AND .
-
-    ENTERO          reduce using rule 46 (signo -> AND .)
-    DECIMAL         reduce using rule 46 (signo -> AND .)
-    VAR             reduce using rule 46 (signo -> AND .)
-    CADENA          reduce using rule 46 (signo -> AND .)
-
-
-state 75
-
-    (47) signo -> OR .
-
-    ENTERO          reduce using rule 47 (signo -> OR .)
-    DECIMAL         reduce using rule 47 (signo -> OR .)
-    VAR             reduce using rule 47 (signo -> OR .)
-    CADENA          reduce using rule 47 (signo -> OR .)
-
-
-state 76
-
-    (48) signo -> XOR .
-
-    ENTERO          reduce using rule 48 (signo -> XOR .)
-    DECIMAL         reduce using rule 48 (signo -> XOR .)
-    VAR             reduce using rule 48 (signo -> XOR .)
-    CADENA          reduce using rule 48 (signo -> XOR .)
-
-
-state 77
-
-    (49) signo -> BAND .
-
-    ENTERO          reduce using rule 49 (signo -> BAND .)
-    DECIMAL         reduce using rule 49 (signo -> BAND .)
-    VAR             reduce using rule 49 (signo -> BAND .)
-    CADENA          reduce using rule 49 (signo -> BAND .)
-
-
-state 78
-
-    (50) signo -> BOR .
-
-    ENTERO          reduce using rule 50 (signo -> BOR .)
-    DECIMAL         reduce using rule 50 (signo -> BOR .)
-    VAR             reduce using rule 50 (signo -> BOR .)
-    CADENA          reduce using rule 50 (signo -> BOR .)
-
-
-state 79
-
-    (51) signo -> BXOR .
-
-    ENTERO          reduce using rule 51 (signo -> BXOR .)
-    DECIMAL         reduce using rule 51 (signo -> BXOR .)
-    VAR             reduce using rule 51 (signo -> BXOR .)
-    CADENA          reduce using rule 51 (signo -> BXOR .)
-
-
-state 80
-
-    (52) signo -> SHIFTI .
-
-    ENTERO          reduce using rule 52 (signo -> SHIFTI .)
-    DECIMAL         reduce using rule 52 (signo -> SHIFTI .)
-    VAR             reduce using rule 52 (signo -> SHIFTI .)
-    CADENA          reduce using rule 52 (signo -> SHIFTI .)
-
-
-state 81
-
-    (53) signo -> SHIFTD .
-
-    ENTERO          reduce using rule 53 (signo -> SHIFTD .)
-    DECIMAL         reduce using rule 53 (signo -> SHIFTD .)
-    VAR             reduce using rule 53 (signo -> SHIFTD .)
-    CADENA          reduce using rule 53 (signo -> SHIFTD .)
-
-
-state 82
-
-    (54) signo -> IGUALQ .
-
-    ENTERO          reduce using rule 54 (signo -> IGUALQ .)
-    DECIMAL         reduce using rule 54 (signo -> IGUALQ .)
-    VAR             reduce using rule 54 (signo -> IGUALQ .)
-    CADENA          reduce using rule 54 (signo -> IGUALQ .)
-
-
-state 83
-
-    (55) signo -> NIGUALQ .
-
-    ENTERO          reduce using rule 55 (signo -> NIGUALQ .)
-    DECIMAL         reduce using rule 55 (signo -> NIGUALQ .)
-    VAR             reduce using rule 55 (signo -> NIGUALQ .)
-    CADENA          reduce using rule 55 (signo -> NIGUALQ .)
-
-
-state 84
-
-    (56) signo -> MAYORQ .
-
-    ENTERO          reduce using rule 56 (signo -> MAYORQ .)
-    DECIMAL         reduce using rule 56 (signo -> MAYORQ .)
-    VAR             reduce using rule 56 (signo -> MAYORQ .)
-    CADENA          reduce using rule 56 (signo -> MAYORQ .)
-
-
-state 85
-
-    (57) signo -> MENORQ .
-
-    ENTERO          reduce using rule 57 (signo -> MENORQ .)
-    DECIMAL         reduce using rule 57 (signo -> MENORQ .)
-    VAR             reduce using rule 57 (signo -> MENORQ .)
-    CADENA          reduce using rule 57 (signo -> MENORQ .)
-
-
-state 86
-
-    (58) signo -> MAYORIGUALQ .
-
-    ENTERO          reduce using rule 58 (signo -> MAYORIGUALQ .)
-    DECIMAL         reduce using rule 58 (signo -> MAYORIGUALQ .)
-    VAR             reduce using rule 58 (signo -> MAYORIGUALQ .)
-    CADENA          reduce using rule 58 (signo -> MAYORIGUALQ .)
-
-
-state 87
-
-    (59) signo -> MENORIGUALQ .
-
-    ENTERO          reduce using rule 59 (signo -> MENORIGUALQ .)
-    DECIMAL         reduce using rule 59 (signo -> MENORIGUALQ .)
-    VAR             reduce using rule 59 (signo -> MENORIGUALQ .)
-    CADENA          reduce using rule 59 (signo -> MENORIGUALQ .)
-
-
-state 88
-
-    (24) exp_numerica -> BNOT valores .
-
-    PTCOMA          reduce using rule 24 (exp_numerica -> BNOT valores .)
-    CORDER          reduce using rule 24 (exp_numerica -> BNOT valores .)
-    PARDER          reduce using rule 24 (exp_numerica -> BNOT valores .)
-
-
-state 89
-
-    (25) exp_numerica -> MENOS valores .
-
-    PTCOMA          reduce using rule 25 (exp_numerica -> MENOS valores .)
-    CORDER          reduce using rule 25 (exp_numerica -> MENOS valores .)
-    PARDER          reduce using rule 25 (exp_numerica -> MENOS valores .)
-
-
-state 90
-
-    (26) exp_numerica -> NOT valores .
-
-    PTCOMA          reduce using rule 26 (exp_numerica -> NOT valores .)
-    CORDER          reduce using rule 26 (exp_numerica -> NOT valores .)
-    PARDER          reduce using rule 26 (exp_numerica -> NOT valores .)
-
-
-state 91
-
-    (27) exp_numerica -> ARRAY PARIZQ . PARDER
+    (31) exp_numerica -> PARIZQ tipo_dato . PARDER VAR
 
     PARDER          shift and go to state 103
 
 
+state 65
+
+    (62) tipo_dato -> INT .
+
+    PARDER          reduce using rule 62 (tipo_dato -> INT .)
+
+
+state 66
+
+    (63) tipo_dato -> FLOAT .
+
+    PARDER          reduce using rule 63 (tipo_dato -> FLOAT .)
+
+
+state 67
+
+    (64) tipo_dato -> CHAR .
+
+    PARDER          reduce using rule 64 (tipo_dato -> CHAR .)
+
+
+state 68
+
+    (17) asignacion -> VAR IGUAL BAND VAR . PTCOMA
+
+    PTCOMA          shift and go to state 104
+
+
+state 69
+
+    (25) exp_numerica -> valores exp_numerica2 .
+
+    PTCOMA          reduce using rule 25 (exp_numerica -> valores exp_numerica2 .)
+    CORDER          reduce using rule 25 (exp_numerica -> valores exp_numerica2 .)
+    PARDER          reduce using rule 25 (exp_numerica -> valores exp_numerica2 .)
+
+
+state 70
+
+    (32) exp_numerica2 -> signo . valores
+    (38) valores -> . ENTERO
+    (39) valores -> . DECIMAL
+    (40) valores -> . VAR
+    (41) valores -> . VAR indices
+    (42) valores -> . CADENA
+
+    ENTERO          shift and go to state 49
+    DECIMAL         shift and go to state 50
+    VAR             shift and go to state 38
+    CADENA          shift and go to state 51
+
+    valores                        shift and go to state 105
+
+state 71
+
+    (33) exp_numerica2 -> empty .
+
+    PTCOMA          reduce using rule 33 (exp_numerica2 -> empty .)
+    CORDER          reduce using rule 33 (exp_numerica2 -> empty .)
+    PARDER          reduce using rule 33 (exp_numerica2 -> empty .)
+
+
+state 72
+
+    (43) signo -> MAS .
+
+    ENTERO          reduce using rule 43 (signo -> MAS .)
+    DECIMAL         reduce using rule 43 (signo -> MAS .)
+    VAR             reduce using rule 43 (signo -> MAS .)
+    CADENA          reduce using rule 43 (signo -> MAS .)
+
+
+state 73
+
+    (44) signo -> MENOS .
+
+    ENTERO          reduce using rule 44 (signo -> MENOS .)
+    DECIMAL         reduce using rule 44 (signo -> MENOS .)
+    VAR             reduce using rule 44 (signo -> MENOS .)
+    CADENA          reduce using rule 44 (signo -> MENOS .)
+
+
+state 74
+
+    (45) signo -> POR .
+
+    ENTERO          reduce using rule 45 (signo -> POR .)
+    DECIMAL         reduce using rule 45 (signo -> POR .)
+    VAR             reduce using rule 45 (signo -> POR .)
+    CADENA          reduce using rule 45 (signo -> POR .)
+
+
+state 75
+
+    (46) signo -> DIVIDIDO .
+
+    ENTERO          reduce using rule 46 (signo -> DIVIDIDO .)
+    DECIMAL         reduce using rule 46 (signo -> DIVIDIDO .)
+    VAR             reduce using rule 46 (signo -> DIVIDIDO .)
+    CADENA          reduce using rule 46 (signo -> DIVIDIDO .)
+
+
+state 76
+
+    (47) signo -> RESIDUO .
+
+    ENTERO          reduce using rule 47 (signo -> RESIDUO .)
+    DECIMAL         reduce using rule 47 (signo -> RESIDUO .)
+    VAR             reduce using rule 47 (signo -> RESIDUO .)
+    CADENA          reduce using rule 47 (signo -> RESIDUO .)
+
+
+state 77
+
+    (48) signo -> AND .
+
+    ENTERO          reduce using rule 48 (signo -> AND .)
+    DECIMAL         reduce using rule 48 (signo -> AND .)
+    VAR             reduce using rule 48 (signo -> AND .)
+    CADENA          reduce using rule 48 (signo -> AND .)
+
+
+state 78
+
+    (49) signo -> OR .
+
+    ENTERO          reduce using rule 49 (signo -> OR .)
+    DECIMAL         reduce using rule 49 (signo -> OR .)
+    VAR             reduce using rule 49 (signo -> OR .)
+    CADENA          reduce using rule 49 (signo -> OR .)
+
+
+state 79
+
+    (50) signo -> XOR .
+
+    ENTERO          reduce using rule 50 (signo -> XOR .)
+    DECIMAL         reduce using rule 50 (signo -> XOR .)
+    VAR             reduce using rule 50 (signo -> XOR .)
+    CADENA          reduce using rule 50 (signo -> XOR .)
+
+
+state 80
+
+    (51) signo -> BAND .
+
+    ENTERO          reduce using rule 51 (signo -> BAND .)
+    DECIMAL         reduce using rule 51 (signo -> BAND .)
+    VAR             reduce using rule 51 (signo -> BAND .)
+    CADENA          reduce using rule 51 (signo -> BAND .)
+
+
+state 81
+
+    (52) signo -> BOR .
+
+    ENTERO          reduce using rule 52 (signo -> BOR .)
+    DECIMAL         reduce using rule 52 (signo -> BOR .)
+    VAR             reduce using rule 52 (signo -> BOR .)
+    CADENA          reduce using rule 52 (signo -> BOR .)
+
+
+state 82
+
+    (53) signo -> BXOR .
+
+    ENTERO          reduce using rule 53 (signo -> BXOR .)
+    DECIMAL         reduce using rule 53 (signo -> BXOR .)
+    VAR             reduce using rule 53 (signo -> BXOR .)
+    CADENA          reduce using rule 53 (signo -> BXOR .)
+
+
+state 83
+
+    (54) signo -> SHIFTI .
+
+    ENTERO          reduce using rule 54 (signo -> SHIFTI .)
+    DECIMAL         reduce using rule 54 (signo -> SHIFTI .)
+    VAR             reduce using rule 54 (signo -> SHIFTI .)
+    CADENA          reduce using rule 54 (signo -> SHIFTI .)
+
+
+state 84
+
+    (55) signo -> SHIFTD .
+
+    ENTERO          reduce using rule 55 (signo -> SHIFTD .)
+    DECIMAL         reduce using rule 55 (signo -> SHIFTD .)
+    VAR             reduce using rule 55 (signo -> SHIFTD .)
+    CADENA          reduce using rule 55 (signo -> SHIFTD .)
+
+
+state 85
+
+    (56) signo -> IGUALQ .
+
+    ENTERO          reduce using rule 56 (signo -> IGUALQ .)
+    DECIMAL         reduce using rule 56 (signo -> IGUALQ .)
+    VAR             reduce using rule 56 (signo -> IGUALQ .)
+    CADENA          reduce using rule 56 (signo -> IGUALQ .)
+
+
+state 86
+
+    (57) signo -> NIGUALQ .
+
+    ENTERO          reduce using rule 57 (signo -> NIGUALQ .)
+    DECIMAL         reduce using rule 57 (signo -> NIGUALQ .)
+    VAR             reduce using rule 57 (signo -> NIGUALQ .)
+    CADENA          reduce using rule 57 (signo -> NIGUALQ .)
+
+
+state 87
+
+    (58) signo -> MAYORQ .
+
+    ENTERO          reduce using rule 58 (signo -> MAYORQ .)
+    DECIMAL         reduce using rule 58 (signo -> MAYORQ .)
+    VAR             reduce using rule 58 (signo -> MAYORQ .)
+    CADENA          reduce using rule 58 (signo -> MAYORQ .)
+
+
+state 88
+
+    (59) signo -> MENORQ .
+
+    ENTERO          reduce using rule 59 (signo -> MENORQ .)
+    DECIMAL         reduce using rule 59 (signo -> MENORQ .)
+    VAR             reduce using rule 59 (signo -> MENORQ .)
+    CADENA          reduce using rule 59 (signo -> MENORQ .)
+
+
+state 89
+
+    (60) signo -> MAYORIGUALQ .
+
+    ENTERO          reduce using rule 60 (signo -> MAYORIGUALQ .)
+    DECIMAL         reduce using rule 60 (signo -> MAYORIGUALQ .)
+    VAR             reduce using rule 60 (signo -> MAYORIGUALQ .)
+    CADENA          reduce using rule 60 (signo -> MAYORIGUALQ .)
+
+
+state 90
+
+    (61) signo -> MENORIGUALQ .
+
+    ENTERO          reduce using rule 61 (signo -> MENORIGUALQ .)
+    DECIMAL         reduce using rule 61 (signo -> MENORIGUALQ .)
+    VAR             reduce using rule 61 (signo -> MENORIGUALQ .)
+    CADENA          reduce using rule 61 (signo -> MENORIGUALQ .)
+
+
+state 91
+
+    (26) exp_numerica -> BNOT valores .
+
+    PTCOMA          reduce using rule 26 (exp_numerica -> BNOT valores .)
+    CORDER          reduce using rule 26 (exp_numerica -> BNOT valores .)
+    PARDER          reduce using rule 26 (exp_numerica -> BNOT valores .)
+
+
 state 92
 
-    (28) exp_numerica -> ABS PARIZQ . valores PARDER
-    (36) valores -> . ENTERO
-    (37) valores -> . DECIMAL
-    (38) valores -> . VAR
-    (39) valores -> . VAR indices
-    (40) valores -> . CADENA
+    (27) exp_numerica -> MENOS valores .
 
-    ENTERO          shift and go to state 46
-    DECIMAL         shift and go to state 47
-    VAR             shift and go to state 35
-    CADENA          shift and go to state 48
+    PTCOMA          reduce using rule 27 (exp_numerica -> MENOS valores .)
+    CORDER          reduce using rule 27 (exp_numerica -> MENOS valores .)
+    PARDER          reduce using rule 27 (exp_numerica -> MENOS valores .)
 
-    valores                        shift and go to state 104
 
 state 93
 
-    (16) array_instr -> VAR indices IGUAL exp_numerica . PTCOMA
+    (28) exp_numerica -> NOT valores .
 
-    PTCOMA          shift and go to state 105
+    PTCOMA          reduce using rule 28 (exp_numerica -> NOT valores .)
+    CORDER          reduce using rule 28 (exp_numerica -> NOT valores .)
+    PARDER          reduce using rule 28 (exp_numerica -> NOT valores .)
 
 
 state 94
 
-    (33) indices2 -> indice indices2 .
+    (29) exp_numerica -> ARRAY PARIZQ . PARDER
 
-    IGUAL           reduce using rule 33 (indices2 -> indice indices2 .)
-    MAS             reduce using rule 33 (indices2 -> indice indices2 .)
-    MENOS           reduce using rule 33 (indices2 -> indice indices2 .)
-    POR             reduce using rule 33 (indices2 -> indice indices2 .)
-    DIVIDIDO        reduce using rule 33 (indices2 -> indice indices2 .)
-    RESIDUO         reduce using rule 33 (indices2 -> indice indices2 .)
-    AND             reduce using rule 33 (indices2 -> indice indices2 .)
-    OR              reduce using rule 33 (indices2 -> indice indices2 .)
-    XOR             reduce using rule 33 (indices2 -> indice indices2 .)
-    BAND            reduce using rule 33 (indices2 -> indice indices2 .)
-    BOR             reduce using rule 33 (indices2 -> indice indices2 .)
-    BXOR            reduce using rule 33 (indices2 -> indice indices2 .)
-    SHIFTI          reduce using rule 33 (indices2 -> indice indices2 .)
-    SHIFTD          reduce using rule 33 (indices2 -> indice indices2 .)
-    IGUALQ          reduce using rule 33 (indices2 -> indice indices2 .)
-    NIGUALQ         reduce using rule 33 (indices2 -> indice indices2 .)
-    MAYORQ          reduce using rule 33 (indices2 -> indice indices2 .)
-    MENORQ          reduce using rule 33 (indices2 -> indice indices2 .)
-    MAYORIGUALQ     reduce using rule 33 (indices2 -> indice indices2 .)
-    MENORIGUALQ     reduce using rule 33 (indices2 -> indice indices2 .)
-    PTCOMA          reduce using rule 33 (indices2 -> indice indices2 .)
-    CORDER          reduce using rule 33 (indices2 -> indice indices2 .)
-    PARDER          reduce using rule 33 (indices2 -> indice indices2 .)
+    PARDER          shift and go to state 106
 
 
 state 95
 
-    (35) indice -> CORIZQ exp_numerica CORDER .
+    (30) exp_numerica -> ABS PARIZQ . valores PARDER
+    (38) valores -> . ENTERO
+    (39) valores -> . DECIMAL
+    (40) valores -> . VAR
+    (41) valores -> . VAR indices
+    (42) valores -> . CADENA
 
-    CORIZQ          reduce using rule 35 (indice -> CORIZQ exp_numerica CORDER .)
-    IGUAL           reduce using rule 35 (indice -> CORIZQ exp_numerica CORDER .)
-    MAS             reduce using rule 35 (indice -> CORIZQ exp_numerica CORDER .)
-    MENOS           reduce using rule 35 (indice -> CORIZQ exp_numerica CORDER .)
-    POR             reduce using rule 35 (indice -> CORIZQ exp_numerica CORDER .)
-    DIVIDIDO        reduce using rule 35 (indice -> CORIZQ exp_numerica CORDER .)
-    RESIDUO         reduce using rule 35 (indice -> CORIZQ exp_numerica CORDER .)
-    AND             reduce using rule 35 (indice -> CORIZQ exp_numerica CORDER .)
-    OR              reduce using rule 35 (indice -> CORIZQ exp_numerica CORDER .)
-    XOR             reduce using rule 35 (indice -> CORIZQ exp_numerica CORDER .)
-    BAND            reduce using rule 35 (indice -> CORIZQ exp_numerica CORDER .)
-    BOR             reduce using rule 35 (indice -> CORIZQ exp_numerica CORDER .)
-    BXOR            reduce using rule 35 (indice -> CORIZQ exp_numerica CORDER .)
-    SHIFTI          reduce using rule 35 (indice -> CORIZQ exp_numerica CORDER .)
-    SHIFTD          reduce using rule 35 (indice -> CORIZQ exp_numerica CORDER .)
-    IGUALQ          reduce using rule 35 (indice -> CORIZQ exp_numerica CORDER .)
-    NIGUALQ         reduce using rule 35 (indice -> CORIZQ exp_numerica CORDER .)
-    MAYORQ          reduce using rule 35 (indice -> CORIZQ exp_numerica CORDER .)
-    MENORQ          reduce using rule 35 (indice -> CORIZQ exp_numerica CORDER .)
-    MAYORIGUALQ     reduce using rule 35 (indice -> CORIZQ exp_numerica CORDER .)
-    MENORIGUALQ     reduce using rule 35 (indice -> CORIZQ exp_numerica CORDER .)
-    PTCOMA          reduce using rule 35 (indice -> CORIZQ exp_numerica CORDER .)
-    CORDER          reduce using rule 35 (indice -> CORIZQ exp_numerica CORDER .)
-    PARDER          reduce using rule 35 (indice -> CORIZQ exp_numerica CORDER .)
+    ENTERO          shift and go to state 49
+    DECIMAL         shift and go to state 50
+    VAR             shift and go to state 38
+    CADENA          shift and go to state 51
 
+    valores                        shift and go to state 107
 
 state 96
 
-    (18) unset_instr -> UNSET PARIZQ exp_numerica PARDER . PTCOMA
+    (18) array_instr -> VAR indices IGUAL exp_numerica . PTCOMA
 
-    PTCOMA          shift and go to state 106
+    PTCOMA          shift and go to state 108
 
 
 state 97
 
-    (17) print_instr -> PRINT PARIZQ exp_numerica PARDER . PTCOMA
+    (35) indices2 -> indice indices2 .
 
-    PTCOMA          shift and go to state 107
+    IGUAL           reduce using rule 35 (indices2 -> indice indices2 .)
+    MAS             reduce using rule 35 (indices2 -> indice indices2 .)
+    MENOS           reduce using rule 35 (indices2 -> indice indices2 .)
+    POR             reduce using rule 35 (indices2 -> indice indices2 .)
+    DIVIDIDO        reduce using rule 35 (indices2 -> indice indices2 .)
+    RESIDUO         reduce using rule 35 (indices2 -> indice indices2 .)
+    AND             reduce using rule 35 (indices2 -> indice indices2 .)
+    OR              reduce using rule 35 (indices2 -> indice indices2 .)
+    XOR             reduce using rule 35 (indices2 -> indice indices2 .)
+    BAND            reduce using rule 35 (indices2 -> indice indices2 .)
+    BOR             reduce using rule 35 (indices2 -> indice indices2 .)
+    BXOR            reduce using rule 35 (indices2 -> indice indices2 .)
+    SHIFTI          reduce using rule 35 (indices2 -> indice indices2 .)
+    SHIFTD          reduce using rule 35 (indices2 -> indice indices2 .)
+    IGUALQ          reduce using rule 35 (indices2 -> indice indices2 .)
+    NIGUALQ         reduce using rule 35 (indices2 -> indice indices2 .)
+    MAYORQ          reduce using rule 35 (indices2 -> indice indices2 .)
+    MENORQ          reduce using rule 35 (indices2 -> indice indices2 .)
+    MAYORIGUALQ     reduce using rule 35 (indices2 -> indice indices2 .)
+    MENORIGUALQ     reduce using rule 35 (indices2 -> indice indices2 .)
+    PTCOMA          reduce using rule 35 (indices2 -> indice indices2 .)
+    CORDER          reduce using rule 35 (indices2 -> indice indices2 .)
+    PARDER          reduce using rule 35 (indices2 -> indice indices2 .)
 
 
 state 98
 
-    (19) if_instr -> IF PARIZQ exp_numerica PARDER . goto_instr
-    (21) goto_instr -> . GOTO ID PTCOMA
+    (37) indice -> CORIZQ exp_numerica CORDER .
 
-    GOTO            shift and go to state 19
+    CORIZQ          reduce using rule 37 (indice -> CORIZQ exp_numerica CORDER .)
+    IGUAL           reduce using rule 37 (indice -> CORIZQ exp_numerica CORDER .)
+    MAS             reduce using rule 37 (indice -> CORIZQ exp_numerica CORDER .)
+    MENOS           reduce using rule 37 (indice -> CORIZQ exp_numerica CORDER .)
+    POR             reduce using rule 37 (indice -> CORIZQ exp_numerica CORDER .)
+    DIVIDIDO        reduce using rule 37 (indice -> CORIZQ exp_numerica CORDER .)
+    RESIDUO         reduce using rule 37 (indice -> CORIZQ exp_numerica CORDER .)
+    AND             reduce using rule 37 (indice -> CORIZQ exp_numerica CORDER .)
+    OR              reduce using rule 37 (indice -> CORIZQ exp_numerica CORDER .)
+    XOR             reduce using rule 37 (indice -> CORIZQ exp_numerica CORDER .)
+    BAND            reduce using rule 37 (indice -> CORIZQ exp_numerica CORDER .)
+    BOR             reduce using rule 37 (indice -> CORIZQ exp_numerica CORDER .)
+    BXOR            reduce using rule 37 (indice -> CORIZQ exp_numerica CORDER .)
+    SHIFTI          reduce using rule 37 (indice -> CORIZQ exp_numerica CORDER .)
+    SHIFTD          reduce using rule 37 (indice -> CORIZQ exp_numerica CORDER .)
+    IGUALQ          reduce using rule 37 (indice -> CORIZQ exp_numerica CORDER .)
+    NIGUALQ         reduce using rule 37 (indice -> CORIZQ exp_numerica CORDER .)
+    MAYORQ          reduce using rule 37 (indice -> CORIZQ exp_numerica CORDER .)
+    MENORQ          reduce using rule 37 (indice -> CORIZQ exp_numerica CORDER .)
+    MAYORIGUALQ     reduce using rule 37 (indice -> CORIZQ exp_numerica CORDER .)
+    MENORIGUALQ     reduce using rule 37 (indice -> CORIZQ exp_numerica CORDER .)
+    PTCOMA          reduce using rule 37 (indice -> CORIZQ exp_numerica CORDER .)
+    CORDER          reduce using rule 37 (indice -> CORIZQ exp_numerica CORDER .)
+    PARDER          reduce using rule 37 (indice -> CORIZQ exp_numerica CORDER .)
 
-    goto_instr                     shift and go to state 108
 
 state 99
 
-    (14) asignacion -> VAR IGUAL READ PARIZQ PARDER . PTCOMA
+    (20) unset_instr -> UNSET PARIZQ exp_numerica PARDER . PTCOMA
 
     PTCOMA          shift and go to state 109
 
 
 state 100
 
-    (29) exp_numerica -> PARIZQ tipo_dato PARDER . VAR
+    (19) print_instr -> PRINT PARIZQ exp_numerica PARDER . PTCOMA
 
-    VAR             shift and go to state 110
+    PTCOMA          shift and go to state 110
 
 
 state 101
 
-    (15) asignacion -> VAR IGUAL BAND VAR PTCOMA .
+    (21) if_instr -> IF PARIZQ exp_numerica PARDER . goto_instr
+    (23) goto_instr -> . GOTO ID PTCOMA
 
-    VAR             reduce using rule 15 (asignacion -> VAR IGUAL BAND VAR PTCOMA .)
-    UNSET           reduce using rule 15 (asignacion -> VAR IGUAL BAND VAR PTCOMA .)
-    PRINT           reduce using rule 15 (asignacion -> VAR IGUAL BAND VAR PTCOMA .)
-    IF              reduce using rule 15 (asignacion -> VAR IGUAL BAND VAR PTCOMA .)
-    ID              reduce using rule 15 (asignacion -> VAR IGUAL BAND VAR PTCOMA .)
-    GOTO            reduce using rule 15 (asignacion -> VAR IGUAL BAND VAR PTCOMA .)
-    EXIT            reduce using rule 15 (asignacion -> VAR IGUAL BAND VAR PTCOMA .)
-    $end            reduce using rule 15 (asignacion -> VAR IGUAL BAND VAR PTCOMA .)
+    GOTO            shift and go to state 20
 
+    goto_instr                     shift and go to state 111
 
 state 102
 
-    (30) exp_numerica2 -> signo valores .
+    (16) asignacion -> VAR IGUAL READ PARIZQ PARDER . PTCOMA
 
-    PTCOMA          reduce using rule 30 (exp_numerica2 -> signo valores .)
-    CORDER          reduce using rule 30 (exp_numerica2 -> signo valores .)
-    PARDER          reduce using rule 30 (exp_numerica2 -> signo valores .)
+    PTCOMA          shift and go to state 112
 
 
 state 103
 
-    (27) exp_numerica -> ARRAY PARIZQ PARDER .
+    (31) exp_numerica -> PARIZQ tipo_dato PARDER . VAR
 
-    PTCOMA          reduce using rule 27 (exp_numerica -> ARRAY PARIZQ PARDER .)
-    CORDER          reduce using rule 27 (exp_numerica -> ARRAY PARIZQ PARDER .)
-    PARDER          reduce using rule 27 (exp_numerica -> ARRAY PARIZQ PARDER .)
+    VAR             shift and go to state 113
 
 
 state 104
 
-    (28) exp_numerica -> ABS PARIZQ valores . PARDER
+    (17) asignacion -> VAR IGUAL BAND VAR PTCOMA .
 
-    PARDER          shift and go to state 111
+    error           reduce using rule 17 (asignacion -> VAR IGUAL BAND VAR PTCOMA .)
+    VAR             reduce using rule 17 (asignacion -> VAR IGUAL BAND VAR PTCOMA .)
+    UNSET           reduce using rule 17 (asignacion -> VAR IGUAL BAND VAR PTCOMA .)
+    PRINT           reduce using rule 17 (asignacion -> VAR IGUAL BAND VAR PTCOMA .)
+    IF              reduce using rule 17 (asignacion -> VAR IGUAL BAND VAR PTCOMA .)
+    ID              reduce using rule 17 (asignacion -> VAR IGUAL BAND VAR PTCOMA .)
+    GOTO            reduce using rule 17 (asignacion -> VAR IGUAL BAND VAR PTCOMA .)
+    EXIT            reduce using rule 17 (asignacion -> VAR IGUAL BAND VAR PTCOMA .)
+    $end            reduce using rule 17 (asignacion -> VAR IGUAL BAND VAR PTCOMA .)
 
 
 state 105
 
-    (16) array_instr -> VAR indices IGUAL exp_numerica PTCOMA .
+    (32) exp_numerica2 -> signo valores .
 
-    VAR             reduce using rule 16 (array_instr -> VAR indices IGUAL exp_numerica PTCOMA .)
-    UNSET           reduce using rule 16 (array_instr -> VAR indices IGUAL exp_numerica PTCOMA .)
-    PRINT           reduce using rule 16 (array_instr -> VAR indices IGUAL exp_numerica PTCOMA .)
-    IF              reduce using rule 16 (array_instr -> VAR indices IGUAL exp_numerica PTCOMA .)
-    ID              reduce using rule 16 (array_instr -> VAR indices IGUAL exp_numerica PTCOMA .)
-    GOTO            reduce using rule 16 (array_instr -> VAR indices IGUAL exp_numerica PTCOMA .)
-    EXIT            reduce using rule 16 (array_instr -> VAR indices IGUAL exp_numerica PTCOMA .)
-    $end            reduce using rule 16 (array_instr -> VAR indices IGUAL exp_numerica PTCOMA .)
+    PTCOMA          reduce using rule 32 (exp_numerica2 -> signo valores .)
+    CORDER          reduce using rule 32 (exp_numerica2 -> signo valores .)
+    PARDER          reduce using rule 32 (exp_numerica2 -> signo valores .)
 
 
 state 106
 
-    (18) unset_instr -> UNSET PARIZQ exp_numerica PARDER PTCOMA .
+    (29) exp_numerica -> ARRAY PARIZQ PARDER .
 
-    VAR             reduce using rule 18 (unset_instr -> UNSET PARIZQ exp_numerica PARDER PTCOMA .)
-    UNSET           reduce using rule 18 (unset_instr -> UNSET PARIZQ exp_numerica PARDER PTCOMA .)
-    PRINT           reduce using rule 18 (unset_instr -> UNSET PARIZQ exp_numerica PARDER PTCOMA .)
-    IF              reduce using rule 18 (unset_instr -> UNSET PARIZQ exp_numerica PARDER PTCOMA .)
-    ID              reduce using rule 18 (unset_instr -> UNSET PARIZQ exp_numerica PARDER PTCOMA .)
-    GOTO            reduce using rule 18 (unset_instr -> UNSET PARIZQ exp_numerica PARDER PTCOMA .)
-    EXIT            reduce using rule 18 (unset_instr -> UNSET PARIZQ exp_numerica PARDER PTCOMA .)
-    $end            reduce using rule 18 (unset_instr -> UNSET PARIZQ exp_numerica PARDER PTCOMA .)
+    PTCOMA          reduce using rule 29 (exp_numerica -> ARRAY PARIZQ PARDER .)
+    CORDER          reduce using rule 29 (exp_numerica -> ARRAY PARIZQ PARDER .)
+    PARDER          reduce using rule 29 (exp_numerica -> ARRAY PARIZQ PARDER .)
 
 
 state 107
 
-    (17) print_instr -> PRINT PARIZQ exp_numerica PARDER PTCOMA .
+    (30) exp_numerica -> ABS PARIZQ valores . PARDER
 
-    VAR             reduce using rule 17 (print_instr -> PRINT PARIZQ exp_numerica PARDER PTCOMA .)
-    UNSET           reduce using rule 17 (print_instr -> PRINT PARIZQ exp_numerica PARDER PTCOMA .)
-    PRINT           reduce using rule 17 (print_instr -> PRINT PARIZQ exp_numerica PARDER PTCOMA .)
-    IF              reduce using rule 17 (print_instr -> PRINT PARIZQ exp_numerica PARDER PTCOMA .)
-    ID              reduce using rule 17 (print_instr -> PRINT PARIZQ exp_numerica PARDER PTCOMA .)
-    GOTO            reduce using rule 17 (print_instr -> PRINT PARIZQ exp_numerica PARDER PTCOMA .)
-    EXIT            reduce using rule 17 (print_instr -> PRINT PARIZQ exp_numerica PARDER PTCOMA .)
-    $end            reduce using rule 17 (print_instr -> PRINT PARIZQ exp_numerica PARDER PTCOMA .)
+    PARDER          shift and go to state 114
 
 
 state 108
 
-    (19) if_instr -> IF PARIZQ exp_numerica PARDER goto_instr .
+    (18) array_instr -> VAR indices IGUAL exp_numerica PTCOMA .
 
-    VAR             reduce using rule 19 (if_instr -> IF PARIZQ exp_numerica PARDER goto_instr .)
-    UNSET           reduce using rule 19 (if_instr -> IF PARIZQ exp_numerica PARDER goto_instr .)
-    PRINT           reduce using rule 19 (if_instr -> IF PARIZQ exp_numerica PARDER goto_instr .)
-    IF              reduce using rule 19 (if_instr -> IF PARIZQ exp_numerica PARDER goto_instr .)
-    ID              reduce using rule 19 (if_instr -> IF PARIZQ exp_numerica PARDER goto_instr .)
-    GOTO            reduce using rule 19 (if_instr -> IF PARIZQ exp_numerica PARDER goto_instr .)
-    EXIT            reduce using rule 19 (if_instr -> IF PARIZQ exp_numerica PARDER goto_instr .)
-    $end            reduce using rule 19 (if_instr -> IF PARIZQ exp_numerica PARDER goto_instr .)
+    error           reduce using rule 18 (array_instr -> VAR indices IGUAL exp_numerica PTCOMA .)
+    VAR             reduce using rule 18 (array_instr -> VAR indices IGUAL exp_numerica PTCOMA .)
+    UNSET           reduce using rule 18 (array_instr -> VAR indices IGUAL exp_numerica PTCOMA .)
+    PRINT           reduce using rule 18 (array_instr -> VAR indices IGUAL exp_numerica PTCOMA .)
+    IF              reduce using rule 18 (array_instr -> VAR indices IGUAL exp_numerica PTCOMA .)
+    ID              reduce using rule 18 (array_instr -> VAR indices IGUAL exp_numerica PTCOMA .)
+    GOTO            reduce using rule 18 (array_instr -> VAR indices IGUAL exp_numerica PTCOMA .)
+    EXIT            reduce using rule 18 (array_instr -> VAR indices IGUAL exp_numerica PTCOMA .)
+    $end            reduce using rule 18 (array_instr -> VAR indices IGUAL exp_numerica PTCOMA .)
 
 
 state 109
 
-    (14) asignacion -> VAR IGUAL READ PARIZQ PARDER PTCOMA .
+    (20) unset_instr -> UNSET PARIZQ exp_numerica PARDER PTCOMA .
 
-    VAR             reduce using rule 14 (asignacion -> VAR IGUAL READ PARIZQ PARDER PTCOMA .)
-    UNSET           reduce using rule 14 (asignacion -> VAR IGUAL READ PARIZQ PARDER PTCOMA .)
-    PRINT           reduce using rule 14 (asignacion -> VAR IGUAL READ PARIZQ PARDER PTCOMA .)
-    IF              reduce using rule 14 (asignacion -> VAR IGUAL READ PARIZQ PARDER PTCOMA .)
-    ID              reduce using rule 14 (asignacion -> VAR IGUAL READ PARIZQ PARDER PTCOMA .)
-    GOTO            reduce using rule 14 (asignacion -> VAR IGUAL READ PARIZQ PARDER PTCOMA .)
-    EXIT            reduce using rule 14 (asignacion -> VAR IGUAL READ PARIZQ PARDER PTCOMA .)
-    $end            reduce using rule 14 (asignacion -> VAR IGUAL READ PARIZQ PARDER PTCOMA .)
+    error           reduce using rule 20 (unset_instr -> UNSET PARIZQ exp_numerica PARDER PTCOMA .)
+    VAR             reduce using rule 20 (unset_instr -> UNSET PARIZQ exp_numerica PARDER PTCOMA .)
+    UNSET           reduce using rule 20 (unset_instr -> UNSET PARIZQ exp_numerica PARDER PTCOMA .)
+    PRINT           reduce using rule 20 (unset_instr -> UNSET PARIZQ exp_numerica PARDER PTCOMA .)
+    IF              reduce using rule 20 (unset_instr -> UNSET PARIZQ exp_numerica PARDER PTCOMA .)
+    ID              reduce using rule 20 (unset_instr -> UNSET PARIZQ exp_numerica PARDER PTCOMA .)
+    GOTO            reduce using rule 20 (unset_instr -> UNSET PARIZQ exp_numerica PARDER PTCOMA .)
+    EXIT            reduce using rule 20 (unset_instr -> UNSET PARIZQ exp_numerica PARDER PTCOMA .)
+    $end            reduce using rule 20 (unset_instr -> UNSET PARIZQ exp_numerica PARDER PTCOMA .)
 
 
 state 110
 
-    (29) exp_numerica -> PARIZQ tipo_dato PARDER VAR .
+    (19) print_instr -> PRINT PARIZQ exp_numerica PARDER PTCOMA .
 
-    PTCOMA          reduce using rule 29 (exp_numerica -> PARIZQ tipo_dato PARDER VAR .)
-    CORDER          reduce using rule 29 (exp_numerica -> PARIZQ tipo_dato PARDER VAR .)
-    PARDER          reduce using rule 29 (exp_numerica -> PARIZQ tipo_dato PARDER VAR .)
+    error           reduce using rule 19 (print_instr -> PRINT PARIZQ exp_numerica PARDER PTCOMA .)
+    VAR             reduce using rule 19 (print_instr -> PRINT PARIZQ exp_numerica PARDER PTCOMA .)
+    UNSET           reduce using rule 19 (print_instr -> PRINT PARIZQ exp_numerica PARDER PTCOMA .)
+    PRINT           reduce using rule 19 (print_instr -> PRINT PARIZQ exp_numerica PARDER PTCOMA .)
+    IF              reduce using rule 19 (print_instr -> PRINT PARIZQ exp_numerica PARDER PTCOMA .)
+    ID              reduce using rule 19 (print_instr -> PRINT PARIZQ exp_numerica PARDER PTCOMA .)
+    GOTO            reduce using rule 19 (print_instr -> PRINT PARIZQ exp_numerica PARDER PTCOMA .)
+    EXIT            reduce using rule 19 (print_instr -> PRINT PARIZQ exp_numerica PARDER PTCOMA .)
+    $end            reduce using rule 19 (print_instr -> PRINT PARIZQ exp_numerica PARDER PTCOMA .)
 
 
 state 111
 
-    (28) exp_numerica -> ABS PARIZQ valores PARDER .
+    (21) if_instr -> IF PARIZQ exp_numerica PARDER goto_instr .
 
-    PTCOMA          reduce using rule 28 (exp_numerica -> ABS PARIZQ valores PARDER .)
-    CORDER          reduce using rule 28 (exp_numerica -> ABS PARIZQ valores PARDER .)
-    PARDER          reduce using rule 28 (exp_numerica -> ABS PARIZQ valores PARDER .)
+    error           reduce using rule 21 (if_instr -> IF PARIZQ exp_numerica PARDER goto_instr .)
+    VAR             reduce using rule 21 (if_instr -> IF PARIZQ exp_numerica PARDER goto_instr .)
+    UNSET           reduce using rule 21 (if_instr -> IF PARIZQ exp_numerica PARDER goto_instr .)
+    PRINT           reduce using rule 21 (if_instr -> IF PARIZQ exp_numerica PARDER goto_instr .)
+    IF              reduce using rule 21 (if_instr -> IF PARIZQ exp_numerica PARDER goto_instr .)
+    ID              reduce using rule 21 (if_instr -> IF PARIZQ exp_numerica PARDER goto_instr .)
+    GOTO            reduce using rule 21 (if_instr -> IF PARIZQ exp_numerica PARDER goto_instr .)
+    EXIT            reduce using rule 21 (if_instr -> IF PARIZQ exp_numerica PARDER goto_instr .)
+    $end            reduce using rule 21 (if_instr -> IF PARIZQ exp_numerica PARDER goto_instr .)
+
+
+state 112
+
+    (16) asignacion -> VAR IGUAL READ PARIZQ PARDER PTCOMA .
+
+    error           reduce using rule 16 (asignacion -> VAR IGUAL READ PARIZQ PARDER PTCOMA .)
+    VAR             reduce using rule 16 (asignacion -> VAR IGUAL READ PARIZQ PARDER PTCOMA .)
+    UNSET           reduce using rule 16 (asignacion -> VAR IGUAL READ PARIZQ PARDER PTCOMA .)
+    PRINT           reduce using rule 16 (asignacion -> VAR IGUAL READ PARIZQ PARDER PTCOMA .)
+    IF              reduce using rule 16 (asignacion -> VAR IGUAL READ PARIZQ PARDER PTCOMA .)
+    ID              reduce using rule 16 (asignacion -> VAR IGUAL READ PARIZQ PARDER PTCOMA .)
+    GOTO            reduce using rule 16 (asignacion -> VAR IGUAL READ PARIZQ PARDER PTCOMA .)
+    EXIT            reduce using rule 16 (asignacion -> VAR IGUAL READ PARIZQ PARDER PTCOMA .)
+    $end            reduce using rule 16 (asignacion -> VAR IGUAL READ PARIZQ PARDER PTCOMA .)
+
+
+state 113
+
+    (31) exp_numerica -> PARIZQ tipo_dato PARDER VAR .
+
+    PTCOMA          reduce using rule 31 (exp_numerica -> PARIZQ tipo_dato PARDER VAR .)
+    CORDER          reduce using rule 31 (exp_numerica -> PARIZQ tipo_dato PARDER VAR .)
+    PARDER          reduce using rule 31 (exp_numerica -> PARIZQ tipo_dato PARDER VAR .)
+
+
+state 114
+
+    (30) exp_numerica -> ABS PARIZQ valores PARDER .
+
+    PTCOMA          reduce using rule 30 (exp_numerica -> ABS PARIZQ valores PARDER .)
+    CORDER          reduce using rule 30 (exp_numerica -> ABS PARIZQ valores PARDER .)
+    PARDER          reduce using rule 30 (exp_numerica -> ABS PARIZQ valores PARDER .)
 

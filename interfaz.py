@@ -19,10 +19,23 @@ contador = 1
 
 import threading, time
 
+consola = None
+
 def cmd(commando):
     subprocess.run(commando, shell=True)
 
-class Ui_MainWindow(object):
+class PlainTextEdit(QtWidgets.QTextEdit):
+
+    def keyPressEvent(self, event):
+        global consola
+        if event.key() == QtCore.Qt.Key_Return:
+            salida = self.toPlainText()
+            linea = salida.split("\n")
+            consola.setText(linea[len(linea)-1])
+            consola.setState(True)
+        super(PlainTextEdit, self).keyPressEvent(event)
+
+class Ui_MainWindow(object):#Ui_MainWindows
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1155, 859)
@@ -57,15 +70,11 @@ class Ui_MainWindow(object):
         self.textEdit = QtWidgets.QTextEdit(self.tab)
         self.textEdit.setGeometry(QtCore.QRect(30, 70, 1081, 451))
         self.textEdit.setObjectName("textEdit")
+
         self.textEdit_2 = QtWidgets.QTextEdit(self.tab)
         self.textEdit_2.setGeometry(QtCore.QRect(30, 540, 1081, 191))
         self.textEdit_2.setObjectName("textEdit_2")
         self.tabWidget.addTab(self.tab, "")
-
-        #self.textEdit_2.returnPressed.connect(self.obtenerTexto)
-        #self.textEdit_2.textChanged.connect(self.cambioTexto)
-        #self.textEdit_2.keyPressEvent = self.keyPressEvent
-
 
         self.btn_mas = QtWidgets.QPushButton(self.centralwidget)
         self.btn_mas.setGeometry(QtCore.QRect(1070, 10, 21, 21))
@@ -147,6 +156,7 @@ class Ui_MainWindow(object):
 
         self.actionSemanticos = QtWidgets.QAction(MainWindow)
         self.actionSemanticos.setObjectName("actionSemanticos")
+        self.actionSemanticos.triggered.connect(self.reporteSemanticoInterfaz)
 
         self.actionPegar = QtWidgets.QAction(MainWindow)
         self.actionPegar.setObjectName("actionPegar")
@@ -164,10 +174,11 @@ class Ui_MainWindow(object):
         self.actionAcerca_de_2.setObjectName("actionAcerca_de_2")
         self.actionAscendente = QtWidgets.QAction(MainWindow)
         self.actionAscendente.setObjectName("actionAscendente")
+        self.actionAscendente.triggered.connect(self.reporteASTASC)
         
         self.actionDescendente = QtWidgets.QAction(MainWindow)
         self.actionDescendente.setObjectName("actionDescendente")
-        self.actionDescendente.triggered.connect(self.reporteASTASC)
+        self.actionDescendente.triggered.connect(self.reporteASTDESC)
 
         self.menuArchivo.addAction(self.actionNuevo)
         self.menuArchivo.addAction(self.actionAbrir)
@@ -249,6 +260,7 @@ class Ui_MainWindow(object):
         self.tabWidget.removeTab(index)
 
     def analisisAscendente(self):
+        global consola
         tab = self.tabWidget.widget(self.tabWidget.currentIndex())
         items = tab.children()
         texto = items[3].toPlainText()
@@ -282,16 +294,6 @@ class Ui_MainWindow(object):
                     f.close
             else:
                 pass
-
-    def cambioTexto(self):
-        tab = self.tabWidget.widget(self.tabWidget.currentIndex())
-        items = tab.children()
-        if(items[4].hasFocus()):
-            print("Cambio de texto en textEdit")
-            print( self.textEdit_2.toPlainText())
-
-    #def keyPressEvent(self, event):
-    #        return QtWidgets.QTextEdit.keyPressEvent(self.textEdit_2, event)
 
     def reporteErrorLexico(self):
         lexicos = PILA.Pila()
@@ -400,11 +402,27 @@ class Ui_MainWindow(object):
         items = tab.children()
         items[4].append("***********Se genero el reporte el arbol ast***************")
 
+    def reporteASTDESC(self):
+        astDesc()
+        cmd("dot -Tpng desc.dot -o desc.png")
+        tab = self.tabWidget.widget(self.tabWidget.currentIndex())
+        items = tab.children()
+        items[4].append("***********Se genero el reporte el arbol ast***************")
+
+
     def reporteTS(self):
         cmd("dot -Tpng tsg.dot -o tsg.png")
         tab = self.tabWidget.widget(self.tabWidget.currentIndex())
         items = tab.children()
         items[4].append("***********Se genero el reporte de la tabla de simbolos***************")
+
+    def reporteSemanticoInterfaz(self):
+        reporteSemantico()
+        cmd("dot -Tpng semanticos.dot -o semanticos.png")
+        tab = self.tabWidget.widget(self.tabWidget.currentIndex())
+        items = tab.children()
+        items[4].append("***********Se genero el reporte de la tabla de simbolos***************")
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

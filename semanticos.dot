@@ -1,0 +1,70 @@
+digraph H {
+aHtmlTable [
+shape=plaintext
+label=<
+<table border='1' cellborder='1'>
+<tr>
+<td>TIPO</td>
+<td>ERROR</td>
+<td>DESCRIPCION</td>
+<td>FILA</td>
+<td>COLUMNA</td>
+</tr>
+<tr>
+<td>Semantico</td>
+<td>Instruccion</td>
+<td>Instruccion invalida</td>
+</tr>
+<tr>
+<td>Semantico</td>
+<td>Instruccion</td>
+<td>Instruccion invalida</td>
+</tr>
+<tr>
+<td>Semantico</td>
+<td>Error Impresion</td>
+<td>Error faltal en la impresion</td>
+</tr>
+<tr>
+<td>Semantico</td>
+<td>$t0</td>
+<td>Esta arreglo o struct no existe</td>
+</tr>
+<tr>
+<td>Semantico</td>
+<td>$t0</td>
+<td>Los indices no existen</td>
+</tr>
+<tr>
+<td>Semantico</td>
+<td>$t0</td>
+<td>Esta arreglo o struct no existe</td>
+</tr>
+<tr>
+<td>Semantico</td>
+<td>$t0</td>
+<td>Los indices no existen</td>
+</tr>
+<tr>
+<td>Semantico</td>
+<td>$t0</td>
+<td>Esta arreglo o struct no existe</td>
+</tr>
+<tr>
+<td>Semantico</td>
+<td>$t0</td>
+<td>Los indices no existen</td>
+</tr>
+<tr>
+<td>Semantico</td>
+<td>$t1</td>
+<td>Expresion invalida</td>
+</tr>
+<tr>
+<td>Semantico</td>
+<td>$t3</td>
+<td>Expresion invalida</td>
+</tr>
+</table>
+>];
+}

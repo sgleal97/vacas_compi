@@ -245,6 +245,10 @@ def p_instruccion_exit(t):
     reporteGramatical.push(Diccionario)
     t[0] = t[1]
 
+def p_instruccion_error(t):
+    '''instruccion            : error PTCOMA
+                            | error DOSPUNTOS'''
+
 def p_array_instr(t):
     'array_instr            : VAR indices IGUAL exp_numerica PTCOMA'
     Diccionario = {'produccion': 'array_instr', 'regla':'VAR indices IGUAL exp_numerica PTCOMA', 
@@ -519,15 +523,22 @@ def p_goto(t):
 
 def p_error(p):
     global entrada
-    if p:
-        print("Syntax error at token", p.type, "Fila: ", p.lineno+1, "Columna: ", find_column(entrada,p), "Valor: ", format(p.value))
-        Diccionario = {'Error': p.value, 'Tipo': 'Sintactico', 'Fila': p.lineno, 'Columna': find_column(entrada,p)}
-        erroresSintacticos.agregar(Diccionario)
-        # Just discard the token and tell the parser it's okay..
-        parser.errok()
-    else:
-        print("Syntax error at EOF")
+    print("Syntax error at token", p.type, "Fila: ", p.lineno+1, "Columna: ", find_column(entrada,p), "Valor: ", format(p.value))
+    Diccionario = {'Error': p.value, 'Tipo': 'Sintactico', 'Fila': p.lineno, 'Columna': find_column(entrada,p)}
+    erroresSintacticos.agregar(Diccionario)
+    print("Error sintáctico en '%s'" % p.value)
 
+#def p_error(p):
+#    global entrada
+#    if p:
+#        print("Syntax error at token", p.type, "Fila: ", p.lineno+1, "Columna: ", find_column(entrada,p), "Valor: ", format(p.value))
+#        Diccionario = {'Error': p.value, 'Tipo': 'Sintactico', 'Fila': p.lineno, 'Columna': find_column(entrada,p)}
+#        erroresSintacticos.agregar(Diccionario)
+#        # Just discard the token and tell the parser it's okay..
+#        parser.errok()
+#    else:
+#        print("Syntax error at EOF")
+#
 parser = yacc.yacc()
 errorLexicos = PILA.Pila()
 erroresSintacticos = PILA.Pila()

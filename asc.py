@@ -8,6 +8,8 @@ import pila as PILA
 import copy
 import collections
 import time
+from PyQt5 import uic
+from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QTextEdit, QTabWidget, QInputDialog, QFileDialog
 
 def update(dict1, dict2):
     for key, value in dict2.items():
@@ -52,7 +54,7 @@ def procesar_asignacion(instr, ts) :
                 procesar_definicion(instr, ts)
                 ts.actualizar(simbolo)
     else:
-        Diccionario = {'Tipo':'Semantico','Error':str(val),'Descripcion':'No se puede declarar este tipo de variable'}
+        Diccionario = {'Tipo':'Semantico','Error':str(val),'Descripcion':'No se puede declarar este tipo de variable', 'Fila': str(instr.fila), 'Columna': str(instr.columna)}
         erroresSemanticos.agregar(Diccionario)
         print("Error: No se puede declarar esta variable por tipo de dato")
 
@@ -387,10 +389,29 @@ def procesar_goto(instr, instrucciones, ts):
         erroresSemanticos.agregar(Diccionario)
         print("Error: la etiequeta ",str(instr.id), " no existe")
 
+def procesar_goto2(instr, instrucciones, ts):
+    global erroresSemanticos
+    indice = len(instrucciones)-1
+    print("indice: ",str(indice))
+    flag = False
+    while indice >= 0:
+        instrGoto = instrucciones[indice]
+        if isinstance(instrGoto, Etiqueta):
+            if instrGoto.id == instr.id:
+                procesar_instrucciones2(instrucciones, indice, ts)
+                flag = True
+                break
+        indice -=1
+    if flag == False:
+        Diccionario = {'Tipo':'Semantico','Error':str(instr.id),'Descripcion':'Etiqueta no encontrada'}
+        erroresSemanticos.agregar(Diccionario)
+        print("Error: la etiequeta ",str(instr.id), " no existe")
+
 def procesar_imprimir(expPrint, ts):
     global erroresSemanticos
     try:
         val = resolver_expresion_aritmetica(expPrint, ts)
+        print(val)
         if val == "cadena":
             val = resolver_cadena(expPrint, ts)
             if val =="\\n":
@@ -702,8 +723,9 @@ def graficar_expresion_aritmetica(expNum, ts) :
             graficar_expresion_binaria(expNum, ts, "%")
     elif isinstance(expNum, ExpresionNegativo) :
         exp = resolver_expresion_aritmetica(expNum.exp, ts)
+        graficar_expresion_unaria(expNum, ts,"-")
     elif isinstance(expNum, ExpresionNotLogica):
-        graficar_expresion_unaria(expNum,ts,"-")
+        graficar_expresion_unaria(expNum,ts,"!")
     elif isinstance(expNum, ExpresionNotBit):
         graficar_expresion_unaria(expNum,ts,"~")
     elif isinstance(expNum, ExpresionNumero):
@@ -811,7 +833,9 @@ def procesar_instrucciones(instrucciones, indice, ts) :
         elif isinstance(instr, Exit):
             return
         elif isinstance(instr, Read):
-            print('Read')
+            variable = showDialog
+            print('ReadMe')
+            print(variable)
         else : 
             Diccionario = {'Tipo':'Semantico','Error': "Instruccion",'Descripcion':'Instruccion invalida'}
             erroresSemanticos.agregar(Diccionario)
@@ -853,42 +877,47 @@ def graficar_procesar_instrucciones(instrucciones, indice, ts):
 
 def procesar_instrucciones2(instrucciones, indice, ts) :
     ## lista de instrucciones recolectadas
-    indice = len(instrucciones)-1
-    print(indice)
+    global shell
     while indice >= 0:
         instr = instrucciones[indice]
-        if isinstance(instr, Imprimir) : 
-            print(str(instr))
-            #procesar_imprimir(instr.exp, ts)
+        if isinstance(instr, Imprimir) :
+            procesar_imprimir(instr.exp, ts)
         elif isinstance(instr, Asignacion):
             procesar_asignacion(instr, ts)
         elif isinstance(instr, AsignacionPosicionArray):
-            print(str(instr.posicion))
             procesar_asignacion_array(instr, ts)
-        #elif isinstance(instr, Etiqueta):
-        #    flag = ts.buscar(instr.id)
-        #    simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CONSTANTE, indice, "Main")
-        #    if flag: ts.actualizar(simbolo)
-        #    else: ts.agregar(simbolo)
-        #    pass
-        #elif isinstance(instr, Goto):
-        #    procesar_goto(instr, instrucciones, ts)
-        #    break
-        #elif isinstance(instr, If) :
-        #    condicion = procesar_if(instr, ts)
-        #    if condicion == 1:
-        #        procesar_goto(instr.id, instrucciones, ts)
-        #        break
-        #elif isinstance(instr, Unset):
-        #    procesar_unset(instr,ts)
-        #elif isinstance(instr, Exit):
-        #    return
-        #elif isinstance(instr, Read):
-        #    print('Read')
-        #else : 
-        #    Diccionario = {'Tipo':'Semantico','Error': "Instruccion",'Descripcion':'Instruccion invalida'}
-        #    erroresSemanticos.agregar(Diccionario)
+        elif isinstance(instr, Etiqueta):
+            flag = ts.buscar(instr.id)
+            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CONSTANTE, indice, "Main")
+            if flag: ts.actualizar(simbolo)
+            else: ts.agregar(simbolo)
+        elif isinstance(instr, Goto):
+            procesar_goto2(instr, instrucciones, ts)
+            break
+        elif isinstance(instr, If) :
+            condicion = procesar_if(instr, ts)
+            if condicion == 1:
+                procesar_goto2(instr.id, instrucciones, ts)
+                break
+        elif isinstance(instr, Unset):
+            procesar_unset(instr,ts)
+        elif isinstance(instr, Exit):
+            return
+        elif isinstance(instr, Read):
+            variable = showDialog()
+            print('ReadMe')
+            print(variable)
+        else : 
+            Diccionario = {'Tipo':'Semantico','Error': "Instruccion",'Descripcion':'Instruccion invalida'}
+            erroresSemanticos.agregar(Diccionario)
         indice -= 1
+
+def showDialog(self):
+    text, result = QInputDialog.getText(self,'Input Dialog', 'Ingrese un valor')
+    self.reize(200,100)
+    self.show()
+    if result == True:
+        return text
 
 def graficar_expresion_binaria(expG,ts, operador):
     global id
@@ -922,12 +951,27 @@ def contadorPadre():
     while contador < idP:
         archivoDot += "p"+str(contador)+"->p"+str(contador+1)+";\n"
         contador+=1
+
+def contadorPadre2():
+    global idP
+    global archivoDot
+    contador = idP
+    archivoDot += "p0->" + "p"+str(contador)+";\n"
+    while contador > 1:
+        archivoDot += "p"+str(contador)+"->p"+str(contador-1)+";\n"
+        contador-=1
     
 def astAsc():
     global archivoDot
     f = open("asc.dot", "w")
     f.write(archivoDot)
     f.close()
+
+def astDesc():
+    global archivoDot
+    f = open("desc.dot", "w")
+    f.write(archivoDot)
+    f.close
 
 def reporteSemantico():
     global erroresSemanticos
@@ -941,12 +985,15 @@ def reporteSemantico():
     semanticos += "<td>TIPO</td>\n"
     semanticos += "<td>ERROR</td>\n"
     semanticos += "<td>DESCRIPCION</td>\n"
+    semanticos += "<td>FILA</td>\n"
+    semanticos += "<td>COLUMNA</td>\n"
     semanticos += "</tr>\n"
-    for x in erroresSemanticos:
+    while erroresSemanticos.estaVacia()==False:
+        Diccionario = erroresSemanticos.pop()
         semanticos +="<tr>\n"
-        semanticos += "<td>"+ str(erroresSemanticos['tipo']) + "</td>\n"
-        semanticos += "<td>"+ str(erroresSemanticos['error']) + "</td>\n"
-        semanticos += "<td>"+ str(erroresSemanticos['descripcion']) + "</td>\n"
+        semanticos += "<td>"+ str(Diccionario['Tipo']) + "</td>\n"
+        semanticos += "<td>"+ str(Diccionario['Error']) + "</td>\n"
+        semanticos += "<td>"+ str(Diccionario['Descripcion']) + "</td>\n"
         semanticos += "</tr>\n"
     semanticos += "</table>\n"
     semanticos += ">];\n"
@@ -1021,14 +1068,14 @@ def Main2(input, consola):
     global idP
     archivoDot = ""
     idP=0
-    #global shell
-    #shell = consola
+    global shell
+    shell = consola
     instrucciones = g2.parse(input)
     ts_global = TS.TablaDeSimbolos()
-    procesar_instrucciones2(instrucciones, 0, ts_global)
+    procesar_instrucciones2(instrucciones, len(instrucciones)-1, ts_global)
     archivoDot += "Digraph{\n p0[label=\"Main\"];\n"
     graficar_procesar_instrucciones(instrucciones, 0, ts_global)
-    contadorPadre()
+    contadorPadre2()
     archivoDot+="}"
     crearTS(ts_global)
 
@@ -1037,4 +1084,3 @@ shell = None
 archivoDot = ""
 id = 0
 idP = 0
-

@@ -9,15 +9,14 @@ label=<
 <td>Regla semantica</td>
 </tr>
 <tr>
-<td>init</td>
-<td>MAIN DOSPUNTOS instrucciones</td>
-<td>init.val = instrucciones.val</td>
+<td>instrucciones2</td>
+<td>empty</td>
+<td>instrucciones2.sin=instrucciones2.sin</td>
 </tr>
 <tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
 </tr>
 <tr>
 <td>instruccion</td>
@@ -30,12 +29,6 @@ instrucciones.val=instrucciones1.val</td>
 <td>exit_instr.val = Exit(EXIT)</td>
 </tr>
 <tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
-</tr>
-<tr>
 <td>instruccion</td>
 <td>print_instr</td>
 <td>instruccion.val = print_instr.val</td>
@@ -46,15 +39,14 @@ instrucciones.val=instrucciones1.val</td>
 <td>print_instr.val = Imprimir(exp_numerica.val)</td>
 </tr>
 <tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
+</tr>
+<tr>
 <td>exp_numerica</td>
 <td>CADENA</td>
 <td>exp_numerica.val = ExpresionString(CADENA.val)</td>
-</tr>
-<tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
 </tr>
 <tr>
 <td>instruccion</td>
@@ -67,12 +59,6 @@ instrucciones.val=instrucciones1.val</td>
 <td>etiqueta_instr.val = ambito(ID)</td>
 </tr>
 <tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
-</tr>
-<tr>
 <td>instruccion</td>
 <td>print_instr</td>
 <td>instruccion.val = print_instr.val</td>
@@ -81,6 +67,11 @@ instrucciones.val=instrucciones1.val</td>
 <td>print_instr</td>
 <td>PRINT PARIZQ exp_numerica PARDER PTCOMA</td>
 <td>print_instr.val = Imprimir(exp_numerica.val)</td>
+</tr>
+<tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
 </tr>
 <tr>
 <td>goto_instr</td>
@@ -88,12 +79,6 @@ instrucciones.val=instrucciones1.val</td>
 <td>exp_numerica.val = ExpresionIdentificador(VAR.val)</td>
 </tr>
 <tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
-</tr>
-<tr>
 <td>instruccion</td>
 <td>print_instr</td>
 <td>instruccion.val = print_instr.val</td>
@@ -104,15 +89,14 @@ instrucciones.val=instrucciones1.val</td>
 <td>print_instr.val = Imprimir(exp_numerica.val)</td>
 </tr>
 <tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
+</tr>
+<tr>
 <td>exp_numerica</td>
 <td>CADENA</td>
 <td>exp_numerica.val = ExpresionString(CADENA.val)</td>
-</tr>
-<tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
 </tr>
 <tr>
 <td>instruccion</td>
@@ -127,10 +111,10 @@ instrucciones.val=instrucciones1.val</td>
 <tr>
 <td>exp_numerica</td>
 <td>exp_numerica MAS exp_numerica</td>
-<td>exp_numerica.val = ExpresionBinaria(exp_numerica1.val, exp_numerica2.val, MAS)</td>
+<td>exp_numerica.val = ExpresionBinaria(valores.val, exp_numerica2.val, MAS)</td>
 </tr>
 <tr>
-<td>exp_numerica</td>
+<td>valores</td>
 <td>ENTERO</td>
 <td>exp_numerica.val = ExpresionNumero(ENTERO)</td>
 </tr>
@@ -140,12 +124,6 @@ instrucciones.val=instrucciones1.val</td>
 <td>exp_numerica.val = ExpresionIdentificador(VAR.val)</td>
 </tr>
 <tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
-</tr>
-<tr>
 <td>instruccion</td>
 <td>print_instr</td>
 <td>instruccion.val = print_instr.val</td>
@@ -154,6 +132,11 @@ instrucciones.val=instrucciones1.val</td>
 <td>print_instr</td>
 <td>PRINT PARIZQ exp_numerica PARDER PTCOMA</td>
 <td>print_instr.val = Imprimir(exp_numerica.val)</td>
+</tr>
+<tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
 </tr>
 <tr>
 <td>exp_numerica</td>
@@ -161,12 +144,6 @@ instrucciones.val=instrucciones1.val</td>
 <td>exp_numerica.val = ExpresionString(CADENA.val)</td>
 </tr>
 <tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
-</tr>
-<tr>
 <td>instruccion</td>
 <td>print_instr</td>
 <td>instruccion.val = print_instr.val</td>
@@ -177,15 +154,14 @@ instrucciones.val=instrucciones1.val</td>
 <td>print_instr.val = Imprimir(exp_numerica.val)</td>
 </tr>
 <tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
+</tr>
+<tr>
 <td>goto_instr</td>
 <td>VAR</td>
 <td>exp_numerica.val = ExpresionIdentificador(VAR.val)</td>
-</tr>
-<tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
 </tr>
 <tr>
 <td>instruccion</td>
@@ -200,7 +176,7 @@ instrucciones.val=instrucciones1.val</td>
 <tr>
 <td>exp_numerica</td>
 <td>PARIZQ tipo_dato PARDER VAR</td>
-<td>exp_numerica.val = ExpresionConversion(exp_numerica1.val, FLOAT)</td>
+<td>exp_numerica.val = ExpresionConversion(tipo_dato.val, FLOAT)</td>
 </tr>
 <tr>
 <td>exp_numerica</td>
@@ -208,12 +184,6 @@ instrucciones.val=instrucciones1.val</td>
 <td>tipo_dato.val = FLOAT</td>
 </tr>
 <tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
-</tr>
-<tr>
 <td>instruccion</td>
 <td>print_instr</td>
 <td>instruccion.val = print_instr.val</td>
@@ -222,6 +192,11 @@ instrucciones.val=instrucciones1.val</td>
 <td>print_instr</td>
 <td>PRINT PARIZQ exp_numerica PARDER PTCOMA</td>
 <td>print_instr.val = Imprimir(exp_numerica.val)</td>
+</tr>
+<tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
 </tr>
 <tr>
 <td>exp_numerica</td>
@@ -229,12 +204,6 @@ instrucciones.val=instrucciones1.val</td>
 <td>exp_numerica.val = ExpresionString(CADENA.val)</td>
 </tr>
 <tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
-</tr>
-<tr>
 <td>instruccion</td>
 <td>print_instr</td>
 <td>instruccion.val = print_instr.val</td>
@@ -245,15 +214,14 @@ instrucciones.val=instrucciones1.val</td>
 <td>print_instr.val = Imprimir(exp_numerica.val)</td>
 </tr>
 <tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
+</tr>
+<tr>
 <td>goto_instr</td>
 <td>VAR</td>
 <td>exp_numerica.val = ExpresionIdentificador(VAR.val)</td>
-</tr>
-<tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
 </tr>
 <tr>
 <td>instruccion</td>
@@ -268,7 +236,7 @@ instrucciones.val=instrucciones1.val</td>
 <tr>
 <td>exp_numerica</td>
 <td>PARIZQ tipo_dato PARDER VAR</td>
-<td>exp_numerica.val = EXpresionConversion(exp_numerica1.val, INT)</td>
+<td>exp_numerica.val = EXpresionConversion(tipo_dato.val, INT)</td>
 </tr>
 <tr>
 <td>tipo_dato</td>
@@ -276,12 +244,6 @@ instrucciones.val=instrucciones1.val</td>
 <td>tipo_dato.val = INT</td>
 </tr>
 <tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
-</tr>
-<tr>
 <td>instruccion</td>
 <td>print_instr</td>
 <td>instruccion.val = print_instr.val</td>
@@ -290,6 +252,11 @@ instrucciones.val=instrucciones1.val</td>
 <td>print_instr</td>
 <td>PRINT PARIZQ exp_numerica PARDER PTCOMA</td>
 <td>print_instr.val = Imprimir(exp_numerica.val)</td>
+</tr>
+<tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
 </tr>
 <tr>
 <td>goto_instr</td>
@@ -297,12 +264,6 @@ instrucciones.val=instrucciones1.val</td>
 <td>exp_numerica.val = ExpresionIdentificador(VAR.val)</td>
 </tr>
 <tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
-</tr>
-<tr>
 <td>instruccion</td>
 <td>print_instr</td>
 <td>instruccion.val = print_instr.val</td>
@@ -313,15 +274,14 @@ instrucciones.val=instrucciones1.val</td>
 <td>print_instr.val = Imprimir(exp_numerica.val)</td>
 </tr>
 <tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
+</tr>
+<tr>
 <td>exp_numerica</td>
 <td>CADENA</td>
 <td>exp_numerica.val = ExpresionString(CADENA.val)</td>
-</tr>
-<tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
 </tr>
 <tr>
 <td>instruccion</td>
@@ -341,10 +301,10 @@ instrucciones.val=instrucciones1.val</td>
 <tr>
 <td>exp_numerica</td>
 <td>exp_numerica IGUALQ exp_numerica</td>
-<td>exp_numerica.val = ExpresionBinaria(exp_numerica1.val, exp_numerica2.val, IGUAL)</td>
+<td>exp_numerica.val = ExpresionBinaria(valores.val, exp_numerica2.val, IGUAL)</td>
 </tr>
 <tr>
-<td>exp_numerica</td>
+<td>valores</td>
 <td>ENTERO</td>
 <td>exp_numerica.val = ExpresionNumero(ENTERO)</td>
 </tr>
@@ -352,12 +312,6 @@ instrucciones.val=instrucciones1.val</td>
 <td>goto_instr</td>
 <td>VAR</td>
 <td>exp_numerica.val = ExpresionIdentificador(VAR.val)</td>
-</tr>
-<tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
 </tr>
 <tr>
 <td>instruccion</td>
@@ -372,7 +326,7 @@ instrucciones.val=instrucciones1.val</td>
 <tr>
 <td>exp_numerica</td>
 <td>exp_numerica DIVIDIDO exp_numerica</td>
-<td>exp_numerica.val = ExpresionBinaria(exp_numerica1.val, exp_numerica2.val, DIVIDIDO)</td>
+<td>exp_numerica.val = ExpresionBinaria(valores.val, exp_numerica2.val, DIVIDIDO)</td>
 </tr>
 <tr>
 <td>goto_instr</td>
@@ -383,12 +337,6 @@ instrucciones.val=instrucciones1.val</td>
 <td>goto_instr</td>
 <td>VAR</td>
 <td>exp_numerica.val = ExpresionIdentificador(VAR.val)</td>
-</tr>
-<tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
 </tr>
 <tr>
 <td>instruccion</td>
@@ -399,6 +347,11 @@ instrucciones.val=instrucciones1.val</td>
 <td>print_instr</td>
 <td>PRINT PARIZQ exp_numerica PARDER PTCOMA</td>
 <td>print_instr.val = Imprimir(exp_numerica.val)</td>
+</tr>
+<tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
 </tr>
 <tr>
 <td>exp_numerica</td>
@@ -406,12 +359,6 @@ instrucciones.val=instrucciones1.val</td>
 <td>exp_numerica.val = ExpresionString(CADENA.val)</td>
 </tr>
 <tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
-</tr>
-<tr>
 <td>instruccion</td>
 <td>print_instr</td>
 <td>instruccion.val = print_instr.val</td>
@@ -420,6 +367,11 @@ instrucciones.val=instrucciones1.val</td>
 <td>print_instr</td>
 <td>PRINT PARIZQ exp_numerica PARDER PTCOMA</td>
 <td>print_instr.val = Imprimir(exp_numerica.val)</td>
+</tr>
+<tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
 </tr>
 <tr>
 <td>goto_instr</td>
@@ -427,12 +379,6 @@ instrucciones.val=instrucciones1.val</td>
 <td>exp_numerica.val = ExpresionIdentificador(VAR.val)</td>
 </tr>
 <tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
-</tr>
-<tr>
 <td>instruccion</td>
 <td>print_instr</td>
 <td>instruccion.val = print_instr.val</td>
@@ -443,15 +389,14 @@ instrucciones.val=instrucciones1.val</td>
 <td>print_instr.val = Imprimir(exp_numerica.val)</td>
 </tr>
 <tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
+</tr>
+<tr>
 <td>exp_numerica</td>
 <td>CADENA</td>
 <td>exp_numerica.val = ExpresionString(CADENA.val)</td>
-</tr>
-<tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
 </tr>
 <tr>
 <td>instruccion</td>
@@ -466,7 +411,7 @@ instrucciones.val=instrucciones1.val</td>
 <tr>
 <td>exp_numerica</td>
 <td>exp_numerica POR exp_numerica</td>
-<td>exp_numerica.val = ExpresionBinaria(exp_numerica1.val, exp_numerica2.val, POR)</td>
+<td>exp_numerica.val = ExpresionBinaria(valores.val, exp_numerica2.val, POR)</td>
 </tr>
 <tr>
 <td>goto_instr</td>
@@ -477,12 +422,6 @@ instrucciones.val=instrucciones1.val</td>
 <td>goto_instr</td>
 <td>VAR</td>
 <td>exp_numerica.val = ExpresionIdentificador(VAR.val)</td>
-</tr>
-<tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
 </tr>
 <tr>
 <td>instruccion</td>
@@ -493,6 +432,11 @@ instrucciones.val=instrucciones1.val</td>
 <td>print_instr</td>
 <td>PRINT PARIZQ exp_numerica PARDER PTCOMA</td>
 <td>print_instr.val = Imprimir(exp_numerica.val)</td>
+</tr>
+<tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
 </tr>
 <tr>
 <td>exp_numerica</td>
@@ -500,12 +444,6 @@ instrucciones.val=instrucciones1.val</td>
 <td>exp_numerica.val = ExpresionString(CADENA.val)</td>
 </tr>
 <tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
-</tr>
-<tr>
 <td>instruccion</td>
 <td>print_instr</td>
 <td>instruccion.val = print_instr.val</td>
@@ -514,6 +452,11 @@ instrucciones.val=instrucciones1.val</td>
 <td>print_instr</td>
 <td>PRINT PARIZQ exp_numerica PARDER PTCOMA</td>
 <td>print_instr.val = Imprimir(exp_numerica.val)</td>
+</tr>
+<tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
 </tr>
 <tr>
 <td>goto_instr</td>
@@ -521,12 +464,6 @@ instrucciones.val=instrucciones1.val</td>
 <td>exp_numerica.val = ExpresionIdentificador(VAR.val)</td>
 </tr>
 <tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
-</tr>
-<tr>
 <td>instruccion</td>
 <td>print_instr</td>
 <td>instruccion.val = print_instr.val</td>
@@ -537,15 +474,14 @@ instrucciones.val=instrucciones1.val</td>
 <td>print_instr.val = Imprimir(exp_numerica.val)</td>
 </tr>
 <tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
+</tr>
+<tr>
 <td>exp_numerica</td>
 <td>CADENA</td>
 <td>exp_numerica.val = ExpresionString(CADENA.val)</td>
-</tr>
-<tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
 </tr>
 <tr>
 <td>instruccion</td>
@@ -560,7 +496,7 @@ instrucciones.val=instrucciones1.val</td>
 <tr>
 <td>exp_numerica</td>
 <td>exp_numerica MENOS exp_numerica</td>
-<td>exp_numerica.val = ExpresionBinaria(exp_numerica1.val, exp_numerica2.val, MENOS)</td>
+<td>exp_numerica.val = ExpresionBinaria(valores.val, exp_numerica2.val, MENOS)</td>
 </tr>
 <tr>
 <td>goto_instr</td>
@@ -571,12 +507,6 @@ instrucciones.val=instrucciones1.val</td>
 <td>goto_instr</td>
 <td>VAR</td>
 <td>exp_numerica.val = ExpresionIdentificador(VAR.val)</td>
-</tr>
-<tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
 </tr>
 <tr>
 <td>instruccion</td>
@@ -587,6 +517,11 @@ instrucciones.val=instrucciones1.val</td>
 <td>print_instr</td>
 <td>PRINT PARIZQ exp_numerica PARDER PTCOMA</td>
 <td>print_instr.val = Imprimir(exp_numerica.val)</td>
+</tr>
+<tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
 </tr>
 <tr>
 <td>exp_numerica</td>
@@ -594,12 +529,6 @@ instrucciones.val=instrucciones1.val</td>
 <td>exp_numerica.val = ExpresionString(CADENA.val)</td>
 </tr>
 <tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
-</tr>
-<tr>
 <td>instruccion</td>
 <td>print_instr</td>
 <td>instruccion.val = print_instr.val</td>
@@ -608,6 +537,11 @@ instrucciones.val=instrucciones1.val</td>
 <td>print_instr</td>
 <td>PRINT PARIZQ exp_numerica PARDER PTCOMA</td>
 <td>print_instr.val = Imprimir(exp_numerica.val)</td>
+</tr>
+<tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
 </tr>
 <tr>
 <td>goto_instr</td>
@@ -615,12 +549,6 @@ instrucciones.val=instrucciones1.val</td>
 <td>exp_numerica.val = ExpresionIdentificador(VAR.val)</td>
 </tr>
 <tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
-</tr>
-<tr>
 <td>instruccion</td>
 <td>print_instr</td>
 <td>instruccion.val = print_instr.val</td>
@@ -631,15 +559,14 @@ instrucciones.val=instrucciones1.val</td>
 <td>print_instr.val = Imprimir(exp_numerica.val)</td>
 </tr>
 <tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
+</tr>
+<tr>
 <td>exp_numerica</td>
 <td>CADENA</td>
 <td>exp_numerica.val = ExpresionString(CADENA.val)</td>
-</tr>
-<tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
 </tr>
 <tr>
 <td>instruccion</td>
@@ -654,7 +581,7 @@ instrucciones.val=instrucciones1.val</td>
 <tr>
 <td>exp_numerica</td>
 <td>exp_numerica MAS exp_numerica</td>
-<td>exp_numerica.val = ExpresionBinaria(exp_numerica1.val, exp_numerica2.val, MAS)</td>
+<td>exp_numerica.val = ExpresionBinaria(valores.val, exp_numerica2.val, MAS)</td>
 </tr>
 <tr>
 <td>goto_instr</td>
@@ -667,10 +594,84 @@ instrucciones.val=instrucciones1.val</td>
 <td>exp_numerica.val = ExpresionIdentificador(VAR.val)</td>
 </tr>
 <tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
+<td>instruccion</td>
+<td>asignacion</td>
+<td>instruccion.val = asignacion.val</td>
+</tr>
+<tr>
+<td>asignacion</td>
+<td>VAR IGUAL exp_numerica PTCOMA</td>
+<td>asignacion.val = Asignacion(VAR.val, exp_numerica.val)</td>
+</tr>
+<tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
+</tr>
+<tr>
+<td>valores</td>
+<td>ENTERO</td>
+<td>exp_numerica.val = ExpresionNumero(ENTERO)</td>
+</tr>
+<tr>
+<td>instruccion</td>
+<td>print_instr</td>
+<td>instruccion.val = print_instr.val</td>
+</tr>
+<tr>
+<td>print_instr</td>
+<td>PRINT PARIZQ exp_numerica PARDER PTCOMA</td>
+<td>print_instr.val = Imprimir(exp_numerica.val)</td>
+</tr>
+<tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
+</tr>
+<tr>
+<td>exp_numerica</td>
+<td>CADENA</td>
+<td>exp_numerica.val = ExpresionString(CADENA.val)</td>
+</tr>
+<tr>
+<td>instruccion</td>
+<td>print_instr</td>
+<td>instruccion.val = print_instr.val</td>
+</tr>
+<tr>
+<td>print_instr</td>
+<td>PRINT PARIZQ exp_numerica PARDER PTCOMA</td>
+<td>print_instr.val = Imprimir(exp_numerica.val)</td>
+</tr>
+<tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
+</tr>
+<tr>
+<td>exp_numerica</td>
+<td>CADENA</td>
+<td>exp_numerica.val = ExpresionString(CADENA.val)</td>
+</tr>
+<tr>
+<td>instruccion</td>
+<td>print_instr</td>
+<td>instruccion.val = print_instr.val</td>
+</tr>
+<tr>
+<td>print_instr</td>
+<td>PRINT PARIZQ exp_numerica PARDER PTCOMA</td>
+<td>print_instr.val = Imprimir(exp_numerica.val)</td>
+</tr>
+<tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
+</tr>
+<tr>
+<td>exp_numerica</td>
+<td>CADENA</td>
+<td>exp_numerica.val = ExpresionString(CADENA.val)</td>
 </tr>
 <tr>
 <td>instruccion</td>
@@ -683,15 +684,34 @@ instrucciones.val=instrucciones1.val</td>
 <td>asignacion.val = Asignacion(VAR.val, exp_numerica.val)</td>
 </tr>
 <tr>
-<td>exp_numerica</td>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
+</tr>
+<tr>
+<td>valores</td>
 <td>ENTERO</td>
 <td>exp_numerica.val = ExpresionNumero(ENTERO)</td>
 </tr>
 <tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
+<td>instruccion</td>
+<td>print_instr</td>
+<td>instruccion.val = print_instr.val</td>
+</tr>
+<tr>
+<td>print_instr</td>
+<td>PRINT PARIZQ exp_numerica PARDER PTCOMA</td>
+<td>print_instr.val = Imprimir(exp_numerica.val)</td>
+</tr>
+<tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
+</tr>
+<tr>
+<td>exp_numerica</td>
+<td>CADENA</td>
+<td>exp_numerica.val = ExpresionString(CADENA.val)</td>
 </tr>
 <tr>
 <td>instruccion</td>
@@ -704,15 +724,14 @@ instrucciones.val=instrucciones1.val</td>
 <td>print_instr.val = Imprimir(exp_numerica.val)</td>
 </tr>
 <tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
+</tr>
+<tr>
 <td>exp_numerica</td>
 <td>CADENA</td>
 <td>exp_numerica.val = ExpresionString(CADENA.val)</td>
-</tr>
-<tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
 </tr>
 <tr>
 <td>instruccion</td>
@@ -725,120 +744,14 @@ instrucciones.val=instrucciones1.val</td>
 <td>print_instr.val = Imprimir(exp_numerica.val)</td>
 </tr>
 <tr>
-<td>exp_numerica</td>
-<td>CADENA</td>
-<td>exp_numerica.val = ExpresionString(CADENA.val)</td>
-</tr>
-<tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
-</tr>
-<tr>
-<td>instruccion</td>
-<td>print_instr</td>
-<td>instruccion.val = print_instr.val</td>
-</tr>
-<tr>
-<td>print_instr</td>
-<td>PRINT PARIZQ exp_numerica PARDER PTCOMA</td>
-<td>print_instr.val = Imprimir(exp_numerica.val)</td>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
 </tr>
 <tr>
 <td>exp_numerica</td>
 <td>CADENA</td>
 <td>exp_numerica.val = ExpresionString(CADENA.val)</td>
-</tr>
-<tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
-</tr>
-<tr>
-<td>instruccion</td>
-<td>asignacion</td>
-<td>instruccion.val = asignacion.val</td>
-</tr>
-<tr>
-<td>asignacion</td>
-<td>VAR IGUAL exp_numerica PTCOMA</td>
-<td>asignacion.val = Asignacion(VAR.val, exp_numerica.val)</td>
-</tr>
-<tr>
-<td>exp_numerica</td>
-<td>ENTERO</td>
-<td>exp_numerica.val = ExpresionNumero(ENTERO)</td>
-</tr>
-<tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
-</tr>
-<tr>
-<td>instruccion</td>
-<td>print_instr</td>
-<td>instruccion.val = print_instr.val</td>
-</tr>
-<tr>
-<td>print_instr</td>
-<td>PRINT PARIZQ exp_numerica PARDER PTCOMA</td>
-<td>print_instr.val = Imprimir(exp_numerica.val)</td>
-</tr>
-<tr>
-<td>exp_numerica</td>
-<td>CADENA</td>
-<td>exp_numerica.val = ExpresionString(CADENA.val)</td>
-</tr>
-<tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
-</tr>
-<tr>
-<td>instruccion</td>
-<td>print_instr</td>
-<td>instruccion.val = print_instr.val</td>
-</tr>
-<tr>
-<td>print_instr</td>
-<td>PRINT PARIZQ exp_numerica PARDER PTCOMA</td>
-<td>print_instr.val = Imprimir(exp_numerica.val)</td>
-</tr>
-<tr>
-<td>exp_numerica</td>
-<td>CADENA</td>
-<td>exp_numerica.val = ExpresionString(CADENA.val)</td>
-</tr>
-<tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
-</tr>
-<tr>
-<td>instruccion</td>
-<td>print_instr</td>
-<td>instruccion.val = print_instr.val</td>
-</tr>
-<tr>
-<td>print_instr</td>
-<td>PRINT PARIZQ exp_numerica PARDER PTCOMA</td>
-<td>print_instr.val = Imprimir(exp_numerica.val)</td>
-</tr>
-<tr>
-<td>exp_numerica</td>
-<td>CADENA</td>
-<td>exp_numerica.val = ExpresionString(CADENA.val)</td>
-</tr>
-<tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
 </tr>
 <tr>
 <td>instruccion</td>
@@ -851,133 +764,9 @@ instrucciones.val=instrucciones1.val</td>
 <td>unset_instr.val = Unset(exp_numerica.val)</td>
 </tr>
 <tr>
-<td>goto_instr</td>
-<td>VAR</td>
-<td>exp_numerica.val = ExpresionIdentificador(VAR.val)</td>
-</tr>
-<tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
-</tr>
-<tr>
-<td>instruccion</td>
-<td>print_instr</td>
-<td>instruccion.val = print_instr.val</td>
-</tr>
-<tr>
-<td>print_instr</td>
-<td>PRINT PARIZQ exp_numerica PARDER PTCOMA</td>
-<td>print_instr.val = Imprimir(exp_numerica.val)</td>
-</tr>
-<tr>
-<td>exp_numerica</td>
-<td>VAR indices</td>
-<td>exp_numerica.val = ExpresionArray(VAR.val, indices.val)</td>
-</tr>
-<tr>
-<td>indices</td>
-<td>indice</td>
-<td>indices=indice</td>
-</tr>
-<tr>
-<td>indice</td>
-<td>CORIZQ exp_numerica CORDER</td>
-<td>indice = exp_numerica</td>
-</tr>
-<tr>
-<td>exp_numerica</td>
-<td>ENTERO</td>
-<td>exp_numerica.val = ExpresionNumero(ENTERO)</td>
-</tr>
-<tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
-</tr>
-<tr>
-<td>instruccion</td>
-<td>print_instr</td>
-<td>instruccion.val = print_instr.val</td>
-</tr>
-<tr>
-<td>print_instr</td>
-<td>PRINT PARIZQ exp_numerica PARDER PTCOMA</td>
-<td>print_instr.val = Imprimir(exp_numerica.val)</td>
-</tr>
-<tr>
-<td>exp_numerica</td>
-<td>VAR indices</td>
-<td>exp_numerica.val = ExpresionArray(VAR.val, indices.val)</td>
-</tr>
-<tr>
-<td>indices</td>
-<td>indice</td>
-<td>indices=indice</td>
-</tr>
-<tr>
-<td>indice</td>
-<td>CORIZQ exp_numerica CORDER</td>
-<td>indice = exp_numerica</td>
-</tr>
-<tr>
-<td>exp_numerica</td>
-<td>ENTERO</td>
-<td>exp_numerica.val = ExpresionNumero(ENTERO)</td>
-</tr>
-<tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
-</tr>
-<tr>
-<td>instruccion</td>
-<td>print_instr</td>
-<td>instruccion.val = print_instr.val</td>
-</tr>
-<tr>
-<td>print_instr</td>
-<td>PRINT PARIZQ exp_numerica PARDER PTCOMA</td>
-<td>print_instr.val = Imprimir(exp_numerica.val)</td>
-</tr>
-<tr>
-<td>exp_numerica</td>
-<td>VAR indices</td>
-<td>exp_numerica.val = ExpresionArray(VAR.val, indices.val)</td>
-</tr>
-<tr>
-<td>indices</td>
-<td>indice</td>
-<td>indices=indice</td>
-</tr>
-<tr>
-<td>indice</td>
-<td>CORIZQ exp_numerica CORDER</td>
-<td>indice = exp_numerica</td>
-</tr>
-<tr>
-<td>exp_numerica</td>
-<td>ENTERO</td>
-<td>exp_numerica.val = ExpresionNumero(ENTERO)</td>
-</tr>
-<tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
-</tr>
-<tr>
-<td>instruccion</td>
-<td>print_instr</td>
-<td>instruccion.val = print_instr.val</td>
-</tr>
-<tr>
-<td>print_instr</td>
-<td>PRINT PARIZQ exp_numerica PARDER PTCOMA</td>
-<td>print_instr.val = Imprimir(exp_numerica.val)</td>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
 </tr>
 <tr>
 <td>goto_instr</td>
@@ -985,15 +774,174 @@ instrucciones.val=instrucciones1.val</td>
 <td>exp_numerica.val = ExpresionIdentificador(VAR.val)</td>
 </tr>
 <tr>
-<td>instrucciones</td>
-<td>instrucciones instruccion</td>
-<td>instrucciones1.val.append(instruccion.val)
-instrucciones.val=instrucciones1.val</td>
+<td>instruccion</td>
+<td>print_instr</td>
+<td>instruccion.val = print_instr.val</td>
 </tr>
 <tr>
-<td>instrucciones</td>
+<td>print_instr</td>
+<td>PRINT PARIZQ exp_numerica PARDER PTCOMA</td>
+<td>print_instr.val = Imprimir(exp_numerica.val)</td>
+</tr>
+<tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
+</tr>
+<tr>
+<td>exp_numerica</td>
+<td>VAR indices</td>
+<td>exp_numerica.val = ExpresionArray(VAR.val, indices.val)</td>
+</tr>
+<tr>
+<td>indices</td>
+<td>indice indices</td>
+<td>indices=indice</td>
+</tr>
+<tr>
+<td>indices2</td>
+<td>empty</td>
+<td>indices.sin=indices2.sin</td>
+</tr>
+<tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
+</tr>
+<tr>
+<td>indice</td>
+<td>CORIZQ exp_numerica CORDER</td>
+<td>indice = exp_numerica</td>
+</tr>
+<tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
+</tr>
+<tr>
+<td>valores</td>
+<td>ENTERO</td>
+<td>exp_numerica.val = ExpresionNumero(ENTERO)</td>
+</tr>
+<tr>
 <td>instruccion</td>
-<td>instrucciones.val=instruccion.val</td>
+<td>print_instr</td>
+<td>instruccion.val = print_instr.val</td>
+</tr>
+<tr>
+<td>print_instr</td>
+<td>PRINT PARIZQ exp_numerica PARDER PTCOMA</td>
+<td>print_instr.val = Imprimir(exp_numerica.val)</td>
+</tr>
+<tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
+</tr>
+<tr>
+<td>exp_numerica</td>
+<td>VAR indices</td>
+<td>exp_numerica.val = ExpresionArray(VAR.val, indices.val)</td>
+</tr>
+<tr>
+<td>indices</td>
+<td>indice indices</td>
+<td>indices=indice</td>
+</tr>
+<tr>
+<td>indices2</td>
+<td>empty</td>
+<td>indices.sin=indices2.sin</td>
+</tr>
+<tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
+</tr>
+<tr>
+<td>indice</td>
+<td>CORIZQ exp_numerica CORDER</td>
+<td>indice = exp_numerica</td>
+</tr>
+<tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
+</tr>
+<tr>
+<td>valores</td>
+<td>ENTERO</td>
+<td>exp_numerica.val = ExpresionNumero(ENTERO)</td>
+</tr>
+<tr>
+<td>instruccion</td>
+<td>print_instr</td>
+<td>instruccion.val = print_instr.val</td>
+</tr>
+<tr>
+<td>print_instr</td>
+<td>PRINT PARIZQ exp_numerica PARDER PTCOMA</td>
+<td>print_instr.val = Imprimir(exp_numerica.val)</td>
+</tr>
+<tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
+</tr>
+<tr>
+<td>exp_numerica</td>
+<td>VAR indices</td>
+<td>exp_numerica.val = ExpresionArray(VAR.val, indices.val)</td>
+</tr>
+<tr>
+<td>indices</td>
+<td>indice indices</td>
+<td>indices=indice</td>
+</tr>
+<tr>
+<td>indices2</td>
+<td>empty</td>
+<td>indices.sin=indices2.sin</td>
+</tr>
+<tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
+</tr>
+<tr>
+<td>indice</td>
+<td>CORIZQ exp_numerica CORDER</td>
+<td>indice = exp_numerica</td>
+</tr>
+<tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
+</tr>
+<tr>
+<td>valores</td>
+<td>ENTERO</td>
+<td>exp_numerica.val = ExpresionNumero(ENTERO)</td>
+</tr>
+<tr>
+<td>instruccion</td>
+<td>print_instr</td>
+<td>instruccion.val = print_instr.val</td>
+</tr>
+<tr>
+<td>print_instr</td>
+<td>PRINT PARIZQ exp_numerica PARDER PTCOMA</td>
+<td>print_instr.val = Imprimir(exp_numerica.val)</td>
+</tr>
+<tr>
+<td>empty</td>
+<td>e</td>
+<td>empty.her=indices2.sin</td>
+</tr>
+<tr>
+<td>goto_instr</td>
+<td>VAR</td>
+<td>exp_numerica.val = ExpresionIdentificador(VAR.val)</td>
 </tr>
 </table>
 >];

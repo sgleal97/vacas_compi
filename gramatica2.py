@@ -173,6 +173,7 @@ precedence = (
 from expresiones import *
 from instrucciones import *
 import pila as PILA
+import subprocess
 
 ambito = PILA.Pila()
 simulador = PILA.Pila()
@@ -183,7 +184,7 @@ ambito.push('main')
 def p_init(t):
     'init                   : MAIN DOSPUNTOS instrucciones'
     t[0] = t[3]
-    print(t[0])
+    #print(t[0])
     
 def p_lista_instrucciones(t):
     'instrucciones          : instruccion instrucciones2'
@@ -204,7 +205,7 @@ def p_instrucciones_instruccion(t):
 def p_instrucciones_instruccion2(t):
     'instrucciones2         : empty'
     t[0] = "vacio"
-    Diccionario = {'produccion': 'indices2', 'regla':'empty', 'semantica':'instrucciones2.sin=instrucciones2.sin'}
+    Diccionario = {'produccion': 'instrucciones2', 'regla':'empty', 'semantica':'instrucciones2.sin=instrucciones2.sin'}
     reporteGramatical.push(Diccionario)
 
 def p_instruccion_asignacion(t):
@@ -254,6 +255,10 @@ def p_instruccion_exit(t):
     Diccionario = {'produccion': 'instruccion', 'regla':'exit_instr', 'semantica':'instruccion.val = exit_instr.val'}
     reporteGramatical.push(Diccionario)
     t[0] = t[1]
+
+def p_instruccion_error(t):
+    '''instruccion            : error PTCOMA
+                            | error DOSPUNTOS'''
 
 def p_asignacion(t):
     '''asignacion           : VAR IGUAL exp_numerica PTCOMA
@@ -325,10 +330,10 @@ def p_expresion(t):
     'exp_numerica           : valores exp_numerica2'
     auxiliar = simulador.pop()
     if(auxiliar == "vacio"):
-        print("exp_numerica", "=", str(t[1]))
+        #print("exp_numerica", "=", str(t[1]))
         t[0] = t[1]
     else:
-        print("exp_numerica", "=", str(t[1]), str(t[2]), auxiliar)
+        #print("exp_numerica", "=", str(t[1]), str(t[2]), auxiliar)
         ####
         if t[2] == '+'  : 
             Diccionario = {'produccion': 'exp_numerica', 'regla':'exp_numerica MAS exp_numerica', 'semantica':'exp_numerica.val = ExpresionBinaria(valores.val, exp_numerica2.val, MAS)'}
@@ -467,11 +472,19 @@ def p_lista_indices(t):
     'indices                : indice indices2'
     if t[2]=="vacio":
         t[0] = [t[1]]
+        print("Len: ",str(t[0]))
         Diccionario = {'produccion': 'indices', 'regla':'indice indices', 'semantica':'indices=indice'}
         reporteGramatical.push(Diccionario)
     else:
         t[2].append(t[1])
-        t[0] = t[2]
+        x = []
+        y = t[2]
+        i = len(y)-1
+        while i>=0:
+            x.append(y[i])
+            i-=1
+        t[0] = x
+        print("Len2: ",str(t[0]))
         Diccionario = {'produccion': 'indices', 'regla':'indice indices', 'semantica':'indices=indice.append(indice2)'}
         reporteGramatical.push(Diccionario)
 
@@ -483,7 +496,15 @@ def p_indices_indice(t):
         reporteGramatical.push(Diccionario)
     else:
         t[2].append(t[1])
+        #x = []
+        #y = t[2]
+        #i = len(y)-1
+        #while i>=0:
+        #    x.append(y[i])
+        #    i-=1
+        #t[0] = x
         t[0] = t[2]
+        print("LEN: ", str(len(t[0])))
         Diccionario = {'produccion': 'indices2', 'regla':'indice indices', 'semantica':'indices=indice.append(indice2)'}
         reporteGramatical.push(Diccionario)
 
@@ -574,6 +595,13 @@ def p_empty(t):
     Diccionario = {'produccion': 'empty', 'regla':'e', 'semantica':'empty.her=indices2.sin'}
     reporteGramatical.push(Diccionario)
 
+def p_error(p):
+    global input
+    print("Syntax error at token", p.type, "Fila: ", p.lineno+1, "Columna: ", find_column(entrada,p), "Valor: ", format(p.value))
+    Diccionario = {'Error': p.value, 'Tipo': 'Sintactico', 'Fila': p.lineno, 'Columna': find_column(entrada,p)}
+    erroresSintacticos.agregar(Diccionario)
+    print("Error sintáctico en '%s'" % p.value)
+
 def p_error(t):
     print(t)
     print("Error sintáctico en '%s'" % t.value)
@@ -589,6 +617,38 @@ def parse(entrada):
     print("############    DESCENDENTE      #############")
     print(input)
     print("############    DESCENDENTE      ############")
-    return parser.parse(input)
+    analizador = parser.parse(input)
+    escribirReporteGramatical()
+    return analizador
 
 input = ""
+
+def cmd(commando):
+    subprocess.run(commando, shell=True)
+
+def escribirReporteGramatical():
+    gram = " "
+    gram += "digraph H {\n"
+    gram += "aHtmlTable [\n"
+    gram += "shape=plaintext\n"
+    gram += "label=<\n"
+    gram += "<table border='1' cellborder='1'>\n"
+    gram += "<tr>\n"
+    gram += "<td>Produccion</td>\n"
+    gram += "<td>Derivacion</td>\n"
+    gram += "<td>Regla semantica</td>\n"
+    gram += "</tr>\n"
+    while reporteGramatical.estaVacia() == False:
+        Diccionario = reporteGramatical.pop()
+        gram+="<tr>\n"
+        gram += "<td>"+ str(Diccionario['produccion']) + "</td>\n"
+        gram += "<td>"+ str(Diccionario['regla']) + "</td>\n"
+        gram += "<td>"+ str(Diccionario['semantica']) + "</td>\n"
+        gram += "</tr>\n"
+    gram += "</table>\n"
+    gram += ">];\n"
+    gram += "}\n"
+    f = open("gramatical2.dot", "w")
+    f.write(gram)
+    f.close()
+    cmd("dot -Tpng gramatical2.dot -o gramatical2.png")
