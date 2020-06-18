@@ -1,0 +1,204 @@
+def p_init(t):
+    'init                   : MAIN DOSPUNTOS instrucciones'#instrucciones x cuerpo
+
+def p_lista_instrucciones(t):
+    '''instrucciones          : instrucciones instruccion
+                              | instruccion'''
+
+def p_instruccion_asignacion(t):
+    '''instruccion            : asignacion
+                              | array_instr'
+                              | print_instr'
+                              | unset_instr'
+                              | if_instr'
+                              | etiqueta_instr'
+                              | goto_instr'
+                              | exit_instr'''
+
+def p_array_instr(t):
+    'array_instr            : VAR indices IGUAL exp_numerica PTCOMA'
+
+def p_lista_indices(t):
+    '''indices              : indices indice
+                            | indice'''
+
+def p_indice(t):
+    'indice                 : CORIZQ exp_numerica CORDER'
+
+def p_asignacion(t):
+    '''asignacion           : VAR IGUAL exp_numerica PTCOMA
+                            | VAR IGUAL READ PARIZQ  PARDER PTCOMA'''
+
+def p_exp_numerica_binaria(t):
+    '''exp_numerica         : exp_numerica MAS exp_numerica
+                            | exp_numerica MENOS exp_numerica
+                            | exp_numerica POR exp_numerica
+                            | exp_numerica DIVIDIDO exp_numerica
+                            | exp_numerica RESIDUO exp_numerica
+                            | exp_numerica AND exp_numerica
+                            | exp_numerica OR exp_numerica
+                            | exp_numerica XOR exp_numerica
+                            | exp_numerica BAND exp_numerica
+                            | exp_numerica BOR exp_numerica
+                            | exp_numerica BXOR exp_numerica
+                            | exp_numerica SHIFTI exp_numerica
+                            | exp_numerica SHIFTD exp_numerica
+                            | exp_numerica IGUALQ exp_numerica
+                            | exp_numerica NIGUALQ exp_numerica
+                            | exp_numerica MAYORQ exp_numerica
+                            | exp_numerica MENORQ exp_numerica
+                            | exp_numerica MAYORIGUALQ exp_numerica
+                            | exp_numerica MENORIGUALQ exp_numerica
+                            | PARIZQ tipo_dato PARDER VAR'''
+    
+
+def p_exp_numerica_unaria(t):
+    '''exp_numerica         : MENOS exp_numerica %prec UMENOS
+                            | NOT exp_numerica %prec UMENOS
+                            | BNOT exp_numerica %prec UMENOS'''
+    
+def p_exp_numerica_abs(t):
+    'exp_numerica           : ABS PARIZQ exp_numerica PARDER'
+
+def p_exp_numerica_valores(t):
+    '''exp_numerica         : ENTERO
+                            | DECIMAL
+                            | VAR
+                            | VAR indices
+                            | CADENA
+                            | ARRAY PARIZQ PARDER'''
+
+def p_tipo_dato(t):
+    '''tipo_dato            : INT
+                            | FLOAT
+                            | CHAR'''
+
+def p_print(t):
+    'print_instr            : PRINT PARIZQ exp_numerica PARDER PTCOMA'
+
+def p_unset(t):
+    'unset_instr            : UNSET PARIZQ exp_numerica PARDER PTCOMA'
+
+def p_if(t):
+    'if_instr               : IF PARIZQ exp_numerica PARDER goto_instr'
+
+def p_etiqueta(t):
+    'etiqueta_instr         : ID DOSPUNTOS'
+
+def p_exit(t):
+    'exit_instr             : EXIT PTCOMA'
+
+def p_goto(t):
+    'goto_instr             : GOTO ID PTCOMA'
+
+
+def p_init(t):
+    'init                   : MAIN DOSPUNTOS instrucciones'
+    
+def p_lista_instrucciones(t):
+    'instrucciones          : instruccion instrucciones2'
+
+def p_instrucciones_instruccion(t):
+    '''instrucciones2       : instruccion instrucciones2
+                            | empty'''
+
+def p_instruccion_asignacion(t):
+    '''instruccion            : asignacion
+                              | array_instr'
+                              | print_instr'
+                              | unset_instr'
+                              | if_instr'
+                              | etiqueta_instr'
+                              | goto_instr'
+                              | exit_instr'''
+
+def p_asignacion(t):
+    '''asignacion           : VAR IGUAL exp_numerica PTCOMA
+                            | VAR IGUAL READ PARIZQ  PARDER PTCOMA
+                            | VAR IGUAL BAND VAR PTCOMA'''
+    
+
+def p_array(t):
+    'array_instr            : VAR indices IGUAL exp_numerica PTCOMA'
+
+def p_imprimir(t):
+    'print_instr            : PRINT PARIZQ exp_numerica PARDER PTCOMA'
+
+def p_unset(t):
+    'unset_instr            : UNSET PARIZQ exp_numerica PARDER PTCOMA'
+
+def p_if(t):
+    'if_instr               : IF PARIZQ exp_numerica PARDER goto_instr'
+    
+def p_etiqueta(t):
+    'etiqueta_instr         : ID DOSPUNTOS'
+
+def p_goto(t):
+    'goto_instr             : GOTO ID PTCOMA'
+
+def p_exit(t):
+    'exit_instr             : EXIT PTCOMA'
+
+def p_expresion(t):
+    'exp_numerica           : valores exp_numerica2'
+        
+def p_expresion_unaria(t):
+    '''exp_numerica         : BNOT valores
+                            | MENOS valores
+                            | NOT valores'''
+
+def p_expresion_array(t):
+    'exp_numerica           : ARRAY PARIZQ PARDER'
+
+def p_expresion_conversion(t):
+    'exp_numerica           : PARIZQ tipo_dato PARDER VAR'
+
+def p_expresion2(t):
+    '''exp_numerica2        : signo valores
+                            | empty'''
+
+def p_lista_indices(t):
+    'indices                : indice indices2'
+
+def p_indices_indice(t):
+    '''indices2             : indice indices2
+                            | empty'''
+
+def p_indice(t):
+    'indice                 : CORIZQ exp_numerica CORDER'
+
+def p_valor_entero(t):
+    '''valores              : ENTERO
+                            | DECIMA
+                            | VAR
+                            | VAR indices
+                            | CADENA'''
+
+def p_signo(t):
+    '''signo                : MAS
+                            | MENOS
+                            | POR
+                            | DIVIDIDO
+                            | RESIDUO
+                            | AND
+                            | OR
+                            | XOR
+                            | BAND
+                            | BOR
+                            | BXOR
+                            | SHIFTI
+                            | SHIFTD
+                            | IGUALQ
+                            | NIGUALQ
+                            | MAYORQ
+                            | MENORQ
+                            | MAYORIGUALQ
+                            | MENORIGUALQ'''
+
+def p_tipo_dato_int(t):
+    '''tipo_dato            : INT
+                            | FLOAT
+                            | CHAR'''
+    
+def p_empty(t):
+    'empty                  :'
